@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いくらですか？ゲーム</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ffccff, #99ccff);
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .number-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            letter-spacing: 10px;
+            margin: 20px 0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 1em;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .choices button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>いくらですか？</h1>
+        <div class="number-display" id="numberDisplay">00000</div>
+        <button id="startButton">いくらですか？（START!）</button>
+        <div class="choices" id="choices"></div>
+        <p id="result"></p>
+        <p id="score" style="display:none;"></p>
+    </div>
+    <script>
+        document.getElementById("startButton").addEventListener("click", startGame);
+        
+        function speak(text) {
+            let synth = window.speechSynthesis;
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "ja-JP";
+            synth.speak(utterance);
+        }
+        
+        let correctValue = 0;
+        let score = 0;
+        let rounds = 0;
+        function startGame() {
+            document.getElementById("result").innerText = "";
+            document.getElementById("choices").innerHTML = "";
+            document.getElementById("score").style.display = "none";
+            let display = document.getElementById("numberDisplay");
+            speak("スタート！");
+            correctValue = (Math.floor(Math.random() * 900) + 10) * 10;
+            let strValue = correctValue.toString().padStart(5, '0');
+            let animationSteps = 10;
+            let currentIndex = 0;
+            let interval = setInterval(() => {
+                let randomValue = (Math.floor(Math.random() * 900) + 10) * 10;
+                display.innerText = randomValue.toString().padStart(5, '0');
+                currentIndex++;
+                if (currentIndex >= animationSteps) {
+                    clearInterval(interval);
+                    display.innerText = strValue;
+                    generateChoices();
+                }
+            }, 100);
+        }
+        function generateChoices() {
+            let choices = [
+                convertToJapanese(correctValue),
+                convertToJapanese(correctValue + 500),
+                convertToJapanese(correctValue - 500),
+                convertToJapanese(correctValue + 1000)
+            ];
+            choices = choices.sort(() => Math.random() - 0.5);
+            let choiceContainer = document.getElementById("choices");
+            choices.forEach(choice => {
+                let btn = document.createElement("button");
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(choice);
+                choiceContainer.appendChild(btn);
+            });
+        }
+        function checkAnswer(selectedAnswer) {
+            let message = selectedAnswer === convertToJapanese(correctValue) ? "正解！ " + selectedAnswer : "不正解！正解は " + convertToJapanese(correctValue);
+            document.getElementById("result").innerText = message;
+            speak(message);
+            score += selectedAnswer === convertToJapanese(correctValue) ? 1 : 0;
+            rounds++;
+            if (rounds === 10) {
+                document.getElementById("score").innerText = "Your Score: " + score + "/10";
+                document.getElementById("score").style.display = "block";
+            }
+        }
+        function convertToJapanese(num) {
+            const exceptions = {
+                300: "さんびゃく",
+                600: "ろっぴゃく",
+                800: "はっぴゃく",
+                3000: "さんぜん",
+                8000: "はっせん"
+            };
+            if (exceptions[num]) return exceptions[num];
+            
+            const digits = ["", "いち", "に", "さん", "よん", "ご", "ろく", "なな", "はち", "きゅう"];
+            const units = ["", "じゅう", "ひゃく", "せん", "まん"];
+            let str = num.toString();
+            let result = "";
+            let length = str.length;
+            for (let i = 0; i < length; i++) {
+                let digit = parseInt(str[i]);
+                let unitIndex = length - i - 1;
+                if (unitIndex === 2 && digit === 6) {
+                    result += "ろっぴゃく";
+                } else if (unitIndex === 2 && digit === 8) {
+                    result += "はっぴゃく";
+                } else if (digit !== 0 || unitIndex === 3) {
+                    result += digits[digit] + units[unitIndex];
+                }
+            }
+            return result.replace("いちじゅう", "じゅう").replace("いちひゃく", "ひゃく").replace("いちせん", "せん");
+        }
+    </script>
+</body>
+</html>
