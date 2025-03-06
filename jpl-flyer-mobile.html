@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPL Japanese Language and Culture Summer Course</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5f9;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            position: relative;
+            background-image: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .japanese-title {
+            font-size: 16px;
+            margin-top: 8px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 5px;
+            font-size: 20px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .columns {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .column {
+            width: 100%;
+        }
+        .info-box {
+            background-color: #e0f2fe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #1e3a8a;
+            font-size: 18px;
+        }
+        .schedule {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            font-size: 15px;
+        }
+        .schedule th, .schedule td {
+            padding: 10px 12px;
+            text-align: left;
+        }
+        .schedule th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        .schedule tr:nth-child(even) {
+            background-color: #f0f5f9;
+        }
+        .highlight {
+            background-color: #dbeafe;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .fees {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px dashed #bfdbfe;
+        }
+        .discount {
+            color: #1e40af;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .wave-divider {
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%231e3a8a'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .bottom-wave {
+            transform: rotate(180deg);
+            margin-bottom: -1px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        p, li {
+            font-size: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .alert-box {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #dbeafe;
+            border-radius: 5px;
+        }
+        .alert-box p {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: #1e3a8a;
+        }
+        a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JPL Japanese Language and Culture Summer Course</h1>
+            <p class="japanese-title">日本語と文化のサマーコース</p>
+        </header>
+        <div class="wave-divider"></div>
+        
+        <div class="content">
+            <div class="highlight">
+                <p>We are looking forward to meeting many Japan enthusiasts. Join us for an immersive Japanese language and cultural experience!</p>
+            </div>
+
+            <div class="section">
+                <h2>Goal</h2>
+                <p>We transform your existing knowledge into real-world skills using practical and easy-to-understand learning materials.</p>
+            </div>
+
+            <div class="section">
+                <h2>Level & Textbook</h2>
+                <p><strong>Level:</strong> JPL002 or equivalent</p>
+                <p><strong>Textbook:</strong> "Irodori: Japanese for Life"</p>
+                <ul>
+                    <li>Practical textbook for foreigners living in Japan</li>
+                    <li>Provides insight into Japanese daily life</li>
+                    <li>Useful for travel in Japan</li>
+                    <li>Helps you converse with Japanese friends</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Who Should Join?</h2>
+                <div>
+                    <span class="badge">Practice Japanese</span>
+                    <span class="badge">Travel to Japan</span>
+                    <span class="badge">Enjoy Conversations</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Methodology</h2>
+                <p>Three native Japanese-speaking instructors will speak to you in Japanese as much as possible.</p>
+                <p>You will be immersed in Japanese for 30 hours over 10 days.</p>
+                <p>This is not "studying" but "practice." Learn communication skills by understanding language in context through situations, expressions, and gestures.</p>
+                <p><strong>Change your mindset!</strong></p>
+            </div>
+
+            <div class="info-box">
+                <h3>Key Information</h3>
+                <p><strong>Date:</strong> June 9-20 (The week after Exam Week)</p>
+                <p><strong>Place:</strong> XJTLU SIP Campus</p>
+                <p><strong>Daily Schedule:</strong></p>
+                <p>9:00-12:00 - Morning Conversation Practice</p>
+                <p>13:30-15:30 - Afternoon Culture Workshop</p>
+            </div>
+
+            <div class="section">
+                <h2>Cultural Activities</h2>
+                <table class="schedule">
+                    <tr>
+                        <th>Cultural Activities</th>
+                    </tr>
+                    <tr>
+                        <td>Flower Arrangement</td>
+                    </tr>
+                    <tr>
+                        <td>Online Exchange</td>
+                    </tr>
+                    <tr>
+                        <td>Japanese Song</td>
+                    </tr>
+                    <tr>
+                        <td>Tea Ceremony</td>
+                    </tr>
+                    <tr>
+                        <td>Otagee Dancing</td>
+                    </tr>
+                    <tr>
+                        <td>Closing Ceremony</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>Fees</h2>
+                <div class="highlight">
+                    <p><strong>Exclusive deal for XJTLers:</strong></p>
+                    <div class="fees">
+                        <div class="fee-item">
+                            <span>XJTLU students, staff/family</span>
+                            <span><span class="discount">40% Discount</span> - 2400</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>XJTLU graduates</span>
+                            <span><span class="discount">20% Discount</span> - 3200</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>External participants</span>
+                            <span>4000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>How to Register</h2>
+                <div class="highlight">
+                    <p>Click on the registration link, which will be sent in this Summer Course WeChat Group on March 3 at 9:00. First come, first served. Don't miss it!</p>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <p>Registration opens on March 3 at 9:00</p>
+            </div>
+        </div>
+        
+        <div class="wave-divider bottom-wave"></div>
+        <footer>
+            <p>© 2025 JPL Japanese Language and Culture Program - XJTLU</p>
+            <p>For more information, please contact:</p>
+            <p><a href="mailto:Nobuhiko.Tazoe@xjtlu.edu.cn">Nobuhiko.Tazoe@xjtlu.edu.cn</a></p>
+        </footer>
+    </div>
+</body>
+</html>
