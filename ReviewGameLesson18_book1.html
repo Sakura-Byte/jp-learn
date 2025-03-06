@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese Learning Game</title>
+  <style>
+    body {
+      font-family: 'Arial', 'Helvetica', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .game-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #4b6cb7;
+    }
+    button {
+      background-color: #4b6cb7;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #3b5998;
+    }
+    .option {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .option:hover {
+      background-color: #f0f0f0;
+    }
+    .correct {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+    .hidden {
+      display: none;
+    }
+    .score {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .flashcard {
+      text-align: center;
+      font-size: 24px;
+      padding: 40px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .center {
+      text-align: center;
+    }
+    .matching-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .drag-item {
+      padding: 10px;
+      background-color: #e7f3ff;
+      border: 1px solid #c6e2ff;
+      border-radius: 5px;
+      cursor: move;
+      margin: 5px;
+      display: inline-block;
+    }
+    .drop-area {
+      width: 150px;
+      height: 40px;
+      border: 2px dashed #ccc;
+      border-radius: 5px;
+      display: inline-block;
+      margin-left: 20px;
+    }
+    #conversation-game .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #conversation-game input {
+      width: 80%;
+      padding: 8px;
+      margin-bottom: 15px;
+    }
+    #game-menu button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .japanese {
+      font-weight: bold;
+      color: #4b6cb7;
+    }
+  </style>
+</head>
+<body>
+  <h1>Japanese Learning Game</h1>
+  
+  <div id="game-menu" class="game-container">
+    <h2>Choose a Game</h2>
+    <button id="start-vocabulary">Vocabulary Matching Game</button>
+    <button id="start-flashcard">Flashcards</button>
+    <button id="start-conversation">Conversation Completion Game</button>
+  </div>
+
+  <!-- Vocabulary Matching Game -->
+  <div id="vocabulary-game" class="game-container hidden">
+    <h2>Vocabulary Matching Game</h2>
+    <p>Choose the correct meaning of the Japanese word.</p>
+    <div class="score">Score: <span id="vocabulary-score">0</span> / <span id="vocabulary-total">0</span></div>
+    <div id="vocabulary-question"></div>
+    <div id="vocabulary-options"></div>
+    <button id="vocabulary-next" disabled>Next Question</button>
+    <button class="return-menu">Return to Menu</button>
+  </div>
+
+  <!-- Flashcards -->
+  <div id="flashcard-game" class="game-container hidden">
+    <h2>Flashcards</h2>
+    <p>Click on the card to flip between English and Japanese.</p>
+    <div class="flashcard" id="flashcard">
+      <div id="flashcard-front"></div>
+      <div id="flashcard-back" class="hidden"></div>
+    </div>
+    <div class="center">
+      <button id="flashcard-prev">Previous</button>
+      <button id="flashcard-next">Next</button>
+    </div>
+    <button class="return-menu">Return to Menu</button>
+  </div>
+
+  <!-- Conversation Completion Game -->
+  <div id="conversation-game" class="game-container hidden">
+    <h2>Conversation Completion Game</h2>
+    <p>Complete the conversation with the correct Japanese phrase.</p>
+    <div class="score">Score: <span id="conversation-score">0</span> / <span id="conversation-total">0</span></div>
+    <div id="conversation-question" class="question"></div>
+    <input type="text" id="conversation-answer" placeholder="Type your answer in Japanese here">
+    <button id="conversation-check">Check Answer</button>
+    <div id="conversation-feedback"></div>
+    <button id="conversation-next" disabled>Next Question</button>
+    <button class="return-menu">Return to Menu</button>
+  </div>
+
+  <script>
+    // Vocabulary data
+    const vocabularyData = [
+      { word: "とけい", meaning: "clock/watch" },
+      { word: "かさ", meaning: "umbrella" },
+      { word: "Tシャツ", meaning: "T-shirt" },
+      { word: "えはがき", meaning: "postcard" },
+      { word: "しゅりけん", meaning: "ninja star" },
+      { word: "みみかき", meaning: "ear pick" },
+      { word: "はしおき", meaning: "chopstick rest" },
+      { word: "パンツ", meaning: "pants" },
+      { word: "ジーンズ", meaning: "jeans" },
+      { word: "コート", meaning: "coat" },
+      { word: "スカート", meaning: "skirt" },
+      { word: "ワンピース", meaning: "dress" },
+      { word: "シャツ", meaning: "shirt" },
+      { word: "ジャケット", meaning: "jacket" },
+      { word: "バッグ", meaning: "bag" },
+      { word: "くつ", meaning: "shoes" },
+      { word: "くつした", meaning: "socks" }
+    ];
+
+    // Conversation data
+    const conversationData = [
+      { 
+        question: "Person A: ____________________________? (Ask \"Who are you giving it to?\")<br>Person B: ともだちにあげます。 (I'll give it to my friend.)",
+        answer: "だれにあげますか", 
+        hint: "Who are you giving it to?"
+      },
+      { 
+        question: "Person A: なにを あげますか？ (What will you give?)<br>Person B: ____________________________. (I'll give a postcard.)",
+        answer: "えはがきを あげます",
+        hint: "I'll give a postcard."
+      },
+      { 
+        question: "Person A: ____________________________? (Ask \"What do you want?\")<br>Person B: とけいが ほしいです。 (I want a watch.)",
+        answer: "なにが ほしいですか",
+        hint: "What do you want?"
+      },
+      { 
+        question: "Person A: どこで かえますか？ (Where can I buy it?)<br>Person B: ____________________________. (Harajuku is good.)",
+        answer: "はらじゅくが いいですよ",
+        hint: "Harajuku is good."
+      },
+      { 
+        question: "Person A: やすみは どうでしたか？ (How was your holiday?)<br>Person B: ____________________________. (It was okay.)",
+        answer: "まあまあでした",
+        hint: "It was okay."
+      },
+      { 
+        question: "Person A: ____________________________? (Ask \"Do you have other colors?\")<br>Person B: はい、ほかのいろ あります。 (Yes, we have other colors.)",
+        answer: "ほかのいろ ありますか",
+        hint: "Do you have other colors?"
+      },
+      { 
+        question: "Person A: ____________________________? (Ask \"Do you have something cheaper?\")<br>Person B: はい、もっとやすいの あります。 (Yes, we have cheaper ones.)",
+        answer: "もっとやすいの ありますか",
+        hint: "Do you have something cheaper?"
+      },
+      { 
+        question: "Person A: ____________________________? (Ask \"Do you have size S?\")<br>Person B: はい、Sサイズ あります。 (Yes, we have size S.)",
+        answer: "Sサイズ ありますか",
+        hint: "Do you have size S?"
+      },
+      { 
+        question: "Person A: ____________________________? (Ask \"Can I try it on?\")<br>Person B: はい、きてみても いいですよ。 (Yes, you can try it on.)",
+        answer: "きてみても いいですか",
+        hint: "Can I try it on?"
+      },
+      { 
+        question: "Person A: しゅうまつに なにを しましたか？ (What did you do on the weekend?)<br>Person B: ____________________________. (Choose one: I watched soccer / I worked part-time / I played with children in the park / I didn't do anything / I didn't go anywhere)",
+        answers: ["サッカーを みにいきました", "アルバイトをしました", "こうえんで こどもと あそびました", "なにも しませんでした", "どこにも いきませんでした"],
+        hint: "Choose one: I watched soccer / I worked part-time / I played with children in the park / I didn't do anything / I didn't go anywhere"
+      }
+    ];
+
+    // Shuffle function
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Menu display control
+    document.querySelectorAll('.return-menu').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.game-container').forEach(container => {
+          container.classList.add('hidden');
+        });
+        document.getElementById('game-menu').classList.remove('hidden');
+      });
+    });
+
+    // Vocabulary Matching Game
+    let vocabularyQuestions = [];
+    let currentVocabularyQuestion = 0;
+    let vocabularyScore = 0;
+
+    document.getElementById('start-vocabulary').addEventListener('click', () => {
+      initVocabularyGame();
+      document.getElementById('game-menu').classList.add('hidden');
+      document.getElementById('vocabulary-game').classList.remove('hidden');
+    });
+
+    function initVocabularyGame() {
+      vocabularyQuestions = [...vocabularyData];
+      shuffleArray(vocabularyQuestions);
+      currentVocabularyQuestion = 0;
+      vocabularyScore = 0;
+      document.getElementById('vocabulary-score').textContent = vocabularyScore;
+      document.getElementById('vocabulary-total').textContent = vocabularyQuestions.length;
+      showVocabularyQuestion();
+    }
+
+    function showVocabularyQuestion() {
+      const currentQuestion = vocabularyQuestions[currentVocabularyQuestion];
+      document.getElementById('vocabulary-question').innerHTML = `What is the meaning of <span class="japanese">${currentQuestion.word}</span>?`;
+      
+      // Create options (correct answer and 3 dummies)
+      let options = [currentQuestion.meaning];
+      let remainingOptions = vocabularyData
+        .filter(item => item.meaning !== currentQuestion.meaning)
+        .map(item => item.meaning);
+      
+      shuffleArray(remainingOptions);
+      options = options.concat(remainingOptions.slice(0, 3));
+      shuffleArray(options);
+      
+      const optionsContainer = document.getElementById('vocabulary-options');
+      optionsContainer.innerHTML = '';
+      
+      options.forEach(option => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'option';
+        optionElement.textContent = option;
+        optionElement.addEventListener('click', () => checkVocabularyAnswer(option, optionElement));
+        optionsContainer.appendChild(optionElement);
+      });
+      
+      document.getElementById('vocabulary-next').disabled = true;
+    }
+
+    function checkVocabularyAnswer(selectedAnswer, optionElement) {
+      const currentQuestion = vocabularyQuestions[currentVocabularyQuestion];
+      const isCorrect = selectedAnswer === currentQuestion.meaning;
+      
+      document.querySelectorAll('#vocabulary-options .option').forEach(element => {
+        element.style.pointerEvents = 'none';
+        if (element.textContent === currentQuestion.meaning) {
+          element.classList.add('correct');
+        }
+        if (element.textContent === selectedAnswer && !isCorrect) {
+          element.classList.add('incorrect');
+        }
+      });
+      
+      if (isCorrect) {
+        vocabularyScore++;
+        document.getElementById('vocabulary-score').textContent = vocabularyScore;
+      }
+      
+      document.getElementById('vocabulary-next').disabled = false;
+    }
+
+    document.getElementById('vocabulary-next').addEventListener('click', () => {
+      currentVocabularyQuestion++;
+      if (currentVocabularyQuestion < vocabularyQuestions.length) {
+        showVocabularyQuestion();
+      } else {
+        document.getElementById('vocabulary-question').textContent = `Game Over! Final Score: ${vocabularyScore} / ${vocabularyQuestions.length}`;
+        document.getElementById('vocabulary-options').innerHTML = '';
+        document.getElementById('vocabulary-next').disabled = true;
+      }
+    });
+
+    // Flashcards
+    let flashcardIndex = 0;
+    let flashcards = [];
+    let flashcardMode = 'japanese'; // Start with Japanese side showing
+
+    document.getElementById('start-flashcard').addEventListener('click', () => {
+      initFlashcardGame();
+      document.getElementById('game-menu').classList.add('hidden');
+      document.getElementById('flashcard-game').classList.remove('hidden');
+    });
+
+    function initFlashcardGame() {
+      flashcardIndex = 0;
+      // Create two versions of each card (English->Japanese and Japanese->English)
+      flashcards = [];
+      vocabularyData.forEach(item => {
+        flashcards.push({
+          front: item.meaning,
+          back: item.word,
+          mode: 'english'
+        });
+        flashcards.push({
+          front: item.word,
+          back: item.meaning,
+          mode: 'japanese'
+        });
+      });
+      shuffleArray(flashcards);
+      showFlashcard();
+    }
+
+    function showFlashcard() {
+      const card = flashcards[flashcardIndex];
+      document.getElementById('flashcard-front').textContent = card.front;
+      document.getElementById('flashcard-back').textContent = card.back;
+      document.getElementById('flashcard-back').classList.add('hidden');
+      document.getElementById('flashcard-front').classList.remove('hidden');
+      
+      // Add Japanese class for styling if needed
+      if (card.mode === 'japanese') {
+        document.getElementById('flashcard-front').classList.add('japanese');
+        document.getElementById('flashcard-back').classList.remove('japanese');
+      } else {
+        document.getElementById('flashcard-front').classList.remove('japanese');
+        document.getElementById('flashcard-back').classList.add('japanese');
+      }
+      
+      document.getElementById('flashcard-prev').disabled = flashcardIndex === 0;
+      document.getElementById('flashcard-next').disabled = flashcardIndex === flashcards.length - 1;
+    }
+
+    document.getElementById('flashcard').addEventListener('click', () => {
+      const front = document.getElementById('flashcard-front');
+      const back = document.getElementById('flashcard-back');
+      
+      if (front.classList.contains('hidden')) {
+        front.classList.remove('hidden');
+        back.classList.add('hidden');
+      } else {
+        front.classList.add('hidden');
+        back.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('flashcard-prev').addEventListener('click', () => {
+      if (flashcardIndex > 0) {
+        flashcardIndex--;
+        showFlashcard();
+      }
+    });
+
+    document.getElementById('flashcard-next').addEventListener('click', () => {
+      if (flashcardIndex < flashcards.length - 1) {
+        flashcardIndex++;
+        showFlashcard();
+      }
+    });
+
+    // Conversation Completion Game
+    let conversationQuestions = [];
+    let currentConversationQuestion = 0;
+    let conversationScore = 0;
+
+    document.getElementById('start-conversation').addEventListener('click', () => {
+      initConversationGame();
+      document.getElementById('game-menu').classList.add('hidden');
+      document.getElementById('conversation-game').classList.remove('hidden');
+    });
+
+    function initConversationGame() {
+      conversationQuestions = [...conversationData];
+      shuffleArray(conversationQuestions);
+      currentConversationQuestion = 0;
+      conversationScore = 0;
+      document.getElementById('conversation-score').textContent = conversationScore;
+      document.getElementById('conversation-total').textContent = conversationQuestions.length;
+      showConversationQuestion();
+    }
+
+    function showConversationQuestion() {
+      const currentQuestion = conversationQuestions[currentConversationQuestion];
+      document.getElementById('conversation-question').innerHTML = currentQuestion.question;
+      document.getElementById('conversation-answer').value = '';
+      document.getElementById('conversation-feedback').innerHTML = '';
+      document.getElementById('conversation-check').disabled = false;
+      document.getElementById('conversation-next').disabled = true;
+      document.getElementById('conversation-answer').focus();
+    }
+
+    document.getElementById('conversation-check').addEventListener('click', checkConversationAnswer);
+    
+    document.getElementById('conversation-answer').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkConversationAnswer();
+      }
+    });
+
+    function checkConversationAnswer() {
+      const currentQuestion = conversationQuestions[currentConversationQuestion];
+      // Normalize user answer by removing all spaces
+      const normalizedUserAnswer = document.getElementById('conversation-answer').value.trim().replace(/\s+/g, '').toLowerCase();
+      let isCorrect = false;
+      let correctAnswer = '';
+      
+      if (Array.isArray(currentQuestion.answers)) {
+        // Check against all possible answers, normalizing each one
+        isCorrect = currentQuestion.answers.some(answer => 
+          normalizedUserAnswer === answer.replace(/\s+/g, '').toLowerCase());
+        correctAnswer = currentQuestion.answers.join(' or ');
+      } else {
+        // Compare with normalized correct answer (no spaces)
+        isCorrect = normalizedUserAnswer === currentQuestion.answer.replace(/\s+/g, '').toLowerCase();
+        correctAnswer = currentQuestion.answer;
+      }
+      
+      if (isCorrect) {
+        document.getElementById('conversation-feedback').innerHTML = '<span style="color: green;">Correct!</span>';
+        conversationScore++;
+        document.getElementById('conversation-score').textContent = conversationScore;
+      } else {
+        document.getElementById('conversation-feedback').innerHTML = `<span style="color: red;">Incorrect. The correct answer is: ${correctAnswer}</span><br><span style="color: gray;">Hint: ${currentQuestion.hint}</span>`;
+      }
+      
+      document.getElementById('conversation-check').disabled = true;
+      document.getElementById('conversation-next').disabled = false;
+    }
+
+    document.getElementById('conversation-next').addEventListener('click', () => {
+      currentConversationQuestion++;
+      if (currentConversationQuestion < conversationQuestions.length) {
+        showConversationQuestion();
+      } else {
+        document.getElementById('conversation-question').textContent = `Game Over! Final Score: ${conversationScore} / ${conversationQuestions.length}`;
+        document.getElementById('conversation-answer').style.display = 'none';
+        document.getElementById('conversation-check').style.display = 'none';
+        document.getElementById('conversation-feedback').innerHTML = '';
+        document.getElementById('conversation-next').disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>
