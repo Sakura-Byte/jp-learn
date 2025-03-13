@@ -43,7 +43,7 @@ jobs:
                 fi
                 # Append a warning for every file (except README.md) that doesn't have a .html extension
                 if [ "$filename" != "README.md" ] && [[ "$filename" != *.html ]]; then
-                  warnings="${warnings}\n- WARNING: '${filename}' does not have a .html extension"
+                  warnings="${warnings}\n- WARNING: '${filename}' does not have a .html extension. User can not access it correctly."
                 fi
               fi
             done
