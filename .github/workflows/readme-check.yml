@@ -26,30 +26,37 @@ jobs:
             readme_file="$dir/README.md"
             main_link="https://jp.sakurapy.com/$folder"
             
-            # Build the template string using \n for newlines
+            # Build the initial template string using \n for newlines
             template="# ${folder} Documentation\n\n[Main Link](${main_link})\n\n## Subfiles"
             
-            # Append subfile links for each file except README.md and index.html
+            # Initialize subfiles and warnings sections
+            subfiles=""
+            warnings=""
+            
+            # Iterate over each file in the subfolder
             for file in "$dir"/*; do
               if [ -f "$file" ]; then
                 filename=$(basename "$file")
+                # Append to subfiles if not README.md and not index.html
                 if [ "$filename" != "README.md" ] && [ "$filename" != "index.html" ]; then
-                  template="${template}\n- [${filename}](${main_link}/${filename})"
+                  subfiles="${subfiles}\n- [${filename}](${main_link}/${filename})"
                 fi
-              fi
-            done
-
-            # Warn for every file (except README.md) that does not have a .html extension
-            for file in "$dir"/*; do
-              if [ -f "$file" ]; then
-                filename=$(basename "$file")
+                # Append a warning for every file (except README.md) that doesn't have a .html extension
                 if [ "$filename" != "README.md" ] && [[ "$filename" != *.html ]]; then
-                  echo "WARNING: In folder '$dir', file '$filename' does not have a .html extension. User might can not access this web page correctly."
+                  warnings="${warnings}\n- WARNING: '${filename}' does not have a .html extension"
                 fi
               fi
             done
-
-            # Create or update README.md if its content does not exactly match the template
+            
+            # Append the subfiles list to the template
+            template="${template}${subfiles}\n\n## Warnings"
+            # If there are no warnings, note that explicitly
+            if [ -z "$warnings" ]; then
+              warnings="\nNone"
+            fi
+            template="${template}${warnings}"
+            
+            # Create or update README.md if its content does not exactly match the generated template
             if [ ! -f "$readme_file" ]; then
               echo "Creating $readme_file with template content"
               echo -e "$template" > "$readme_file"
