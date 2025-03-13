@@ -20,27 +20,21 @@ jobs:
       - name: Update README files based on template
         run: |
           echo "Scanning for subfolders..."
+          # Loop through each non-hidden subdirectory in the repository root
           for dir in $(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*'); do
             folder=$(basename "$dir")
             readme_file="$dir/README.md"
             main_link="https://jp.sakurapy.com/$folder"
-
-            # Define the template using a heredoc.
-            # Make sure the closing EOF is flush left (no spaces).
-            template=$(cat <<EOF
-# ${folder} Documentation
-
-[Main Link](${main_link})
-
-## Subfiles
-EOF
-)
+            
+            # Build the template string using \n for line breaks
+            template="# ${folder} Documentation\n\n[Main Link](${main_link})\n\n## Subfiles"
+            
             # Append subfile links for each file except README.md and index.html
             for file in "$dir"/*; do
               if [ -f "$file" ]; then
                 filename=$(basename "$file")
                 if [ "$filename" != "README.md" ] && [ "$filename" != "index.html" ]; then
-                  template="${template}"$'\n'"- [${filename}](${main_link}/${filename})"
+                  template="${template}\n- [${filename}](${main_link}/${filename})"
                 fi
               fi
             done
@@ -53,12 +47,13 @@ EOF
             # Create or update README.md if its content does not exactly match the template
             if [ ! -f "$readme_file" ]; then
               echo "Creating $readme_file with template content"
-              echo "$template" > "$readme_file"
+              echo -e "$template" > "$readme_file"
             else
               current=$(cat "$readme_file")
-              if [ "$current" != "$template" ]; then
+              # Compare current content with template (interpreted with echo -e)
+              if [ "$current" != "$(echo -e "$template")" ]; then
                 echo "Updating $readme_file to match the template"
-                echo "$template" > "$readme_file"
+                echo -e "$template" > "$readme_file"
               else
                 echo "$readme_file already matches the template."
               fi
