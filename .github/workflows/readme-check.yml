@@ -26,14 +26,17 @@ jobs:
             readme_file="$dir/README.md"
             main_link="https://jp.sakurapy.com/$folder"
             
-            # Set the template: main link and header
-            template="# ${folder} Documentation
+            # Set the template using a heredoc to avoid YAML multi-line string issues
+            template=$(cat <<EOF
+# ${folder} Documentation
 
 [Main Link](${main_link})
 
-## Subfiles"
-            
-            # Loop through files in the folder (non-hidden, not README.md, not index.html)
+## Subfiles
+EOF
+            )
+
+            # Loop through files in the folder (non-hidden, excluding README.md and index.html)
             for file in "$dir"/*; do
               if [ -f "$file" ]; then
                 filename=$(basename "$file")
@@ -43,12 +46,12 @@ jobs:
               fi
             done
 
-            # Check for presence of "index" file (without extension) when "index.html" is missing
+            # Check for presence of an "index" file (without extension) when "index.html" is missing
             if [ -f "$dir/index" ] && [ ! -f "$dir/index.html" ]; then
               echo "NOTICE: In folder '$dir', found 'index' but not 'index.html'"
             fi
 
-            # If the README.md doesn't exist or its content doesn't exactly match the template, update it.
+            # Update README.md if it doesn't exist or differs from the template
             if [ ! -f "$readme_file" ]; then
               echo "Creating $readme_file with template content"
               echo "$template" > "$readme_file"
@@ -61,7 +64,6 @@ jobs:
                 echo "$readme_file already matches the template."
               fi
             fi
-
           done
 
       - name: Commit changes if any
@@ -69,7 +71,6 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add .
-          # Only commit if there are changes
           if ! git diff --cached --quiet; then
             git commit -m "Update README.md files to match template [skip ci]"
             git push
