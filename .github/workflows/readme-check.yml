@@ -26,7 +26,7 @@ jobs:
             readme_file="$dir/README.md"
             main_link="https://jp.sakurapy.com/$folder"
             
-            # Build the template string using \n for line breaks
+            # Build the template string using \n for newlines
             template="# ${folder} Documentation\n\n[Main Link](${main_link})\n\n## Subfiles"
             
             # Append subfile links for each file except README.md and index.html
@@ -39,10 +39,15 @@ jobs:
               fi
             done
 
-            # Emit a notice if there is an "index" file (without extension) but no "index.html"
-            if [ -f "$dir/index" ] && [ ! -f "$dir/index.html" ]; then
-              echo "NOTICE: In folder '$dir', found 'index' but not 'index.html'"
-            fi
+            # Warn for every file (except README.md) that does not have a .html extension
+            for file in "$dir"/*; do
+              if [ -f "$file" ]; then
+                filename=$(basename "$file")
+                if [ "$filename" != "README.md" ] && [[ "$filename" != *.html ]]; then
+                  echo "WARNING: In folder '$dir', file '$filename' does not have a .html extension. User might can not access this web page correctly."
+                fi
+              fi
+            done
 
             # Create or update README.md if its content does not exactly match the template
             if [ ! -f "$readme_file" ]; then
@@ -50,7 +55,6 @@ jobs:
               echo -e "$template" > "$readme_file"
             else
               current=$(cat "$readme_file")
-              # Compare current content with template (interpreted with echo -e)
               if [ "$current" != "$(echo -e "$template")" ]; then
                 echo "Updating $readme_file to match the template"
                 echo -e "$template" > "$readme_file"
