@@ -7,4 +7,4 @@
 - [testt](https://jp.sakurapy.com/typing/testt)
 
 ## Warnings
-- WARNING: 'testt' does not have a .html extension
+- WARNING: 'testt' does not have a .html extension. User can not access it correctly.
