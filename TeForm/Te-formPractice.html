@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Te-form Practice</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .instructions {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        .check-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        .hint-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .hint {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .explanation {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .next-btn {
+            background-color: #ff9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Japanese Te-form Conversion Practice (Hiragana)</h1>
+        
+        <div class="score-display">
+            <span id="score">0</span> / <span id="total">0</span> Correct
+        </div>
+        
+        <div id="question-container"></div>
+        
+        <div class="button-container">
+            <button id="next-btn" class="btn next-btn">Next Question</button>
+            <button id="reset-btn" class="btn reset-btn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                masu: "たべます",
+                dictionary: "たべる",
+                romaji: "tabemasu",
+                english: "to eat",
+                group: "る動詞（Group 2）",
+                answer: "たべて",
+                hint: "From 'たべます', remove 'ます' and add 'て'.",
+                explanation: "For 'たべます', remove 'ます' and add 'て' to get 'たべて'."
+            },
+            {
+                masu: "いきます",
+                dictionary: "いく",
+                romaji: "ikimasu",
+                english: "to go",
+                group: "う動詞（Group 1）",
+                answer: "いって",
+                hint: "From 'いきます', remove 'ます' and add 'って'. This is an irregular pattern.",
+                explanation: "For 'いきます', this is a special case. Remove 'ます' and add 'って' (not 'いて') to get 'いって'."
+            },
+            {
+                masu: "みます",
+                dictionary: "みる",
+                romaji: "mimasu",
+                english: "to see, to watch",
+                group: "る動詞（Group 2）",
+                answer: "みて",
+                hint: "From 'みます', remove 'ます' and add 'て'.",
+                explanation: "For 'みます', remove 'ます' and add 'て' to get 'みて'."
+            },
+            {
+                masu: "おきます",
+                dictionary: "おきる",
+                romaji: "okimasu",
+                english: "to wake up, to get up",
+                group: "る動詞（Group 2）",
+                answer: "おきて",
+                hint: "From 'おきます', remove 'ます' and add 'て'.",
+                explanation: "For 'おきます', remove 'ます' and add 'て' to get 'おきて'."
+            },
+            {
+                masu: "ねます",
+                dictionary: "ねる",
+                romaji: "nemasu",
+                english: "to sleep",
+                group: "る動詞（Group 2）",
+                answer: "ねて",
+                hint: "From 'ねます', remove 'ます' and add 'て'.",
+                explanation: "For 'ねます', remove 'ます' and add 'て' to get 'ねて'."
+            },
+            {
+                masu: "おしえます",
+                dictionary: "おしえる",
+                romaji: "oshiemasu",
+                english: "to teach",
+                group: "る動詞（Group 2）",
+                answer: "おしえて",
+                hint: "From 'おしえます', remove 'ます' and add 'て'.",
+                explanation: "For 'おしえます', remove 'ます' and add 'て' to get 'おしえて'."
+            },
+            {
+                masu: "はなします",
+                dictionary: "はなす",
+                romaji: "hanashimasu",
+                english: "to speak, to talk",
+                group: "う動詞（Group 1）",
+                answer: "はなして",
+                hint: "From 'はなします', remove 'ます' and add 'して'.",
+                explanation: "For 'はなします', remove 'ます' and add 'して' to get 'はなして'."
+            },
+            {
+                masu: "ききます",
+                dictionary: "きく",
+                romaji: "kikimasu",
+                english: "to listen, to hear",
+                group: "う動詞（Group 1）",
+                answer: "きいて",
+                hint: "From 'ききます', remove 'ます' and add 'いて'.",
+                explanation: "For 'ききます', remove 'ます' and add 'いて' to get 'きいて'."
+            },
+            {
+                masu: "かきます",
+                dictionary: "かく",
+                romaji: "kakimasu",
+                english: "to write",
+                group: "う動詞（Group 1）",
+                answer: "かいて",
+                hint: "From 'かきます', remove 'ます' and add 'いて'.",
+                explanation: "For 'かきます', remove 'ます' and add 'いて' to get 'かいて'."
+            },
+            {
+                masu: "およぎます",
+                dictionary: "およぐ",
+                romaji: "oyogimasu",
+                english: "to swim",
+                group: "う動詞（Group 1）",
+                answer: "およいで",
+                hint: "From 'およぎます', remove 'ます' and add 'いで'.",
+                explanation: "For 'およぎます', remove 'ます' and add 'いで' to get 'およいで'."
+            },
+            {
+                masu: "しにます",
+                dictionary: "しぬ",
+                romaji: "shinimasu",
+                english: "to die",
+                group: "う動詞（Group 1）",
+                answer: "しんで",
+                hint: "From 'しにます', remove 'ます' and add 'んで'.",
+                explanation: "For 'しにます', remove 'ます' and add 'んで' to get 'しんで'."
+            },
+            {
+                masu: "よみます",
+                dictionary: "よむ",
+                romaji: "yomimasu",
+                english: "to read",
+                group: "う動詞（Group 1）",
+                answer: "よんで",
+                hint: "From 'よみます', remove 'ます' and add 'んで'.",
+                explanation: "For 'よみます', remove 'ます' and add 'んで' to get 'よんで'."
+            },
+            {
+                masu: "あそびます",
+                dictionary: "あそぶ",
+                romaji: "asobimasu",
+                english: "to play",
+                group: "う動詞（Group 1）",
+                answer: "あそんで",
+                hint: "From 'あそびます', remove 'ます' and add 'んで'.",
+                explanation: "For 'あそびます', remove 'ます' and add 'んで' to get 'あそんで'."
+            },
+            {
+                masu: "まちます",
+                dictionary: "まつ",
+                romaji: "machimasu",
+                english: "to wait",
+                group: "う動詞（Group 1）",
+                answer: "まって",
+                hint: "From 'まちます', remove 'ます' and add 'って'.",
+                explanation: "For 'まちます', remove 'ます' and add 'って' to get 'まって'."
+            },
+            {
+                masu: "かいます",
+                dictionary: "かう",
+                romaji: "kaimasu",
+                english: "to buy",
+                group: "う動詞（Group 1）",
+                answer: "かって",
+                hint: "From 'かいます', remove 'ます' and add 'って'.",
+                explanation: "For 'かいます', remove 'ます' and add 'って' to get 'かって'."
+            },
+            {
+                masu: "かえります",
+                dictionary: "かえる",
+                romaji: "kaerimasu",
+                english: "to return, to go home",
+                group: "う動詞（Group 1）",
+                answer: "かえって",
+                hint: "From 'かえります', remove 'ます' and add 'って'.",
+                explanation: "For 'かえります', remove 'ます' and add 'って' to get 'かえって'."
+            },
+            {
+                masu: "はしります",
+                dictionary: "はしる",
+                romaji: "hashirimasu",
+                english: "to run",
+                group: "う動詞（Group 1）",
+                answer: "はしって",
+                hint: "From 'はしります', remove 'ます' and add 'って'.",
+                explanation: "For 'はしります', remove 'ます' and add 'って' to get 'はしって'."
+            },
+            {
+                masu: "はいります",
+                dictionary: "はいる",
+                romaji: "hairimasu",
+                english: "to enter",
+                group: "う動詞（Group 1）",
+                answer: "はいって",
+                hint: "From 'はいります', remove 'ます' and add 'って'.",
+                explanation: "For 'はいります', remove 'ます' and add 'って' to get 'はいって'."
+            },
+            {
+                masu: "きます",
+                dictionary: "くる",
+                romaji: "kimasu",
+                english: "to come",
+                group: "不規則動詞（Group 3）",
+                answer: "きて",
+                hint: "From 'きます', change to 'きて'.",
+                explanation: "For 'きます', the te-form is 'きて'."
+            },
+            {
+                masu: "します",
+                dictionary: "する",
+                romaji: "shimasu",
+                english: "to do",
+                group: "不規則動詞（Group 3）",
+                answer: "して",
+                hint: "From 'します', change to 'して'.",
+                explanation: "For 'します', the te-form is 'して'."
+            },
+            {
+                masu: "べんきょうします",
+                dictionary: "べんきょうする",
+                romaji: "benkyou shimasu",
+                english: "to study",
+                group: "する動詞（Group 3）",
+                answer: "べんきょうして",
+                hint: "From 'べんきょうします', replace 'します' with 'して'.",
+                explanation: "For 'べんきょうします', replace 'します' with 'して' to get 'べんきょうして'."
+            },
+            {
+                masu: "そうじします",
+                dictionary: "そうじする",
+                romaji: "souji shimasu",
+                english: "to clean",
+                group: "する動詞（Group 3）",
+                answer: "そうじして",
+                hint: "From 'そうじします', replace 'します' with 'して'.",
+                explanation: "For 'そうじします', replace 'します' with 'して' to get 'そうじして'."
+            },
+            {
+                masu: "もちます",
+                dictionary: "もつ",
+                romaji: "mochimasu",
+                english: "to hold, to carry",
+                group: "う動詞（Group 1）",
+                answer: "もって",
+                hint: "From 'もちます', remove 'ます' and add 'って'.",
+                explanation: "For 'もちます', remove 'ます' and add 'って' to get 'もって'."
+            }
+        ];
+
+        // Shuffle the questions
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let shuffledQuestions = shuffleArray([...questions]);
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let attempted = 0;
+
+        const questionContainer = document.getElementById('question-container');
+        const scoreDisplay = document.getElementById('score');
+        const totalDisplay = document.getElementById('total');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= shuffledQuestions.length) {
+                // If we've gone through all questions, shuffle again
+                shuffledQuestions = shuffleArray([...questions]);
+                currentQuestionIndex = 0;
+            }
+
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            
+            questionContainer.innerHTML = `
+                <div class="question">
+                    <div class="question-text">Write the te-form of 「${currentQuestion.masu}」</div>
+                    <div class="instructions">(Reading: ${currentQuestion.romaji} / ${currentQuestion.group} / Meaning: ${currentQuestion.english})</div>
+                    <input type="text" id="answer-input" placeholder="Enter your answer here">
+                    <div>
+                        <button class="check-btn" onclick="checkAnswer()">Check</button>
+                        <button class="hint-btn" onclick="showHint()">Hint</button>
+                    </div>
+                    <div id="result-container" class="result"></div>
+                    <div id="hint-container" class="hint"></div>
+                    <div id="explanation-container" class="explanation" style="display: none;"></div>
+                </div>
+            `;
+
+            // Set focus to the input field
+            setTimeout(() => {
+                document.getElementById('answer-input').focus();
+            }, 100);
+
+            // Add event listener for Enter key
+            document.getElementById('answer-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+        }
+
+        function checkAnswer() {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            const userAnswer = document.getElementById('answer-input').value.trim();
+            const resultContainer = document.getElementById('result-container');
+            const explanationContainer = document.getElementById('explanation-container');
+            
+            // Mark as attempted
+            attempted++;
+            totalDisplay.textContent = attempted;
+            
+            if (userAnswer === currentQuestion.answer) {
+                resultContainer.innerHTML = `<strong>Correct!</strong> The te-form of 「${currentQuestion.masu}」 is 「${currentQuestion.answer}」.`;
+                resultContainer.className = 'result correct';
+                resultContainer.style.display = 'block';
+                score++;
+                scoreDisplay.textContent = score;
+            } else {
+                resultContainer.innerHTML = `<strong>Incorrect.</strong> The correct answer is 「${currentQuestion.answer}」.`;
+                resultContainer.className = 'result incorrect';
+                resultContainer.style.display = 'block';
+            }
+            
+            // Show explanation
+            explanationContainer.innerHTML = currentQuestion.explanation;
+            explanationContainer.style.display = 'block';
+            
+            // Disable input and buttons
+            document.getElementById('answer-input').disabled = true;
+            document.querySelector('.check-btn').disabled = true;
+            document.querySelector('.hint-btn').disabled = true;
+        }
+
+        function showHint() {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            const hintContainer = document.getElementById('hint-container');
+            
+            hintContainer.innerHTML = currentQuestion.hint;
+            hintContainer.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function resetQuiz() {
+            shuffledQuestions = shuffleArray([...questions]);
+            currentQuestionIndex = 0;
+            score = 0;
+            attempted = 0;
+            scoreDisplay.textContent = score;
+            totalDisplay.textContent = attempted;
+            displayQuestion();
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', nextQuestion);
+        resetBtn.addEventListener('click', resetQuiz);
+
+        // Initialize the quiz
+        displayQuestion();
+        
+        // Make functions available globally
+        window.checkAnswer = checkAnswer;
+        window.showHint = showHint;
+    </script>
+</body>
+</html>
