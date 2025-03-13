@@ -16,7 +16,7 @@ jobs:
 
       - name: Move HTML files from root to subdirectory
         run: |
-          # Enable nullglob so that the pattern expands to nothing if no .html files are found
+          # Enable nullglob so that *.html expands to nothing if no files exist
           shopt -s nullglob
           found=false
           for file in *.html; do
@@ -26,18 +26,28 @@ jobs:
               basename="${file%.html}"
               # Create the subdirectory if it doesn't exist
               mkdir -p "$basename"
-              # Move the file to the new location as index.html
+              # Move the HTML file to the subdirectory as index.html
               mv "$file" "$basename/index.html"
               found=true
             fi
           done
           if [ "$found" = true ]; then
-            echo "HTML files moved. Committing changes."
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "Move HTML files to subdirectory index.html"
-            git push
+            echo "HTML files moved."
           else
             echo "No HTML files found in root."
+          fi
+
+      - name: Commit and push changes if any
+        env:
+          PAT: ${{ secrets.PAT }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Move HTML files to subdirectory index.html"
+            # Use the PAT in the push URL so the commit is not treated as an automated GITHUB_TOKEN commit.
+            git push https://$PAT@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          else
+            echo "No changes to commit."
           fi
