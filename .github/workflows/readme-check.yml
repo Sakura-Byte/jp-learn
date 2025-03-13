@@ -20,13 +20,13 @@ jobs:
       - name: Update README files based on template
         run: |
           echo "Scanning for subfolders..."
-          # Loop through each non-hidden subdirectory in the repository root
           for dir in $(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*'); do
             folder=$(basename "$dir")
             readme_file="$dir/README.md"
             main_link="https://jp.sakurapy.com/$folder"
-            
-            # Set the template using a heredoc to avoid YAML multi-line string issues
+
+            # Define the template using a heredoc.
+            # Make sure the closing EOF is flush left (no spaces).
             template=$(cat <<EOF
 # ${folder} Documentation
 
@@ -34,9 +34,8 @@ jobs:
 
 ## Subfiles
 EOF
-            )
-
-            # Loop through files in the folder (non-hidden, excluding README.md and index.html)
+)
+            # Append subfile links for each file except README.md and index.html
             for file in "$dir"/*; do
               if [ -f "$file" ]; then
                 filename=$(basename "$file")
@@ -46,12 +45,12 @@ EOF
               fi
             done
 
-            # Check for presence of an "index" file (without extension) when "index.html" is missing
+            # Emit a notice if there is an "index" file (without extension) but no "index.html"
             if [ -f "$dir/index" ] && [ ! -f "$dir/index.html" ]; then
               echo "NOTICE: In folder '$dir', found 'index' but not 'index.html'"
             fi
 
-            # Update README.md if it doesn't exist or differs from the template
+            # Create or update README.md if its content does not exactly match the template
             if [ ! -f "$readme_file" ]; then
               echo "Creating $readme_file with template content"
               echo "$template" > "$readme_file"
