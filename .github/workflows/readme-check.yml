@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
 
 jobs:
   update-readme:
@@ -19,7 +20,7 @@ jobs:
       - name: Ensure each subfolder has a README.md with proper link
         run: |
           echo "Scanning for subfolders..."
-          # Loop through every subdirectory (ignoring hidden directories)
+          # Loop through every non-hidden subdirectory in the repository
           for dir in $(find . -type d -not -path '*/\.*' -mindepth 1); do
             folder=$(basename "$dir")
             readme_file="$dir/README.md"
