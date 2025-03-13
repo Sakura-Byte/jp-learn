@@ -1,0 +1,49 @@
+name: Check and Update Subfolder READMEs
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Ensure each subfolder has a README.md with proper link
+        run: |
+          echo "Scanning for subfolders..."
+          # Loop through every subdirectory (ignoring hidden directories)
+          for dir in $(find . -type d -not -path '*/\.*' -mindepth 1); do
+            folder=$(basename "$dir")
+            readme_file="$dir/README.md"
+            link="https://jp.sakurapy.com/$folder"
+            if [ ! -f "$readme_file" ]; then
+              echo "Creating $readme_file with link $link"
+              echo "[Link]($link)" > "$readme_file"
+            else
+              if ! grep -q "$link" "$readme_file"; then
+                echo "Appending link to $readme_file"
+                echo -e "\n[Link]($link)" >> "$readme_file"
+              fi
+            fi
+          done
+
+      - name: Commit changes if any
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          # Only commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Add missing README.md with subfolder link [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
