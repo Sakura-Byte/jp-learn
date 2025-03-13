@@ -8,6 +8,8 @@ on:
     branches:
       - '**'
   workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-readme-check]
 
 jobs:
   update-readme:
