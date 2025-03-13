@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語リズム練習ゲーム</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .game-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .word-display {
+            font-size: 48px;
+            margin: 30px 0;
+            height: 60px;
+        }
+        .tap-area {
+            width: 280px;
+            height: 280px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            user-select: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        .tap-area:active {
+            transform: scale(0.95);
+            background-color: #388E3C;
+        }
+        .score-display {
+            font-size: 24px;
+            margin-top: 30px;
+        }
+        .rhythm-guide {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .result-feedback {
+            height: 30px;
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .correct {
+            color: #4CAF50;
+        }
+        .incorrect {
+            color: #F44336;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #0b7dda;
+        }
+        .note-display {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .note {
+            width: 30px;
+            height: 40px;
+            margin: 0 5px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        .eighth-note {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12,3V13.55C11.41,13.21 10.73,13 10,13C7.79,13 6,14.79 6,17S7.79,21 10,21,14,19.21 14,17V7H18V3H12Z' fill='%23000'/%3E%3C/svg%3E");
+        }
+        .quarter-note {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12,3V13.55C11.41,13.21 10.73,13 10,13C7.79,13 6,14.79 6,17S7.79,21 10,21,14,19.21 14,17V3H12Z' fill='%23000'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <h1>Japanese Rhythm Practice Game</h1>
+    <p>Tap according to the rhythm of the displayed word.<br>
+    タタ (ta-ta): Tap twice with a short interval / タンタ (tan-ta): Tap twice with a longer interval</p>
+    
+    <div class="game-container">
+        <div class="word-display" id="wordDisplay"></div>
+        
+        <div class="note-display" id="noteDisplay"></div>
+        
+        <div class="rhythm-guide" id="rhythmGuide"></div>
+        
+        <div class="tap-area" id="tapArea">
+            Tap here
+        </div>
+        
+        <div class="result-feedback" id="resultFeedback"></div>
+        
+        <div class="score-display">
+            Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span>
+        </div>
+        
+        <div class="controls">
+            <button id="startButton">Start</button>
+            <button id="nextButton" disabled>Next</button>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            { text: "きて", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "きって", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "おと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "おっと", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "もと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "もっと", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "かた", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "かった", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "きく", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "キック", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "さか", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "さっか", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "そと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "そっと", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "なつ", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "ナッツ", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "こと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "コート", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "おと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "オート", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "かど", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "カード", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "しゅと", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "シュート", rhythm: "タンタ", notes: ["quarter", "eighth"] },
+            { text: "そこ", rhythm: "タタ", notes: ["eighth", "eighth"] },
+            { text: "そうこ", rhythm: "タンタ", notes: ["quarter", "eighth"] }
+        ];
+
+        const wordDisplay = document.getElementById('wordDisplay');
+        const noteDisplay = document.getElementById('noteDisplay');
+        const rhythmGuide = document.getElementById('rhythmGuide');
+        const tapArea = document.getElementById('tapArea');
+        const resultFeedback = document.getElementById('resultFeedback');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const startButton = document.getElementById('startButton');
+        const nextButton = document.getElementById('nextButton');
+
+        let currentWordIndex = 0;
+        let score = 0;
+        let total = 0;
+        let tapTimes = [];
+        let gameActive = false;
+        let currentWord = null;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayWord() {
+            currentWord = words[currentWordIndex];
+            wordDisplay.textContent = currentWord.text;
+            rhythmGuide.textContent = `Rhythm: ${currentWord.rhythm}`;
+            
+            // 音符表示をクリア
+            noteDisplay.innerHTML = '';
+            
+            // 音符を表示
+            currentWord.notes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = `note ${note}-note`;
+                noteDisplay.appendChild(noteElement);
+            });
+            
+            tapTimes = [];
+            resultFeedback.textContent = '';
+            resultFeedback.className = 'result-feedback';
+            gameActive = true;
+        }
+
+        function checkRhythm() {
+            gameActive = false;
+            
+            if (tapTimes.length < 2) {
+                resultFeedback.textContent = 'Incomplete rhythm';
+                resultFeedback.className = 'result-feedback incorrect';
+                return;
+            }
+            
+            const timeDiff = tapTimes[1] - tapTimes[0];
+            let isCorrect = false;
+            
+            if (currentWord.rhythm === "タタ") {
+                // タタのリズムは、間隔が近いかどうか
+                isCorrect = timeDiff < 500;
+            } else if (currentWord.rhythm === "タンタ") {
+                // タンタのリズムは、間隔が広いかどうか
+                isCorrect = timeDiff >= 500;
+            }
+            
+            if (isCorrect) {
+                resultFeedback.textContent = 'Correct!';
+                resultFeedback.className = 'result-feedback correct';
+                score++;
+            } else {
+                resultFeedback.textContent = 'Incorrect';
+                resultFeedback.className = 'result-feedback incorrect';
+            }
+            
+            total++;
+            scoreDisplay.textContent = score;
+            totalDisplay.textContent = total;
+            
+            nextButton.disabled = false;
+        }
+
+        tapArea.addEventListener('click', function() {
+            if (!gameActive) return;
+            
+            tapTimes.push(Date.now());
+            
+            if (tapTimes.length === 2) {
+                setTimeout(checkRhythm, 300);
+            }
+        });
+
+        startButton.addEventListener('click', function() {
+            shuffleArray(words);
+            currentWordIndex = 0;
+            score = 0;
+            total = 0;
+            scoreDisplay.textContent = score;
+            totalDisplay.textContent = total;
+            displayWord();
+            startButton.textContent = 'Restart';
+        });
+
+        nextButton.addEventListener('click', function() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            displayWord();
+            nextButton.disabled = true;
+        });
+    </script>
+</body>
+</html>
