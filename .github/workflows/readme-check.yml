@@ -17,23 +17,51 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Ensure each subfolder has a README.md with proper link
+      - name: Update README files based on template
         run: |
           echo "Scanning for subfolders..."
-          # Loop through every non-hidden subdirectory in the repository
-          for dir in $(find . -type d -not -path '*/\.*' -mindepth 1); do
+          # Loop through each non-hidden subdirectory in the repository root
+          for dir in $(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*'); do
             folder=$(basename "$dir")
             readme_file="$dir/README.md"
-            link="https://jp.sakurapy.com/$folder"
+            main_link="https://jp.sakurapy.com/$folder"
+            
+            # Set the template: main link and header
+            template="# ${folder} Documentation
+
+[Main Link](${main_link})
+
+## Subfiles"
+            
+            # Loop through files in the folder (non-hidden, not README.md, not index.html)
+            for file in "$dir"/*; do
+              if [ -f "$file" ]; then
+                filename=$(basename "$file")
+                if [ "$filename" != "README.md" ] && [ "$filename" != "index.html" ]; then
+                  template="${template}"$'\n'"- [${filename}](${main_link}/${filename})"
+                fi
+              fi
+            done
+
+            # Check for presence of "index" file (without extension) when "index.html" is missing
+            if [ -f "$dir/index" ] && [ ! -f "$dir/index.html" ]; then
+              echo "NOTICE: In folder '$dir', found 'index' but not 'index.html'"
+            fi
+
+            # If the README.md doesn't exist or its content doesn't exactly match the template, update it.
             if [ ! -f "$readme_file" ]; then
-              echo "Creating $readme_file with link $link"
-              echo "[Link]($link)" > "$readme_file"
+              echo "Creating $readme_file with template content"
+              echo "$template" > "$readme_file"
             else
-              if ! grep -q "$link" "$readme_file"; then
-                echo "Appending link to $readme_file"
-                echo -e "\n[Link]($link)" >> "$readme_file"
+              current=$(cat "$readme_file")
+              if [ "$current" != "$template" ]; then
+                echo "Updating $readme_file to match the template"
+                echo "$template" > "$readme_file"
+              else
+                echo "$readme_file already matches the template."
               fi
             fi
+
           done
 
       - name: Commit changes if any
@@ -43,7 +71,7 @@ jobs:
           git add .
           # Only commit if there are changes
           if ! git diff --cached --quiet; then
-            git commit -m "Add missing README.md with subfolder link [skip ci]"
+            git commit -m "Update README.md files to match template [skip ci]"
             git push
           else
             echo "No changes to commit."
