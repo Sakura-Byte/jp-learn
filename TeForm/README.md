@@ -4,3 +4,6 @@
 
 ## Subfiles
 - [Te-formPractice.html](https://jp.sakurapy.com/TeForm/Te-formPractice.html)
+
+## Warnings
+None
