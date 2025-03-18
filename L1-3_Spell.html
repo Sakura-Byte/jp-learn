@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Sound Recognition Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8ff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+        .sound-button {
+            flex: 1;
+            padding: 20px;
+            font-size: 36px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sound-button:active {
+            transform: scale(0.95);
+        }
+        .sound-button {
+            flex: 1;
+            margin: 5px;
+            padding: 15px;
+            font-size: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+        .sound-button:nth-child(2) {
+            background-color: #e74c3c;
+        }
+        #replay-button {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #replay-button:hover {
+            background-color: #e67e22;
+        }
+        #start-button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        #start-button:hover {
+            background-color: #27ae60;
+        }
+        #start-button:active {
+            transform: scale(0.95);
+        }
+        .progress {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        #welcome-screen {
+            text-align: center;
+        }
+        #game-screen {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="welcome-screen">
+            <h1>Japanese Sound Recognition Game</h1>
+            <p class="instruction">Practice identifying correct Japanese words. Listen to the word and choose the correct option between similar-sounding pairs.</p>
+            <p class="instruction">You will hear 10 sounds. Tap the button that matches what you hear.</p>
+            <p class="instruction">Ready to begin?</p>
+            <button id="welcome-start-button">Start Game</button>
+        </div>
+
+                    <div id="game-screen">
+            <h1>Japanese Word Recognition</h1>
+            <p class="instruction">Listen to the word and select the correct option</p>
+            
+            <div class="game-container">
+                <div class="buttons-container" id="buttons-container">
+                    <button class="sound-button" data-word="">Option 1</button>
+                    <button class="sound-button" data-word="">Option 2</button>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button id="replay-button" style="display: none;">Replay Word</button>
+                </div>
+                
+                <div class="progress">Question: <span id="current-sound">0</span>/10</div>
+                <div class="result" id="result-text"></div>
+                
+                <button id="start-button">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Word pairs data (correct word and incorrect word)
+        const wordPairs = [
+            { correct: "あき", incorrect: "あぎ" },
+            { correct: "できます", incorrect: "てぎます" },
+            { correct: "はたらきます", incorrect: "はだらきます" },
+            { correct: "あじさい", incorrect: "あちさい" },
+            { correct: "あたたかい", incorrect: "あだだかい" },
+            { correct: "あつい", incorrect: "あっつい" },
+            { correct: "あつめます", incorrect: "あずめます" },
+            { correct: "かきます", incorrect: "かぎます" },
+            { correct: "ききます", incorrect: "きぎます" },
+            { correct: "つくります", incorrect: "つぐります" },
+            { correct: "いご", incorrect: "いこ" },
+            { correct: "イタリア", incorrect: "イダリア" },
+            { correct: "うぐいす", incorrect: "うくいす" },
+            { correct: "おかあさん", incorrect: "おがさん" },
+            { correct: "おかし", incorrect: "おがし" },
+            { correct: "おくさん", incorrect: "おぐさん" },
+            { correct: "おとうと", incorrect: "おどうと" },
+            { correct: "おば", incorrect: "おぱ" },
+            { correct: "がいこくご", incorrect: "かいごくこ" },
+            { correct: "かぞく", incorrect: "かそく" },
+            { correct: "かんこく", incorrect: "かんごく" },
+            { correct: "きせつ", incorrect: "ぎせつ" },
+            { correct: "くだもの", incorrect: "くたもの" },
+            { correct: "こども", incorrect: "とこも" }
+        ];
+        
+        // Speech synthesis setup
+        let synth;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isPlaying = false;
+        let jaVoice = null;
+        let currentQuestions = [];
+        
+        // Initialize speech synthesis
+        function setupSpeechSynthesis() {
+            synth = window.speechSynthesis;
+            
+            // Try to get a Japanese voice
+            function loadVoices() {
+                const voices = synth.getVoices();
+                
+                // First try to find a Japanese voice
+                jaVoice = voices.find(voice => voice.lang.includes('ja'));
+                
+                // If no Japanese voice is found, use any available voice
+                if (!jaVoice && voices.length > 0) {
+                    jaVoice = voices[0];
+                    console.log("No Japanese voice found, using default voice");
+                } else if (jaVoice) {
+                    console.log("Japanese voice found:", jaVoice.name);
+                }
+            }
+            
+            // Load voices when they're ready
+            if (synth.onvoiceschanged !== undefined) {
+                synth.onvoiceschanged = loadVoices;
+            }
+            
+            // Also try loading immediately
+            loadVoices();
+        }
+        
+        // Play a specified word
+        function playWord(word) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.rate = 0.8; // Slightly slower than default
+                utterance.pitch = 1.0;
+                
+                if (jaVoice) {
+                    utterance.voice = jaVoice;
+                }
+                
+                utterance.lang = "ja-JP"; // Set language to Japanese
+                
+                // Backup in case events don't fire
+                const timeout = setTimeout(() => {
+                    resolve();
+                }, 2000); // Slightly longer timeout for longer words
+                
+                utterance.onend = () => {
+                    clearTimeout(timeout);
+                    resolve();
+                };
+                
+                // For browsers that might not properly fire onend
+                utterance.onerror = () => {
+                    clearTimeout(timeout);
+                    resolve();
+                };
+                
+                // Speak the word
+                synth.speak(utterance);
+            });
+        }
+        
+        // Generate 10 random questions from the word pairs
+        function generateQuestions() {
+            // Shuffle the word pairs
+            const shuffled = [...wordPairs].sort(() => 0.5 - Math.random());
+            // Take the first 10
+            const selected = shuffled.slice(0, 10);
+            
+            // For each pair, randomly decide the position of correct and incorrect options
+            currentQuestions = selected.map(pair => {
+                const correctFirst = Math.random() < 0.5; // Randomly decide position
+                return {
+                    wordToPlay: pair.correct, // Always play the correct word
+                    option1: correctFirst ? pair.correct : pair.incorrect,
+                    option2: correctFirst ? pair.incorrect : pair.correct,
+                    correctAnswer: pair.correct
+                };
+            });
+            
+            console.log('Questions:', currentQuestions); // For debugging
+        }
+        
+        // Play the current question
+        async function playCurrentQuestion() {
+            if (currentQuestionIndex < currentQuestions.length) {
+                document.getElementById('current-sound').textContent = (currentQuestionIndex + 1).toString();
+                
+                // Update the buttons with the current question options
+                const question = currentQuestions[currentQuestionIndex];
+                const buttons = document.querySelectorAll('.sound-button');
+                
+                // Set the first button to the correct option and the second to the incorrect
+                buttons[0].textContent = question.option1;
+                buttons[0].setAttribute('data-word', question.option1);
+                buttons[1].textContent = question.option2;
+                buttons[1].setAttribute('data-word', question.option2);
+                
+                // Play the word
+                await playWord(question.wordToPlay);
+                
+                // Show replay button
+                document.getElementById('replay-button').style.display = 'inline-block';
+            } else {
+                // End of game
+                isPlaying = false;
+                document.getElementById('result-text').textContent = `Your score: ${score}/10`;
+                document.getElementById('start-button').disabled = false;
+                document.getElementById('replay-button').style.display = 'none';
+            }
+        }
+        
+        // Replay the current word
+        async function replayCurrentWord() {
+            if (isPlaying && currentQuestionIndex < currentQuestions.length) {
+                await playWord(currentQuestions[currentQuestionIndex].wordToPlay);
+            }
+        }
+        
+        // Handle button clicks
+        function handleWordSelection(selectedWord) {
+            if (!isPlaying || currentQuestionIndex >= currentQuestions.length) return;
+            
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+            if (selectedWord === currentQuestion.correctAnswer) {
+                score++;
+            }
+            
+            currentQuestionIndex++;
+            document.getElementById('replay-button').style.display = 'none';
+            setTimeout(playCurrentQuestion, 300);
+        }
+        
+        // Start the game
+        function startGame() {
+            document.getElementById('result-text').textContent = '';
+            document.getElementById('start-button').disabled = true;
+            document.getElementById('replay-button').style.display = 'none';
+            score = 0;
+            currentQuestionIndex = 0;
+            generateQuestions();
+            isPlaying = true;
+            
+            // Play first question after a short delay
+            setTimeout(playCurrentQuestion, 500);
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttonContainer = document.getElementById('buttons-container');
+            const startButton = document.getElementById('start-button');
+            const replayButton = document.getElementById('replay-button');
+            const welcomeStartButton = document.getElementById('welcome-start-button');
+            
+            setupSpeechSynthesis();
+            
+            // Add event listeners to all sound buttons
+            const soundButtons = document.querySelectorAll('.sound-button');
+            soundButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const word = button.getAttribute('data-word');
+                    handleWordSelection(word);
+                });
+            });
+            
+            startButton.addEventListener('click', startGame);
+            replayButton.addEventListener('click', replayCurrentWord);
+            
+            startButton.addEventListener('click', startGame);
+            
+            welcomeStartButton.addEventListener('click', () => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('game-screen').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
