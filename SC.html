@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Japanese Course 2025</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5f9;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            position: relative;
+            background-image: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        h1 {
+            font-size: 28px;
+            margin: 0;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .japanese-title {
+            font-size: 18px;
+            margin-top: 8px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .content {
+            padding: 20px 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 8px;
+            font-size: 22px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+        .info-box {
+            background-color: #e0f2fe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #1e3a8a;
+            font-size: 18px;
+        }
+        .schedule {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .schedule th, .schedule td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .schedule th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        .schedule tr:nth-child(even) {
+            background-color: #f0f5f9;
+        }
+        .highlight {
+            background-color: #dbeafe;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        .fees {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px dashed #bfdbfe;
+        }
+        .discount {
+            color: #1e40af;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        .wave-divider {
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%231e3a8a'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .bottom-wave {
+            transform: rotate(180deg);
+            margin-bottom: -1px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .alert-box {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #dbeafe;
+            border-radius: 5px;
+        }
+        .alert-box p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #1e3a8a;
+        }
+        a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+        .qr-code {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+        }
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .two-columns > div {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .video-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f5fe;
+            border-radius: 5px;
+            color: #1e3a8a;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .video-link:hover {
+            background-color: #dbeafe;
+            transform: scale(1.02);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+            }
+            .content {
+                padding: 15px;
+            }
+            .two-columns {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Summer Japanese Course 2025</h1>
+            <p class="japanese-title">日本語と文化のサマーコース</p>
+        </header>
+        <div class="wave-divider"></div>
+        
+        <div class="content">
+            <div class="highlight">
+                <p>We are looking forward to meeting many Japan enthusiasts. Join us for an immersive Japanese language and cultural experience!</p>
+            </div>
+
+            <div class="section">
+                <h2>Goal</h2>
+                <p><strong>Beyond Knowledge: Develop Real-World Japanese Communication Skills</strong></p>
+                <a href="https://www.canva.com/design/DAGewIie4dc/Qqv1SCBpnAZxa77LWANt3Q/watch?utm_content=DAGewIie4dc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hce6338cb48" class="video-link" target="_blank">Click here to watch introduction video</a>
+            </div>
+
+            <div class="section">
+                <h2>Levels & Textbook</h2>
+                <div class="two-columns">
+                    <div>
+                        <p><strong>Starter Class:</strong></p>
+                        <ul>
+                            <li>For learners without previous knowledge about Japanese</li>
+                        </ul>
+                        
+                        <p><strong>Intermediate Class:</strong></p>
+                        <ul>
+                            <li>For learners at JPL002, 003 or equivalent level</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Textbook:</strong> "Irodori: Japanese for Life in Japan"</p>
+                        <ul>
+                            <li>Practical textbook for foreigners living in Japan</li>
+                            <li>Provides insight into Japanese daily life</li>
+                            <li>Useful for travel in Japan</li>
+                            <li>Helps you converse with Japanese friends</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Who Should Join?</h2>
+                <div>
+                    <span class="badge">Practice Japanese</span>
+                    <span class="badge">Travel to Japan</span>
+                    <span class="badge">Enjoy Conversations</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Methodology</h2>
+                <p>Three native Japanese-speaking instructors will speak to you in Japanese as much as possible.</p>
+                <p>You will be immersed in Japanese for 30 hours over 10 days.</p>
+                <p>This is not "studying" but "practice." Learn communication skills by understanding language in context through situations, expressions, and gestures.</p>
+                <p><strong>Change your mindset!</strong></p>
+            </div>
+
+            <div class="info-box">
+                <h3>Key Information</h3>
+                <p><strong>Date:</strong> June 9-20 (The week after Exam Week)</p>
+                <p><strong>Place:</strong> XJTLU SIP Campus</p>
+                <p><strong>Daily Schedule:</strong></p>
+                <p>9:00-12:00 - Morning Conversation Practice</p>
+                <p>13:30-15:30 - Culture Workshop, Free Q&A, Closing Ceremony</p>
+            </div>
+
+            <div class="section">
+                <h2>Cultural Activities</h2>
+                <table class="schedule">
+                    <tr>
+                        <th>Cultural Activities</th>
+                    </tr>
+                    <tr>
+                        <td>Flower Arrangement</td>
+                    </tr>
+                    <tr>
+                        <td>Online Exchange with Japanese University Students</td>
+                    </tr>
+                    <tr>
+                        <td>Japanese Song</td>
+                    </tr>
+                    <tr>
+                        <td>Tea Ceremony</td>
+                    </tr>
+                    <tr>
+                        <td>Otagee Dancing</td>
+                    </tr>
+                    <tr>
+                        <td>Closing Ceremony</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>Fees</h2>
+                <div class="highlight">
+                    <p><strong>Exclusive deal for XJTLers:</strong></p>
+                    <div class="fees">
+                        <div class="fee-item">
+                            <span>XJTLU students, staff/family</span>
+                            <span><span class="discount">40% Discount</span> - 2,400 RMB</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>XJTLU graduates</span>
+                            <span><span class="discount">20% Discount</span> - 3,200 RMB</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>External participants</span>
+                            <span>4,000 RMB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Registration</h2>
+<p class="text-center">Scan the QR code below to register:</p>
+<p class="text-center">Scan the QR code below to register:</p>
+<img src="data:image/png;base64,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" alt="Registration QR Code" class="qr-code">
+                <p class="text-center">Scan the QR code below to register:</p>
+                <img src="data:image/png;base64, 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" alt="Registration QR Code" class="qr-code">
+            </div>
+
+            <div class="section">
+                <h2>Contact Information</h2>
+                <p>Email: <a href="mailto:Nobuhiko.Tazoe@xjtlu.edu.cn" style="color: #1e3a8a;">Nobuhiko.Tazoe@xjtlu.edu.cn</a></p>
+            </div>
+        </div>
+        
+        <div class="wave-divider bottom-wave"></div>
+        <footer>
+            <p>© 2025 JPL Japanese Language and Culture Program - XJTLU</p>
+            <p>For more information, please contact Nobuhiko.Tazoe@xjtlu.edu.cn</p>
+        </footer>
+    </div>
+</body>
+</html>
