@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Learning Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4b6cb7;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .english-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #3a5a96;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .progress {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .feedback {
+            margin-top: 10px;
+        }
+        .correct-answer {
+            color: #155724;
+            font-weight: bold;
+        }
+        .game-over {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4b6cb7;
+        }
+        .score-display {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Japanese Learning Game</h1>
+        <div class="progress">Question <span id="current-question">1</span> of <span id="total-questions">10</span></div>
+        
+        <div id="game-container">
+            <div class="question-container">
+                <div class="english-text" id="english-text"></div>
+            </div>
+            
+            <div class="input-container">
+                <input type="text" id="answer-input" placeholder="Translate the phrase into Japanese using Hiragana and Katakana">
+            </div>
+            
+            <button id="check-button">Check Answer</button>
+            <button id="next-button" style="display: none;">Next Question</button>
+            
+            <div id="result" class="result" style="display: none;"></div>
+            <div id="feedback" class="feedback" style="display: none;">
+                Correct answer: <span id="correct-answer" class="correct-answer"></span>
+            </div>
+        </div>
+        
+        <div id="game-over" class="game-over" style="display: none;"></div>
+        <div id="score-display" class="score-display" style="display: none;"></div>
+        <button id="restart-button" style="display: none; margin: 20px auto; display: block;">Play Again</button>
+    </div>
+
+    <script>
+        // Data with English-Japanese pairs
+        const sentencePairs = [
+            { english: "Mari works at a hotel.", japanese: "まりさんはホテルではたらいています" },
+            { english: "Mari's aunt is a housewife. She does not work.", japanese: "まりさんのおばさんはしゅふです しごとはしていません" },
+            { english: "Mari's older sister is studying opera.", japanese: "まりさんのおねえさんは おぺらをべんきょうしています" },
+            { english: "Mari's older brother lives in China.", japanese: "まりさんのおにいさんはちゅうごくにすんでいます" },
+            { english: "I am Suzuki Mari. I live in Tokyo.", japanese: "わたしはすずきまりです とうきょうにすんでいます" },
+            { english: "There are three people in my family: my husband and my daughter.", japanese: "わたしのかぞくはさんにんです おっととむすめです" },
+            { english: "I work at a hotel.", japanese: "わたしはほてるではたらいています" },
+            { english: "I can speak Japanese, Korean, and English.", japanese: "わたしはにほんごとかんこくごとえいごができます" },
+            { english: "My husband is Korean. He can speak Korean and English.", japanese: "おっとはかんこくじんです かんこくごとえいごができます" },
+            { english: "We speak in Japanese and Korean.", japanese: "わたしたちはにほんごとかんこくごではなします" },
+            { english: "I cook meals.", japanese: "りょうりをつくります" },
+            { english: "I watch soccer matches.", japanese: "さっかーのしあいをみます" },
+            { english: "My hobby is driving.", japanese: "わたしのしゅみは どらいぶです" },
+            { english: "My hobby is listening to classical music.", japanese: "しゅみは くらしっくをきくことです" },
+            { english: "My hobby is watching soccer matches.", japanese: "しゅみはさっかーのしあいをみることです" },
+            { english: "My hobby is studying foreign languages.", japanese: "しゅみはがいこくごをべんきょうすることです" },
+            { english: "My hobby is taking photos.", japanese: "しゅみはしゃしんをとることです" },
+            { english: "My hobby is collecting stamps.", japanese: "しゅみはきってをあつめることです" },
+            { english: "What is your hobby?", japanese: "しゅみはなんですか" },
+            { english: "Listening to classical music.", japanese: "くらしっくをきくことです" },
+            { english: "I see. I especially like Bach.", japanese: "そうですか とくにばっはがすきです" },
+            { english: "What do you do when you have free time?", japanese: "ひまなとき なにをしますか" },
+            { english: "I listen to music.", japanese: "おんがくをききます" },
+            { english: "Around March, it gets warm. It becomes spring.", japanese: "さんがつごろ あたたかくなります はるになります" },
+            { english: "Around July, it gets hot. It becomes summer.", japanese: "しちがつごろ あつくなります なつになります" },
+            { english: "Around September, it gets cool. It becomes autumn.", japanese: "くがつごろ すずしくなります あきになります" },
+            { english: "Around December, it gets cold. It becomes winter.", japanese: "じゅうにがつごろさむくなります ふゆになります" },
+            { english: "What season is it in Tokyo now?", japanese: "とうきょうはいまどんなきせつですか" },
+            { english: "It is winter now. It is cold.", japanese: "いまふゆです さむいですよ" },
+            { english: "I see. Then, when does it get warm?", japanese: "そうですか じゃあ いつごろ あたたかくなりますか" },
+            { english: "Well, around March.", japanese: "そうですねだいたいさんがつごろです" },
+            { english: "I like warm weather. I like spring.", japanese: "あたたかいのがすきです はるがすきです" },
+            { english: "I like warm weather, but I don't like summer. I am not good with the heat.", japanese: "あたたかいのがすきです なつはすきじゃないです あついのがにがてです" },
+            { english: "I like autumn. I like cool weather.", japanese: "あきがすきです すずしいのがすきです" },
+            { english: "I don't like winter. I am not good with the cold.", japanese: "ふゆはすきじゃないです さむいのがにがてです" },
+            { english: "Why do you like autumn?", japanese: "どうしてあきがすきですか" },
+            { english: "Because I like cool weather. Because the fruits are delicious. Because I can travel.", japanese: "すずしいのがすきですから くだものがおいしいですから りょこうができますから" }
+        ];
+
+        // Game variables
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // DOM elements
+        const englishTextElement = document.getElementById('english-text');
+        const answerInputElement = document.getElementById('answer-input');
+        const checkButton = document.getElementById('check-button');
+        const nextButton = document.getElementById('next-button');
+        const resultElement = document.getElementById('result');
+        const feedbackElement = document.getElementById('feedback');
+        const correctAnswerElement = document.getElementById('correct-answer');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const gameOverElement = document.getElementById('game-over');
+        const scoreDisplayElement = document.getElementById('score-display');
+        const restartButton = document.getElementById('restart-button');
+        const gameContainer = document.getElementById('game-container');
+
+        // Initialize the game
+        function initGame() {
+            // Shuffle and pick 10 questions
+            currentQuestions = shuffleArray([...sentencePairs]).slice(0, 10);
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            // Display total questions
+            totalQuestionsElement.textContent = currentQuestions.length;
+            
+            // Reset UI
+            gameContainer.style.display = 'block';
+            gameOverElement.style.display = 'none';
+            scoreDisplayElement.style.display = 'none';
+            restartButton.style.display = 'none';
+            
+            displayQuestion();
+        }
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Display current question
+        function displayQuestion() {
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+            englishTextElement.textContent = currentQuestion.english;
+            
+            // Update question counter
+            currentQuestionElement.textContent = currentQuestionIndex + 1;
+            
+            // Reset UI for new question
+            answerInputElement.value = '';
+            resultElement.style.display = 'none';
+            feedbackElement.style.display = 'none';
+            checkButton.style.display = 'inline-block';
+            nextButton.style.display = 'none';
+            
+            // Focus on the input field
+            answerInputElement.focus();
+        }
+
+        // Check the answer
+        function checkAnswer() {
+            const userAnswer = answerInputElement.value.trim();
+            const correctAnswer = currentQuestions[currentQuestionIndex].japanese;
+            
+            // Compare ignoring spaces and punctuation
+            const normalizedUserAnswer = normalizeJapanese(userAnswer);
+            const normalizedCorrectAnswer = normalizeJapanese(correctAnswer);
+            
+            // Check if answer is correct
+            const isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+            
+            // Update score
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Show result
+            resultElement.textContent = isCorrect ? 'Correct! Good job!' : 'Incorrect';
+            resultElement.className = isCorrect ? 'result correct' : 'result incorrect';
+            resultElement.style.display = 'block';
+            
+            // Show feedback with correct answer if wrong
+            correctAnswerElement.textContent = correctAnswer;
+            feedbackElement.style.display = isCorrect ? 'none' : 'block';
+            
+            // Show next button or end game
+            checkButton.style.display = 'none';
+            nextButton.style.display = 'inline-block';
+        }
+
+        // Normalize Japanese text for comparison
+        function normalizeJapanese(text) {
+            // First replace katakana with hiragana for specific words
+            const katakanaMap = {
+                'ホテル': 'ほてる',
+                'オペラ': 'おぺら',
+                'サッカー': 'さっかー',
+                'ドライブ': 'どらいぶ',
+                'クラシック': 'くらしっく',
+                'バッハ': 'ばっは'
+            };
+            
+            // Replace each katakana word with its hiragana equivalent
+            let normalizedText = text;
+            for (const [katakana, hiragana] of Object.entries(katakanaMap)) {
+                normalizedText = normalizedText.replace(new RegExp(katakana, 'g'), hiragana);
+            }
+            
+            return normalizedText.replace(/\s+/g, '') // Remove spaces
+                               .replace(/[、。]/g, '') // Remove Japanese punctuation
+                               .toLowerCase();
+        }
+
+        // Move to next question or end game
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < currentQuestions.length) {
+                displayQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        // End the game and show results
+        function endGame() {
+            gameContainer.style.display = 'none';
+            gameOverElement.style.display = 'block';
+            gameOverElement.textContent = 'Game Over!';
+            
+            scoreDisplayElement.style.display = 'block';
+            scoreDisplayElement.textContent = `Your score: ${score} out of ${currentQuestions.length}`;
+            
+            restartButton.style.display = 'block';
+        }
+
+        // Event listeners
+        checkButton.addEventListener('click', checkAnswer);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', initGame);
+        
+        // Allow pressing Enter to submit answer
+        answerInputElement.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                if (checkButton.style.display !== 'none') {
+                    checkAnswer();
+                } else if (nextButton.style.display !== 'none') {
+                    nextQuestion();
+                }
+            }
+        });
+
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>
