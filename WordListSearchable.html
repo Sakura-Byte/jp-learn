@@ -1,0 +1,4222 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>単語検索表</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; background: #f9f9f9; }
+    input { padding: 0.5em; width: 100%; max-width: 400px; font-size: 1em; }
+    .result { margin-top: 1em; }
+    .word { padding: 0.5em; margin: 0.3em 0; background: #fff; border-left: 4px solid #4CAF50; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+    .word span { display: inline-block; margin-right: 1em; }
+  </style>
+</head>
+<body>
+  <h1>単語検索表</h1>
+  <input type="text" id="search" placeholder="語彙・英訳を検索" oninput="searchWords()">
+  <div class="result" id="results"></div>
+  <script type="application/json" id="word-data">
+[
+  {
+    "japanese": "あ／あっ",
+    "english": "ah",
+    "lesson": 6
+  },
+  {
+    "japanese": "ああ",
+    "english": "ah",
+    "lesson": 4
+  },
+  {
+    "japanese": "あいます",
+    "english": "to meet",
+    "lesson": 13
+  },
+  {
+    "japanese": "あおい",
+    "english": "blue",
+    "lesson": 6
+  },
+  {
+    "japanese": "あか",
+    "english": "red",
+    "lesson": 11
+  },
+  {
+    "japanese": "あかい",
+    "english": "red",
+    "lesson": 6
+  },
+  {
+    "japanese": "あかちゃん",
+    "english": "baby",
+    "lesson": 17
+  },
+  {
+    "japanese": "あき",
+    "english": "autumn",
+    "lesson": 3
+  },
+  {
+    "japanese": "あきはばら",
+    "english": "Akihabara",
+    "lesson": 5
+  },
+  {
+    "japanese": "アクセサリー",
+    "english": "jewelry/accessory",
+    "lesson": 2
+  },
+  {
+    "japanese": "あけます",
+    "english": "to open",
+    "lesson": 18
+  },
+  {
+    "japanese": "あげます",
+    "english": "to raise　",
+    "lesson": 15
+  },
+  {
+    "japanese": "あげます",
+    "english": "to give",
+    "lesson": 17
+  },
+  {
+    "japanese": "あさ",
+    "english": "morning",
+    "lesson": 5
+  },
+  {
+    "japanese": "あさごはん",
+    "english": "breakfast",
+    "lesson": 16
+  },
+  {
+    "japanese": "あし",
+    "english": "foot/leg",
+    "lesson": 15
+  },
+  {
+    "japanese": "あじ",
+    "english": "taste/flavor",
+    "lesson": 12
+  },
+  {
+    "japanese": "あじさい",
+    "english": "hydrangea",
+    "lesson": 3
+  },
+  {
+    "japanese": "あした",
+    "english": "tomorrow",
+    "lesson": 4
+  },
+  {
+    "japanese": "あそこ",
+    "english": "over there",
+    "lesson": 6
+  },
+  {
+    "japanese": "あそびます",
+    "english": "to play",
+    "lesson": 17
+  },
+  {
+    "japanese": "あたたかい",
+    "english": "warm/hot",
+    "lesson": 3
+  },
+  {
+    "japanese": "あたま",
+    "english": "head",
+    "lesson": 15
+  },
+  {
+    "japanese": "あたらしい",
+    "english": "new",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "あたり",
+    "english": "around/in the neighborhood",
+    "lesson": 5
+  },
+  {
+    "japanese": "あつい",
+    "english": "hot",
+    "lesson": 3
+  },
+  {
+    "japanese": "あつめます",
+    "english": "to collect",
+    "lesson": 2
+  },
+  {
+    "japanese": "あと",
+    "english": "after",
+    "lesson": 8
+  },
+  {
+    "japanese": "あなた",
+    "english": "you",
+    "lesson": 16
+  },
+  {
+    "japanese": "あに",
+    "english": "elder brother/(my) elder brother",
+    "lesson": 1
+  },
+  {
+    "japanese": "あね",
+    "english": "elder sister/(my) elder sister",
+    "lesson": 1
+  },
+  {
+    "japanese": "あの",
+    "english": "that ～",
+    "lesson": 6
+  },
+  {
+    "japanese": "あのう",
+    "english": "ah…/Excuse me/well…",
+    "lesson": 7
+  },
+  {
+    "japanese": "あぶない",
+    "english": "dangerous",
+    "lesson": 5
+  },
+  {
+    "japanese": "あべ／あべさん",
+    "english": "Abe/Ms. Abe",
+    "lesson": 7
+  },
+  {
+    "japanese": "あまい",
+    "english": "sweet",
+    "lesson": 12
+  },
+  {
+    "japanese": "あまり（～ない）",
+    "english": "(not) very",
+    "lesson": 15
+  },
+  {
+    "japanese": "あみもの",
+    "english": "knitting",
+    "lesson": 2
+  },
+  {
+    "japanese": "あめ",
+    "english": "rain",
+    "lesson": 3
+  },
+  {
+    "japanese": "アメリカ",
+    "english": "U.S.A./America",
+    "lesson": 1
+  },
+  {
+    "japanese": "アラビアご",
+    "english": "Arabic language",
+    "lesson": 9
+  },
+  {
+    "japanese": "ありがとう",
+    "english": "Thank you.",
+    "lesson": 6
+  },
+  {
+    "japanese": "あります",
+    "english": "there is, are/to have/(party, event, festival) to be held",
+    "lesson": 3
+  },
+  {
+    "japanese": "あるきます",
+    "english": "to walk",
+    "lesson": 16
+  },
+  {
+    "japanese": "あれ",
+    "english": "that <far from both the speaker and the listener>",
+    "lesson": 6
+  },
+  {
+    "japanese": "アンケート",
+    "english": "questionnaire",
+    "lesson": 16
+  },
+  {
+    "japanese": "アンチョビ",
+    "english": "anchovy",
+    "lesson": 12
+  },
+  {
+    "japanese": "いい",
+    "english": "nice/good",
+    "lesson": 4
+  },
+  {
+    "japanese": "いいえ／いえ",
+    "english": "No.",
+    "lesson": 6
+  },
+  {
+    "japanese": "いいます",
+    "english": "to say/to tell",
+    "lesson": 9
+  },
+  {
+    "japanese": "いえ",
+    "english": "house",
+    "lesson": "16ス"
+  },
+  {
+    "japanese": "いかが",
+    "english": "how <polite equivalent of どう>",
+    "lesson": 13
+  },
+  {
+    "japanese": "いき",
+    "english": "breath",
+    "lesson": 15
+  },
+  {
+    "japanese": "いきます",
+    "english": "to go",
+    "lesson": 5
+  },
+  {
+    "japanese": "イギリス",
+    "english": "U.K.",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "いご",
+    "english": "the game of Go ",
+    "lesson": 2
+  },
+  {
+    "japanese": "いざかや",
+    "english": "Japanese style pub",
+    "lesson": 5
+  },
+  {
+    "japanese": "いしかわ／いしかわさん",
+    "english": "Ishikawa/Mr. Ishikawa",
+    "lesson": 1
+  },
+  {
+    "japanese": "いそがしい",
+    "english": "busy",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "いたい",
+    "english": "painful/sore",
+    "lesson": 15
+  },
+  {
+    "japanese": "いただきます",
+    "english": "to take/to have <polite equivalent of moraimasu>/the expression said before starting to eat",
+    "lesson": 12
+  },
+  {
+    "japanese": "イタリア",
+    "english": "Italy",
+    "lesson": 1
+  },
+  {
+    "japanese": "イタリアご",
+    "english": "Italian language",
+    "lesson": 1
+  },
+  {
+    "japanese": "いちど",
+    "english": "once",
+    "lesson": 9
+  },
+  {
+    "japanese": "いちばん",
+    "english": "the best/the most/number one",
+    "lesson": 3
+  },
+  {
+    "japanese": "いちろう／いちろうさん",
+    "english": "Ichiｒoo/Mr. Ichiroo",
+    "lesson": 1
+  },
+  {
+    "japanese": "いつ",
+    "english": "when",
+    "lesson": 3
+  },
+  {
+    "japanese": "いつか",
+    "english": "someday",
+    "lesson": 10
+  },
+  {
+    "japanese": "いつごろ",
+    "english": "about when",
+    "lesson": 3
+  },
+  {
+    "japanese": "いっしょに",
+    "english": "together",
+    "lesson": 5
+  },
+  {
+    "japanese": "いっぱい",
+    "english": "a cup/glass of (drink)",
+    "lesson": 12
+  },
+  {
+    "japanese": "いっぱい（おなかが～）",
+    "english": "full",
+    "lesson": 12
+  },
+  {
+    "japanese": "いつまでも",
+    "english": "forever",
+    "lesson": 18
+  },
+  {
+    "japanese": "いねかり",
+    "english": "rice reaping",
+    "lesson": 3
+  },
+  {
+    "japanese": "いま",
+    "english": "now",
+    "lesson": 3
+  },
+  {
+    "japanese": "います",
+    "english": "to be (existence)",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "いままでに",
+    "english": "so far/up until now",
+    "lesson": 9
+  },
+  {
+    "japanese": "いみ",
+    "english": "meaning",
+    "lesson": 9
+  },
+  {
+    "japanese": "いもうと",
+    "english": "younger sister/(my) younger sister",
+    "lesson": 1
+  },
+  {
+    "japanese": "いもうとさん",
+    "english": "(someone else's) younger sister",
+    "lesson": 1
+  },
+  {
+    "japanese": "いやあ",
+    "english": "well…",
+    "lesson": "9ス"
+  },
+  {
+    "japanese": "いりぐち",
+    "english": "entrance",
+    "lesson": 7
+  },
+  {
+    "japanese": "いれます",
+    "english": "to put in",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "いろ",
+    "english": "colour",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "いろいろ（な）",
+    "english": "various",
+    "lesson": 5
+  },
+  {
+    "japanese": "インド",
+    "english": "India",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "う",
+    "english": "Ow!",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "ううん／うーん",
+    "english": "well…/hmm…",
+    "lesson": "6ス"
+  },
+  {
+    "japanese": "うえ",
+    "english": "on/above",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "うえの",
+    "english": "Ueno",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "うえのこうえん",
+    "english": "Ueno Park",
+    "lesson": 5
+  },
+  {
+    "japanese": "うおいちば",
+    "english": "a fish market",
+    "lesson": 5
+  },
+  {
+    "japanese": "ウォーキング",
+    "english": "walking",
+    "lesson": 16
+  },
+  {
+    "japanese": "うき",
+    "english": "rainy season",
+    "lesson": 3
+  },
+  {
+    "japanese": "うぐいす",
+    "english": "bush warbler/Japanese nightingale",
+    "lesson": 3
+  },
+  {
+    "japanese": "うけつけ",
+    "english": "front desk/reception",
+    "lesson": 14
+  },
+  {
+    "japanese": "うた",
+    "english": "song",
+    "lesson": 10
+  },
+  {
+    "japanese": "うち",
+    "english": "house/one's own house (home)",
+    "lesson": "1ス"
+  },
+  {
+    "japanese": "うで",
+    "english": "arm",
+    "lesson": 15
+  },
+  {
+    "japanese": "うまれます",
+    "english": "be born",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "うめぼし",
+    "english": "pickled plum",
+    "lesson": 12
+  },
+  {
+    "japanese": "うれしい",
+    "english": "happy/glad/delighted",
+    "lesson": 18
+  },
+  {
+    "japanese": "え",
+    "english": "picture",
+    "lesson": 2
+  },
+  {
+    "japanese": "え／えっ",
+    "english": "oh…/What?",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "エアロビクス",
+    "english": "aerobics",
+    "lesson": 16
+  },
+  {
+    "japanese": "えいが",
+    "english": "movie/film",
+    "lesson": 2
+  },
+  {
+    "japanese": "えいご",
+    "english": "English language",
+    "lesson": 1
+  },
+  {
+    "japanese": "ええ",
+    "english": "yes",
+    "lesson": 4
+  },
+  {
+    "japanese": "ええと／えっと／ええっと",
+    "english": "well…/umm…",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "えき",
+    "english": "station",
+    "lesson": 5
+  },
+  {
+    "japanese": "えび",
+    "english": "shrimp",
+    "lesson": 12
+  },
+  {
+    "japanese": "えびせんべい",
+    "english": "shrimp rice cracker",
+    "lesson": 12
+  },
+  {
+    "japanese": "えんげき",
+    "english": "drama",
+    "lesson": 2
+  },
+  {
+    "japanese": "おいしい",
+    "english": "delicious/tasty",
+    "lesson": 3
+  },
+  {
+    "japanese": "おいわい（いわい）",
+    "english": "celebration/gift",
+    "lesson": 17
+  },
+  {
+    "japanese": "おおい",
+    "english": "many/lots of",
+    "lesson": 5
+  },
+  {
+    "japanese": "おおきい",
+    "english": "big",
+    "lesson": 6
+  },
+  {
+    "japanese": "おおきく（おおきい）",
+    "english": "deeply (breathe)/widely",
+    "lesson": 15
+  },
+  {
+    "japanese": "オーケー",
+    "english": "OK",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "おおさか",
+    "english": "Osaka",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "おかあさん",
+    "english": "mother/(someone else's) mother",
+    "lesson": 1
+  },
+  {
+    "japanese": "おかげさまで",
+    "english": "Thanks to (you)./Fortunately.",
+    "lesson": 4
+  },
+  {
+    "japanese": "おかし（かし）",
+    "english": "sweets/confectionery",
+    "lesson": 2
+  },
+  {
+    "japanese": "おかね（かね）",
+    "english": "money",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "おがわ／おがわさん",
+    "english": "Ogawa/Mr. Ogawa",
+    "lesson": 3
+  },
+  {
+    "japanese": "おくさん",
+    "english": "wife/(someone else's) wife",
+    "lesson": 1
+  },
+  {
+    "japanese": "おくれます",
+    "english": "be late/be delayed",
+    "lesson": 7
+  },
+  {
+    "japanese": "おさけ（さけ）",
+    "english": "alcohol/sake <polite>",
+    "lesson": 11
+  },
+  {
+    "japanese": "おじ",
+    "english": "uncle/(my) uncle",
+    "lesson": 1
+  },
+  {
+    "japanese": "おじいさん",
+    "english": "grandfather/(someone else's) grandfather",
+    "lesson": 1
+  },
+  {
+    "japanese": "おしえます",
+    "english": "to tell ",
+    "lesson": 9
+  },
+  {
+    "japanese": "おじさん",
+    "english": "uncle/(someone else's) uncle",
+    "lesson": 1
+  },
+  {
+    "japanese": "おしゃれ（な）",
+    "english": "fashionable ",
+    "lesson": 5
+  },
+  {
+    "japanese": "おすし（すし）",
+    "english": "sushi",
+    "lesson": 8
+  },
+  {
+    "japanese": "おすすめ",
+    "english": "recommendation",
+    "lesson": 8
+  },
+  {
+    "japanese": "おせわ（せわ）",
+    "english": "care/help",
+    "lesson": 14
+  },
+  {
+    "japanese": "おそい",
+    "english": "late/slow",
+    "lesson": 7
+  },
+  {
+    "japanese": "おちゃ（ちゃ）",
+    "english": "tea/Japanese tea",
+    "lesson": 11
+  },
+  {
+    "japanese": "おつかれさま",
+    "english": "Good work./Nice job./You must be tired.",
+    "lesson": 13
+  },
+  {
+    "japanese": "おっと",
+    "english": "husband/(my) husband",
+    "lesson": 1
+  },
+  {
+    "japanese": "おとうさん",
+    "english": "father/(someone else's) father",
+    "lesson": 1
+  },
+  {
+    "japanese": "おとうと",
+    "english": "younger brother/(my) younger brother",
+    "lesson": 1
+  },
+  {
+    "japanese": "おとうとさん",
+    "english": "(someone else's) younger brother",
+    "lesson": 1
+  },
+  {
+    "japanese": "おどり",
+    "english": "dance",
+    "lesson": 10
+  },
+  {
+    "japanese": "おなか",
+    "english": "belly/stomach",
+    "lesson": 12
+  },
+  {
+    "japanese": "おなじ",
+    "english": "same",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "おにいさん",
+    "english": "elder brother/(someone else's) elder brother",
+    "lesson": 1
+  },
+  {
+    "japanese": "おにぎり",
+    "english": "onigiri (rice ball)",
+    "lesson": 11
+  },
+  {
+    "japanese": "おねえさん",
+    "english": "elder sister/(someone else's) elder sister",
+    "lesson": 1
+  },
+  {
+    "japanese": "おねがいします",
+    "english": "Please. ",
+    "lesson": 11
+  },
+  {
+    "japanese": "おば",
+    "english": "aunt/(my) aunt",
+    "lesson": 1
+  },
+  {
+    "japanese": "おばあさん",
+    "english": "grandmother/(someone else's) grandmother",
+    "lesson": 1
+  },
+  {
+    "japanese": "おばさん",
+    "english": "aunt/(someone else's) aunt",
+    "lesson": 1
+  },
+  {
+    "japanese": "おはよう",
+    "english": "Good morｎing.",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "オフィス",
+    "english": "office",
+    "lesson": 13
+  },
+  {
+    "japanese": "おふろ（ふろ）",
+    "english": "bathroom/bath",
+    "lesson": 15
+  },
+  {
+    "japanese": "オペラ",
+    "english": "opera",
+    "lesson": 1
+  },
+  {
+    "japanese": "おべんとう（べんとう）",
+    "english": "lunch box/bento",
+    "lesson": 11
+  },
+  {
+    "japanese": "おぼえます",
+    "english": "to memorize/to learn",
+    "lesson": 9
+  },
+  {
+    "japanese": "おみやげ（みやげ）",
+    "english": "souvenir",
+    "lesson": 8
+  },
+  {
+    "japanese": "おめでとう",
+    "english": "Congratulations!",
+    "lesson": 18
+  },
+  {
+    "japanese": "おもいます",
+    "english": "to think",
+    "lesson": 18
+  },
+  {
+    "japanese": "おもしろい",
+    "english": "interesting",
+    "lesson": 5
+  },
+  {
+    "japanese": "おもちゃ",
+    "english": "toy",
+    "lesson": 17
+  },
+  {
+    "japanese": "おゆ（ゆ）",
+    "english": "hot water",
+    "lesson": 13
+  },
+  {
+    "japanese": "およぎます",
+    "english": "to swim",
+    "lesson": 16
+  },
+  {
+    "japanese": "おわり",
+    "english": "end/finish",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "おんがく",
+    "english": "music",
+    "lesson": 2
+  },
+  {
+    "japanese": "か（かようび）",
+    "english": "Tuesday",
+    "lesson": 13
+  },
+  {
+    "japanese": "ガーデニング",
+    "english": "gardening",
+    "lesson": 2
+  },
+  {
+    "japanese": "カード",
+    "english": "card",
+    "lesson": 18
+  },
+  {
+    "japanese": "かい",
+    "english": "～ times (frequency)",
+    "lesson": 10
+  },
+  {
+    "japanese": "かいぎ",
+    "english": "meeting",
+    "lesson": 13
+  },
+  {
+    "japanese": "がいこく",
+    "english": "foreign country",
+    "lesson": 9
+  },
+  {
+    "japanese": "がいこくご",
+    "english": "foreign language",
+    "lesson": 2
+  },
+  {
+    "japanese": "かいしゃ",
+    "english": "company/firm",
+    "lesson": 1
+  },
+  {
+    "japanese": "かいてき（な）",
+    "english": "comfortable ",
+    "lesson": 13
+  },
+  {
+    "japanese": "かいます",
+    "english": "to buy",
+    "lesson": 8
+  },
+  {
+    "japanese": "カイロ",
+    "english": "Cairo ",
+    "lesson": 4
+  },
+  {
+    "japanese": "かお",
+    "english": "face",
+    "lesson": 15
+  },
+  {
+    "japanese": "かぎ",
+    "english": "key",
+    "lesson": 13
+  },
+  {
+    "japanese": "かきます",
+    "english": "to write",
+    "lesson": 9
+  },
+  {
+    "japanese": "かきます（えを）",
+    "english": "to draw (a picture)",
+    "lesson": 2
+  },
+  {
+    "japanese": "がくせい",
+    "english": "student",
+    "lesson": 1
+  },
+  {
+    "japanese": "かざります",
+    "english": "to decorate/to display",
+    "lesson": 17
+  },
+  {
+    "japanese": "かします",
+    "english": "to lend",
+    "lesson": 9
+  },
+  {
+    "japanese": "かぜ",
+    "english": "wind",
+    "lesson": 4
+  },
+  {
+    "japanese": "かぞく",
+    "english": "family",
+    "lesson": 1
+  },
+  {
+    "japanese": "かた",
+    "english": "shoulder",
+    "lesson": 15
+  },
+  {
+    "japanese": "カタカナ",
+    "english": "katakana (Japanese scripts)",
+    "lesson": 9
+  },
+  {
+    "japanese": "がつ",
+    "english": "month",
+    "lesson": 3
+  },
+  {
+    "japanese": "かっこいい",
+    "english": "cool/good-looking",
+    "lesson": 2
+  },
+  {
+    "japanese": "かてい",
+    "english": "home/family/household",
+    "lesson": 18
+  },
+  {
+    "japanese": "かど",
+    "english": "corner",
+    "lesson": 6
+  },
+  {
+    "japanese": "かばん",
+    "english": "bag",
+    "lesson": 17
+  },
+  {
+    "japanese": "かぶき",
+    "english": "Kabuki",
+    "lesson": 10
+  },
+  {
+    "japanese": "からあげ",
+    "english": "deep-fried chicken",
+    "lesson": 11
+  },
+  {
+    "japanese": "からい",
+    "english": "hot/spicy",
+    "lesson": 12
+  },
+  {
+    "japanese": "カラオケ",
+    "english": "karaoke",
+    "lesson": 2
+  },
+  {
+    "japanese": "からだ",
+    "english": "body",
+    "lesson": 15
+  },
+  {
+    "japanese": "かります",
+    "english": "to borrow",
+    "lesson": 14
+  },
+  {
+    "japanese": "かれ",
+    "english": "he (boyfriend)",
+    "lesson": 17
+  },
+  {
+    "japanese": "カレー",
+    "english": "curry ",
+    "lesson": 2
+  },
+  {
+    "japanese": "かわい／かわいさん",
+    "english": "Kawai/Ms. Kawai ",
+    "lesson": 10
+  },
+  {
+    "japanese": "かわいい",
+    "english": "cute",
+    "lesson": 2
+  },
+  {
+    "japanese": "かわりに",
+    "english": "for you/in your place/instead of you",
+    "lesson": 10
+  },
+  {
+    "japanese": "かんき",
+    "english": "dry season",
+    "lesson": 3
+  },
+  {
+    "japanese": "かんこく",
+    "english": "South Korea",
+    "lesson": 1
+  },
+  {
+    "japanese": "かんこくご",
+    "english": "Korean language",
+    "lesson": 1
+  },
+  {
+    "japanese": "かんこくじん",
+    "english": "Korean people",
+    "lesson": 1
+  },
+  {
+    "japanese": "かんじ",
+    "english": "kanji",
+    "lesson": 9
+  },
+  {
+    "japanese": "かんたん（な）",
+    "english": "easy",
+    "lesson": 9
+  },
+  {
+    "japanese": "がんばります",
+    "english": "to do one's best/I will do my best.",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "き",
+    "english": "feeling/mood",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "きおん",
+    "english": "(air) temperature",
+    "lesson": 3
+  },
+  {
+    "japanese": "ききます",
+    "english": "to listen",
+    "lesson": 2
+  },
+  {
+    "japanese": "きせつ",
+    "english": "season",
+    "lesson": 3
+  },
+  {
+    "japanese": "きって",
+    "english": "stamp",
+    "lesson": 2
+  },
+  {
+    "japanese": "きっと",
+    "english": "surely",
+    "lesson": 18
+  },
+  {
+    "japanese": "きっぷ",
+    "english": "ticket",
+    "lesson": 10
+  },
+  {
+    "japanese": "きに いります",
+    "english": "to like ～",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "きのう",
+    "english": "yesterday",
+    "lesson": 4
+  },
+  {
+    "japanese": "きます",
+    "english": "to come",
+    "lesson": 7
+  },
+  {
+    "japanese": "きます",
+    "english": "to put on/to wear",
+    "lesson": 17
+  },
+  {
+    "japanese": "キムチ",
+    "english": "kimuchi (Korean pickles) ",
+    "lesson": 12
+  },
+  {
+    "japanese": "きもち（が） いい",
+    "english": "pleasant/to feel good",
+    "lesson": 4
+  },
+  {
+    "japanese": "きやま／きやまさん",
+    "english": "Kiyama/Mr. Kiyama",
+    "lesson": 7
+  },
+  {
+    "japanese": "きゅうに（きゅうな）",
+    "english": "suddenly",
+    "lesson": 15
+  },
+  {
+    "japanese": "ぎゅうにゅう",
+    "english": "milk",
+    "lesson": 15
+  },
+  {
+    "japanese": "きゅうり",
+    "english": "cucumber",
+    "lesson": 12
+  },
+  {
+    "japanese": "きょう",
+    "english": "today",
+    "lesson": 4
+  },
+  {
+    "japanese": "きょうし",
+    "english": "teacher",
+    "lesson": 10
+  },
+  {
+    "japanese": "きょうだい",
+    "english": "brothers and sisters",
+    "lesson": 1
+  },
+  {
+    "japanese": "きょうみ",
+    "english": "interest",
+    "lesson": 10
+  },
+  {
+    "japanese": "きょうみが あります（～に）",
+    "english": "to be interested in ～",
+    "lesson": 10
+  },
+  {
+    "japanese": "きれい（な）",
+    "english": "beautiful",
+    "lesson": 3
+  },
+  {
+    "japanese": "キロ",
+    "english": "～ kilometer/～ kilogram",
+    "lesson": 16
+  },
+  {
+    "japanese": "ぎんこう",
+    "english": "bank",
+    "lesson": 6
+  },
+  {
+    "japanese": "ぎんざ",
+    "english": "Ginza",
+    "lesson": 5
+  },
+  {
+    "japanese": "キンパ",
+    "english": "kimbap (Korean food)",
+    "lesson": 12
+  },
+  {
+    "japanese": "くうこう",
+    "english": "airport",
+    "lesson": 13
+  },
+  {
+    "japanese": "くすり",
+    "english": "medicine",
+    "lesson": 15
+  },
+  {
+    "japanese": "くだもの",
+    "english": "fruit",
+    "lesson": 3
+  },
+  {
+    "japanese": "くち",
+    "english": "mouth",
+    "lesson": 15
+  },
+  {
+    "japanese": "くに",
+    "english": "country",
+    "lesson": 3
+  },
+  {
+    "japanese": "くび",
+    "english": "neck",
+    "lesson": 15
+  },
+  {
+    "japanese": "くもり",
+    "english": "cloudy",
+    "lesson": 4
+  },
+  {
+    "japanese": "くもります",
+    "english": "to get cloudy",
+    "lesson": 4
+  },
+  {
+    "japanese": "クラシック",
+    "english": "classical music",
+    "lesson": 2
+  },
+  {
+    "japanese": "クラス",
+    "english": "class",
+    "lesson": 18
+  },
+  {
+    "japanese": "クリスマス",
+    "english": "Chirstmas",
+    "lesson": 17
+  },
+  {
+    "japanese": "グループ",
+    "english": "group",
+    "lesson": 16
+  },
+  {
+    "japanese": "くるま",
+    "english": "car",
+    "lesson": 1
+  },
+  {
+    "japanese": "クロッポ",
+    "english": "keropok (Malaysian shrimp cracker)",
+    "lesson": 12
+  },
+  {
+    "japanese": "ケーキ",
+    "english": "cake",
+    "lesson": 11
+  },
+  {
+    "japanese": "ゲームセンター",
+    "english": "game arcade/amusement arcade",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "げつ（げつようび）",
+    "english": "Monday",
+    "lesson": 13
+  },
+  {
+    "japanese": "けっこう（な）",
+    "english": "fine",
+    "lesson": 12
+  },
+  {
+    "japanese": "けっこん（します）",
+    "english": "to get married",
+    "lesson": 17
+  },
+  {
+    "japanese": "げんき（な）",
+    "english": "fine",
+    "lesson": 4
+  },
+  {
+    "japanese": "けんこう",
+    "english": "health",
+    "lesson": 15
+  },
+  {
+    "japanese": "けんこうてき（な）",
+    "english": "healthy",
+    "lesson": 16
+  },
+  {
+    "japanese": "ご",
+    "english": "～ language",
+    "lesson": 1
+  },
+  {
+    "japanese": "コイン",
+    "english": "coin",
+    "lesson": 2
+  },
+  {
+    "japanese": "ごう",
+    "english": "<a counter for numbering>",
+    "lesson": 13
+  },
+  {
+    "japanese": "こうえん",
+    "english": "park",
+    "lesson": 5
+  },
+  {
+    "japanese": "こうきょ",
+    "english": "the Imperial Palace",
+    "lesson": 5
+  },
+  {
+    "japanese": "こうこう",
+    "english": "high school",
+    "lesson": 9
+  },
+  {
+    "japanese": "こうさてん",
+    "english": "crossing/intersection",
+    "lesson": 6
+  },
+  {
+    "japanese": "こうじょう",
+    "english": "factory",
+    "lesson": 13
+  },
+  {
+    "japanese": "こうやって",
+    "english": "like this",
+    "lesson": 15
+  },
+  {
+    "japanese": "コース",
+    "english": "course",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "コート",
+    "english": "coat",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "コーナー",
+    "english": "corner/section",
+    "lesson": 10
+  },
+  {
+    "japanese": "コーヒーカップ",
+    "english": "coffee cup",
+    "lesson": 17
+  },
+  {
+    "japanese": "コーヒーショップ",
+    "english": "coffee shop",
+    "lesson": 7
+  },
+  {
+    "japanese": "こおろぎ",
+    "english": "cricket",
+    "lesson": 3
+  },
+  {
+    "japanese": "こくさいでんわ（します）",
+    "english": "(to make) an international call",
+    "lesson": 14
+  },
+  {
+    "japanese": "こけし",
+    "english": "kokeshi doll (Japanese cylindrical wooden doll)　",
+    "lesson": 10
+  },
+  {
+    "japanese": "ごけっこん（けっこん）",
+    "english": "marriage <polite>",
+    "lesson": 18
+  },
+  {
+    "japanese": "ここ",
+    "english": "this/here",
+    "lesson": 5
+  },
+  {
+    "japanese": "ごご",
+    "english": "p.m./afternoon",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "こし",
+    "english": "lower back/waist/hips",
+    "lesson": 15
+  },
+  {
+    "japanese": "ごしゅじん",
+    "english": "(someone else's) husband",
+    "lesson": 1
+  },
+  {
+    "japanese": "こたえ",
+    "english": "answer",
+    "lesson": 16
+  },
+  {
+    "japanese": "こたえます",
+    "english": "to answer",
+    "lesson": 16
+  },
+  {
+    "japanese": "こたつ",
+    "english": "kotatsu (low, covered table with a heat source underneath)",
+    "lesson": 3
+  },
+  {
+    "japanese": "こちら",
+    "english": "this person <polite>",
+    "lesson": 14
+  },
+  {
+    "japanese": "こちらこそ",
+    "english": "Same to you.",
+    "lesson": 14
+  },
+  {
+    "japanese": "こっち",
+    "english": "this side",
+    "lesson": 4
+  },
+  {
+    "japanese": "コップ",
+    "english": "glass/cup",
+    "lesson": 11
+  },
+  {
+    "japanese": "こと",
+    "english": "thing/matter",
+    "lesson": 2
+  },
+  {
+    "japanese": "こども",
+    "english": "child",
+    "lesson": 2
+  },
+  {
+    "japanese": "こどもたち",
+    "english": "children",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "この",
+    "english": "this ～",
+    "lesson": 5
+  },
+  {
+    "japanese": "ごはん",
+    "english": "meal",
+    "lesson": 15
+  },
+  {
+    "japanese": "コピー（します）",
+    "english": "to copy",
+    "lesson": 14
+  },
+  {
+    "japanese": "コピーき",
+    "english": "copy machine",
+    "lesson": 14
+  },
+  {
+    "japanese": "ごみぶくろ",
+    "english": "trash/garbage bag",
+    "lesson": 11
+  },
+  {
+    "japanese": "これ",
+    "english": "this",
+    "lesson": 14
+  },
+  {
+    "japanese": "これからも",
+    "english": "as before",
+    "lesson": 18
+  },
+  {
+    "japanese": "ごろ",
+    "english": "about",
+    "lesson": 3
+  },
+  {
+    "japanese": "こわれます",
+    "english": "to get broken",
+    "lesson": 14
+  },
+  {
+    "japanese": "こんど",
+    "english": "next time",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "こんにちは",
+    "english": "Hello.",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "コンピューター",
+    "english": "computer",
+    "lesson": 14
+  },
+  {
+    "japanese": "こんぶ",
+    "english": "kombu seaweed",
+    "lesson": 12
+  },
+  {
+    "japanese": "さいきん",
+    "english": "recently",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "サイクリング",
+    "english": "cycling",
+    "lesson": 2
+  },
+  {
+    "japanese": "さいご",
+    "english": "last",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "サイト",
+    "english": "website",
+    "lesson": 9
+  },
+  {
+    "japanese": "さいとう／さいとうさん",
+    "english": "Saitoo/Ms. Saitoo",
+    "lesson": 13
+  },
+  {
+    "japanese": "さかな",
+    "english": "fish",
+    "lesson": 8
+  },
+  {
+    "japanese": "さくら",
+    "english": "cherry blossom/cherry tree",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "サッカー(します）",
+    "english": "to play soccer/football",
+    "lesson": 2
+  },
+  {
+    "japanese": "ざっし",
+    "english": "magazine",
+    "lesson": 10
+  },
+  {
+    "japanese": "さっぽろ",
+    "english": "Sapporo ",
+    "lesson": 4
+  },
+  {
+    "japanese": "さとう／さとうさん",
+    "english": "Satoo/Ms. Satoo",
+    "lesson": 2
+  },
+  {
+    "japanese": "さま",
+    "english": "Mr./Ms./Mrs./Miss <polite equivalent of ～さん>",
+    "lesson": 13
+  },
+  {
+    "japanese": "さむい",
+    "english": "cold",
+    "lesson": 3
+  },
+  {
+    "japanese": "さら",
+    "english": "dish/plate",
+    "lesson": 11
+  },
+  {
+    "japanese": "サラダ",
+    "english": "salad",
+    "lesson": 11
+  },
+  {
+    "japanese": "さん",
+    "english": "Mr./Ms./Mrs./Miss",
+    "lesson": 1
+  },
+  {
+    "japanese": "サンドイッチ",
+    "english": "sandwich",
+    "lesson": 11
+  },
+  {
+    "japanese": "サンパウロ",
+    "english": "Sao Paulo ",
+    "lesson": 4
+  },
+  {
+    "japanese": "さんぽ（します）",
+    "english": "to take a walk/stroll",
+    "lesson": 2
+  },
+  {
+    "japanese": "じ",
+    "english": "～ o'clock",
+    "lesson": 7
+  },
+  {
+    "japanese": "しあい",
+    "english": "game (sports)",
+    "lesson": 2
+  },
+  {
+    "japanese": "しあわせ（な）",
+    "english": "happy",
+    "lesson": 18
+  },
+  {
+    "japanese": "シート",
+    "english": "picnic blanket (waterproof tarpaulin sheet )",
+    "lesson": 11
+  },
+  {
+    "japanese": "じかん",
+    "english": "～ hour(s)",
+    "lesson": 5
+  },
+  {
+    "japanese": "じかん",
+    "english": "time",
+    "lesson": 7
+  },
+  {
+    "japanese": "じこしょうかい",
+    "english": "self-introduction",
+    "lesson": 2
+  },
+  {
+    "japanese": "しごと",
+    "english": "job/work",
+    "lesson": 1
+  },
+  {
+    "japanese": "じさ",
+    "english": "time difference",
+    "lesson": 13
+  },
+  {
+    "japanese": "ししゃ",
+    "english": "branch office",
+    "lesson": 13
+  },
+  {
+    "japanese": "ししゅう",
+    "english": "embroidery",
+    "lesson": 10
+  },
+  {
+    "japanese": "じしょ",
+    "english": "dictionary",
+    "lesson": 9
+  },
+  {
+    "japanese": "しずか（な）",
+    "english": "quiet",
+    "lesson": 5
+  },
+  {
+    "japanese": "しつもん",
+    "english": "question",
+    "lesson": 16
+  },
+  {
+    "japanese": "シドニー",
+    "english": "Sydney",
+    "lesson": 4
+  },
+  {
+    "japanese": "じぶん",
+    "english": "oneself",
+    "lesson": 14
+  },
+  {
+    "japanese": "します",
+    "english": "to do",
+    "lesson": 1
+  },
+  {
+    "japanese": "します（～に）",
+    "english": "to have ～/to decide to",
+    "lesson": 11
+  },
+  {
+    "japanese": "ジム",
+    "english": "gym",
+    "lesson": 16
+  },
+  {
+    "japanese": "じむ",
+    "english": "office work",
+    "lesson": 14
+  },
+  {
+    "japanese": "じゃあ／じゃ",
+    "english": "well/then",
+    "lesson": 3
+  },
+  {
+    "japanese": "ジャカルタ",
+    "english": "Jakarta",
+    "lesson": 4
+  },
+  {
+    "japanese": "しゃけ／さけ",
+    "english": "salmon",
+    "lesson": 12
+  },
+  {
+    "japanese": "しゃしん",
+    "english": "photograph",
+    "lesson": 2
+  },
+  {
+    "japanese": "しゃちょう",
+    "english": "president of a company",
+    "lesson": 14
+  },
+  {
+    "japanese": "シャツ",
+    "english": "shirt",
+    "lesson": 17
+  },
+  {
+    "japanese": "シャワー",
+    "english": "shower",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "しゅう",
+    "english": "week",
+    "lesson": 10
+  },
+  {
+    "japanese": "しゅうしょく（します）",
+    "english": "to get a job",
+    "lesson": 17
+  },
+  {
+    "japanese": "ジュース",
+    "english": "juice",
+    "lesson": 11
+  },
+  {
+    "japanese": "じゅうたい",
+    "english": "traffic jam",
+    "lesson": 7
+  },
+  {
+    "japanese": "しゅうまつ",
+    "english": "weekend",
+    "lesson": 16
+  },
+  {
+    "japanese": "じゅうよっか",
+    "english": "the fourteenth day of the month",
+    "lesson": 13
+  },
+  {
+    "japanese": "しゅっさん（します）",
+    "english": "to give birth",
+    "lesson": 17
+  },
+  {
+    "japanese": "しゅっちょう（します）",
+    "english": "to make a business trip",
+    "lesson": 10
+  },
+  {
+    "japanese": "しゅっぱつ（します）",
+    "english": "to depart/departure",
+    "lesson": 13
+  },
+  {
+    "japanese": "しゅふ",
+    "english": "housewife/homemaker",
+    "lesson": 1
+  },
+  {
+    "japanese": "しゅみ",
+    "english": "hobby/interest",
+    "lesson": 2
+  },
+  {
+    "japanese": "しょうかい（します）",
+    "english": "to introduce someone",
+    "lesson": "1ス"
+  },
+  {
+    "japanese": "しょうがっこう",
+    "english": "elementary school",
+    "lesson": 9
+  },
+  {
+    "japanese": "しょうぎ",
+    "english": "shoogi (Japanese chess)",
+    "lesson": 2
+  },
+  {
+    "japanese": "じょうず（な）",
+    "english": "be good at",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "じょうば",
+    "english": "horse riding",
+    "lesson": 2
+  },
+  {
+    "japanese": "しょうらい",
+    "english": "future",
+    "lesson": 10
+  },
+  {
+    "japanese": "ジョギング（します）",
+    "english": "to jog",
+    "lesson": 16
+  },
+  {
+    "japanese": "しょくじ（します）",
+    "english": "(to have) a meal",
+    "lesson": 8
+  },
+  {
+    "japanese": "しょっぱい",
+    "english": "salty",
+    "lesson": 12
+  },
+  {
+    "japanese": "じょやのかね",
+    "english": "the tolling of temple bells at midnight on New Year's Eve",
+    "lesson": 3
+  },
+  {
+    "japanese": "しります",
+    "english": "to know",
+    "lesson": 13
+  },
+  {
+    "japanese": "しろ",
+    "english": "white",
+    "lesson": 11
+  },
+  {
+    "japanese": "しろい",
+    "english": "white",
+    "lesson": 6
+  },
+  {
+    "japanese": "じん",
+    "english": "people from ～ (nationality)",
+    "lesson": 1
+  },
+  {
+    "japanese": "しんいち／しんいちさん",
+    "english": "Shin'ichi/Mr.Shin'ichi",
+    "lesson": 13
+  },
+  {
+    "japanese": "しんごう",
+    "english": "traffic light ",
+    "lesson": 6
+  },
+  {
+    "japanese": "しんこきゅう",
+    "english": "deep breathing",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "しんじゅく",
+    "english": "Shinjuku ",
+    "lesson": 5
+  },
+  {
+    "japanese": "しんせき",
+    "english": "relative",
+    "lesson": 1
+  },
+  {
+    "japanese": "すい（すいようび）",
+    "english": "Wednesday",
+    "lesson": 13
+  },
+  {
+    "japanese": "すいえい",
+    "english": "swimming",
+    "lesson": 2
+  },
+  {
+    "japanese": "すいかわり",
+    "english": "watermelon splitting (game played in summer)",
+    "lesson": 3
+  },
+  {
+    "japanese": "すいじょうバス",
+    "english": "water bus",
+    "lesson": 8
+  },
+  {
+    "japanese": "すいぞくかん",
+    "english": "aquarium",
+    "lesson": 8
+  },
+  {
+    "japanese": "すいます",
+    "english": "to breathe in/to inhale",
+    "lesson": 15
+  },
+  {
+    "japanese": "すいます",
+    "english": "to smoke　",
+    "lesson": 16
+  },
+  {
+    "japanese": "スープ",
+    "english": "soup",
+    "lesson": 12
+  },
+  {
+    "japanese": "スカイツリー",
+    "english": "Tokyo Sky Tree (a landmark in Tokyo)",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "すき（な）",
+    "english": "like/favorite",
+    "lesson": 2
+  },
+  {
+    "japanese": "スキー",
+    "english": "ski",
+    "lesson": 3
+  },
+  {
+    "japanese": "すきます",
+    "english": "not full",
+    "lesson": 13
+  },
+  {
+    "japanese": "すぐ",
+    "english": "close by/right away",
+    "lesson": 6
+  },
+  {
+    "japanese": "スケジュール",
+    "english": "schedule",
+    "lesson": 13
+  },
+  {
+    "japanese": "すごい",
+    "english": "terrible/great",
+    "lesson": 4
+  },
+  {
+    "japanese": "すこし",
+    "english": "a little/a few",
+    "lesson": 1
+  },
+  {
+    "japanese": "すずき／すずきさん",
+    "english": "Suzuki/Ms.Suzuki",
+    "lesson": 1
+  },
+  {
+    "japanese": "すずしい",
+    "english": "cool (climate)",
+    "lesson": 3
+  },
+  {
+    "japanese": "スタッフ",
+    "english": "staff",
+    "lesson": 14
+  },
+  {
+    "japanese": "ずっと",
+    "english": "all the time",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "すっぱい",
+    "english": "sour",
+    "lesson": 12
+  },
+  {
+    "japanese": "ステージ",
+    "english": "stage",
+    "lesson": 10
+  },
+  {
+    "japanese": "すてき（な）",
+    "english": "lovely",
+    "lesson": 17
+  },
+  {
+    "japanese": "ストレス",
+    "english": "stress",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "スペイン",
+    "english": "Spain",
+    "lesson": 9
+  },
+  {
+    "japanese": "スペインご",
+    "english": "Spanish language",
+    "lesson": 9
+  },
+  {
+    "japanese": "スポーツ",
+    "english": "sports",
+    "lesson": 16
+  },
+  {
+    "japanese": "すみます",
+    "english": "to live",
+    "lesson": 1
+  },
+  {
+    "japanese": "すみません",
+    "english": "Excuse me./I'm sorry.",
+    "lesson": 6
+  },
+  {
+    "japanese": "せいかつ",
+    "english": "life",
+    "lesson": 10
+  },
+  {
+    "japanese": "セーター",
+    "english": "sweater",
+    "lesson": 17
+  },
+  {
+    "japanese": "せかい",
+    "english": "world",
+    "lesson": 4
+  },
+  {
+    "japanese": "せかいいち",
+    "english": "the number one in the world",
+    "lesson": 8
+  },
+  {
+    "japanese": "せなか",
+    "english": "back",
+    "lesson": 15
+  },
+  {
+    "japanese": "ぜひ",
+    "english": "by all means",
+    "lesson": 5
+  },
+  {
+    "japanese": "せみ",
+    "english": "cicada",
+    "lesson": 3
+  },
+  {
+    "japanese": "せんしゅう",
+    "english": "last week",
+    "lesson": 4
+  },
+  {
+    "japanese": "ぜんぜん（～ない）",
+    "english": "(not) at all",
+    "lesson": "9ス"
+  },
+  {
+    "japanese": "センチ",
+    "english": "centimeter",
+    "lesson": 4
+  },
+  {
+    "japanese": "そう",
+    "english": "so",
+    "lesson": 2
+  },
+  {
+    "japanese": "ソウル",
+    "english": "Seoul",
+    "lesson": 4
+  },
+  {
+    "japanese": "ソーセージ",
+    "english": "sausage",
+    "lesson": 10
+  },
+  {
+    "japanese": "そして",
+    "english": "and",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "そつぎょう（します）",
+    "english": "to graduate (from school)",
+    "lesson": 17
+  },
+  {
+    "japanese": "そっち",
+    "english": "that way/over there",
+    "lesson": 4
+  },
+  {
+    "japanese": "そと",
+    "english": "out/outside/outdoors",
+    "lesson": 11
+  },
+  {
+    "japanese": "その",
+    "english": "that ～",
+    "lesson": 9
+  },
+  {
+    "japanese": "そふ",
+    "english": "grandfather/(my) grandfather",
+    "lesson": 1
+  },
+  {
+    "japanese": "そぼ",
+    "english": "grandmother/(my) grandmother",
+    "lesson": 1
+  },
+  {
+    "japanese": "それ",
+    "english": "that",
+    "lesson": 12
+  },
+  {
+    "japanese": "それから",
+    "english": "and then",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "それじゃあ／それでは",
+    "english": "See you, then.",
+    "lesson": 14
+  },
+  {
+    "japanese": "タイ",
+    "english": "Thailand",
+    "lesson": 10
+  },
+  {
+    "japanese": "だい～",
+    "english": "number ～/No. ～",
+    "lesson": 13
+  },
+  {
+    "japanese": "だいがく",
+    "english": "university",
+    "lesson": 9
+  },
+  {
+    "japanese": "たいしかん",
+    "english": "embassy",
+    "lesson": 6
+  },
+  {
+    "japanese": "だいじょうぶ（な）",
+    "english": "okay/all right",
+    "lesson": 7
+  },
+  {
+    "japanese": "タイじん",
+    "english": "Thai people",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "だいすき（な）",
+    "english": "like very much",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "たいせつ（な）",
+    "english": "important",
+    "lesson": 18
+  },
+  {
+    "japanese": "たいせつに します",
+    "english": "to take care/to treasure",
+    "lesson": 18
+  },
+  {
+    "japanese": "たいそう（します）",
+    "english": "to do physical　exercises",
+    "lesson": 15
+  },
+  {
+    "japanese": "だいたい",
+    "english": "generally/roughly ",
+    "lesson": 3
+  },
+  {
+    "japanese": "たいへん（な）",
+    "english": "terrible/tough/hard",
+    "lesson": 4
+  },
+  {
+    "japanese": "たうえ",
+    "english": "rice-planting",
+    "lesson": 3
+  },
+  {
+    "japanese": "タウン",
+    "english": "town",
+    "lesson": 5
+  },
+  {
+    "japanese": "たかい",
+    "english": "expensive",
+    "lesson": 5
+  },
+  {
+    "japanese": "たかい",
+    "english": "high",
+    "lesson": 6
+  },
+  {
+    "japanese": "たかく（たかい）",
+    "english": "high",
+    "lesson": 15
+  },
+  {
+    "japanese": "たくさん",
+    "english": "many/much",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "たこあげ",
+    "english": "kite-flying",
+    "lesson": 2
+  },
+  {
+    "japanese": "タコス",
+    "english": "tacos (Mexican food)",
+    "lesson": 10
+  },
+  {
+    "japanese": "たてもの",
+    "english": "building",
+    "lesson": 6
+  },
+  {
+    "japanese": "たとえば",
+    "english": "for example ",
+    "lesson": 17
+  },
+  {
+    "japanese": "たなか／たなかさん",
+    "english": "Tanaka/Mr.Tanaka",
+    "lesson": 2
+  },
+  {
+    "japanese": "たのしい",
+    "english": "fun/enjoyable",
+    "lesson": 5
+  },
+  {
+    "japanese": "たのしみ",
+    "english": "pleasure/looking forward to something",
+    "lesson": 7
+  },
+  {
+    "japanese": "たばこ",
+    "english": "tobacco",
+    "lesson": 16
+  },
+  {
+    "japanese": "たぶん",
+    "english": "perhaps/maybe",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "たべます",
+    "english": "to eat",
+    "lesson": 8
+  },
+  {
+    "japanese": "たべもの",
+    "english": "food",
+    "lesson": 3
+  },
+  {
+    "japanese": "たまご",
+    "english": "egg",
+    "lesson": 12
+  },
+  {
+    "japanese": "たまごやき",
+    "english": "(Japanese-style) omelet/rolled egg",
+    "lesson": 11
+  },
+  {
+    "japanese": "だめ（な）",
+    "english": "no good/not permitted/impossible",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "タワー",
+    "english": "tower",
+    "lesson": 6
+  },
+  {
+    "japanese": "たんご",
+    "english": "word",
+    "lesson": 9
+  },
+  {
+    "japanese": "たんじょうび",
+    "english": "birthday",
+    "lesson": 17
+  },
+  {
+    "japanese": "ダンス",
+    "english": "dance",
+    "lesson": 10
+  },
+  {
+    "japanese": "たんぼ",
+    "english": "rice field",
+    "lesson": 3
+  },
+  {
+    "japanese": "ちいさい",
+    "english": "small",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "チーズ",
+    "english": "cheese",
+    "lesson": 12
+  },
+  {
+    "japanese": "チーム",
+    "english": "team",
+    "lesson": "2ス"
+  },
+  {
+    "japanese": "チェス",
+    "english": "chess",
+    "lesson": 2
+  },
+  {
+    "japanese": "チェック（します）",
+    "english": "to check",
+    "lesson": 13
+  },
+  {
+    "japanese": "ちかい",
+    "english": "near",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "ちがいます",
+    "english": "to be different",
+    "lesson": 9
+  },
+  {
+    "japanese": "ちかく",
+    "english": "nearby",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "チキンカレー",
+    "english": "chicken curry",
+    "lesson": 2
+  },
+  {
+    "japanese": "ちず",
+    "english": "map",
+    "lesson": 10
+  },
+  {
+    "japanese": "ちち",
+    "english": "father/(my) father",
+    "lesson": 1
+  },
+  {
+    "japanese": "チヂミ",
+    "english": "buchimgae/chijimi (Korean food)",
+    "lesson": 10
+  },
+  {
+    "japanese": "ちゅう",
+    "english": "in progress",
+    "lesson": "14ス"
+  },
+  {
+    "japanese": "ちゅうがっこう",
+    "english": "junior high school",
+    "lesson": 9
+  },
+  {
+    "japanese": "ちゅうごく",
+    "english": "China",
+    "lesson": 1
+  },
+  {
+    "japanese": "ちゅうごくご",
+    "english": "Chinese language",
+    "lesson": 1
+  },
+  {
+    "japanese": "ちょう～",
+    "english": "super ～/ultra ～",
+    "lesson": 2
+  },
+  {
+    "japanese": "チョコレート",
+    "english": "chocolate",
+    "lesson": 11
+  },
+  {
+    "japanese": "ちょっと",
+    "english": "a little/a few/a moment",
+    "lesson": 5
+  },
+  {
+    "japanese": "つうやく",
+    "english": "interpreter",
+    "lesson": 10
+  },
+  {
+    "japanese": "つかいます",
+    "english": "to use",
+    "lesson": 9
+  },
+  {
+    "japanese": "つかれます",
+    "english": "to get tired",
+    "lesson": 13
+  },
+  {
+    "japanese": "つき",
+    "english": "month",
+    "lesson": 10
+  },
+  {
+    "japanese": "つぎ",
+    "english": "next",
+    "lesson": 16
+  },
+  {
+    "japanese": "つきじ",
+    "english": "Tsukiji",
+    "lesson": 5
+  },
+  {
+    "japanese": "つきます",
+    "english": "to arrive",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "つきみ",
+    "english": "viewing the moon",
+    "lesson": 3
+  },
+  {
+    "japanese": "つくります",
+    "english": "to make/to cook",
+    "lesson": 2
+  },
+  {
+    "japanese": "つけもの",
+    "english": "pickles",
+    "lesson": 12
+  },
+  {
+    "japanese": "つたえます",
+    "english": "to pass on a message",
+    "lesson": 14
+  },
+  {
+    "japanese": "ツナ",
+    "english": "tuna",
+    "lesson": 12
+  },
+  {
+    "japanese": "つま",
+    "english": "wife/(my) wife",
+    "lesson": 1
+  },
+  {
+    "japanese": "つもります",
+    "english": "to pile up/to be covered with",
+    "lesson": 4
+  },
+  {
+    "japanese": "つゆ",
+    "english": "rainy season",
+    "lesson": 3
+  },
+  {
+    "japanese": "つよい",
+    "english": "strong",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "て",
+    "english": "hand",
+    "lesson": 15
+  },
+  {
+    "japanese": "でかけます",
+    "english": "to go out",
+    "lesson": 7
+  },
+  {
+    "japanese": "できます",
+    "english": "can do/to be able to do",
+    "lesson": 1
+  },
+  {
+    "japanese": "てつだいます",
+    "english": "to help",
+    "lesson": 10
+  },
+  {
+    "japanese": "デパート",
+    "english": "department store",
+    "lesson": 6
+  },
+  {
+    "japanese": "でます（おゆが）",
+    "english": "to come out",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "でむかえ",
+    "english": "to pick up someone/to meet a person at the airport, station etc.",
+    "lesson": 13
+  },
+  {
+    "japanese": "でも",
+    "english": "but",
+    "lesson": 12
+  },
+  {
+    "japanese": "てんき",
+    "english": "weather",
+    "lesson": 3
+  },
+  {
+    "japanese": "でんき",
+    "english": "light/electricity",
+    "lesson": 13
+  },
+  {
+    "japanese": "でんきてん",
+    "english": "electronics store",
+    "lesson": 5
+  },
+  {
+    "japanese": "でんしじしょ",
+    "english": "electronic dictionary",
+    "lesson": 9
+  },
+  {
+    "japanese": "でんしゃ",
+    "english": "train",
+    "lesson": 7
+  },
+  {
+    "japanese": "てんぷら",
+    "english": "tempura",
+    "lesson": 8
+  },
+  {
+    "japanese": "でんわ",
+    "english": "telephone",
+    "lesson": 10
+  },
+  {
+    "japanese": "でんわばんごう",
+    "english": "telephone number",
+    "lesson": 13
+  },
+  {
+    "japanese": "ど",
+    "english": "～ degrees (for temperature)",
+    "lesson": 3
+  },
+  {
+    "japanese": "ドイツ",
+    "english": "Germany",
+    "lesson": 9
+  },
+  {
+    "japanese": "ドイツご",
+    "english": "German language",
+    "lesson": 9
+  },
+  {
+    "japanese": "ドイツじん",
+    "english": "German people",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "どう",
+    "english": "how",
+    "lesson": 4
+  },
+  {
+    "japanese": "とうきょう",
+    "english": "Tokyo",
+    "lesson": 1
+  },
+  {
+    "japanese": "どうして",
+    "english": "why",
+    "lesson": 3
+  },
+  {
+    "japanese": "どうぞ",
+    "english": "Please./Here you are.",
+    "lesson": 9
+  },
+  {
+    "japanese": "とうちゃく（します）",
+    "english": "to arrive/arrival",
+    "lesson": 13
+  },
+  {
+    "japanese": "どうぶつ",
+    "english": "animal",
+    "lesson": 8
+  },
+  {
+    "japanese": "どうぶつえん",
+    "english": "zoo",
+    "lesson": 5
+  },
+  {
+    "japanese": "どうも",
+    "english": "very much",
+    "lesson": 6
+  },
+  {
+    "japanese": "どうやって",
+    "english": "how",
+    "lesson": "6ス"
+  },
+  {
+    "japanese": "とおい",
+    "english": "far",
+    "lesson": 5
+  },
+  {
+    "japanese": "とおか",
+    "english": "the tenth day of the month",
+    "lesson": 13
+  },
+  {
+    "japanese": "とおり",
+    "english": "street",
+    "lesson": 6
+  },
+  {
+    "japanese": "とき",
+    "english": "time",
+    "lesson": 2
+  },
+  {
+    "japanese": "ときどき",
+    "english": "sometimes",
+    "lesson": 10
+  },
+  {
+    "japanese": "とくい（な）",
+    "english": "to be good at ",
+    "lesson": 2
+  },
+  {
+    "japanese": "どくしょ",
+    "english": "reading",
+    "lesson": 2
+  },
+  {
+    "japanese": "とくに",
+    "english": "especially",
+    "lesson": 2
+  },
+  {
+    "japanese": "とけい",
+    "english": "clock",
+    "lesson": 17
+  },
+  {
+    "japanese": "どこ",
+    "english": "where",
+    "lesson": 6
+  },
+  {
+    "japanese": "どっち",
+    "english": "which (out of two, and casual style of speech)",
+    "lesson": 11
+  },
+  {
+    "japanese": "とても",
+    "english": "very",
+    "lesson": 3
+  },
+  {
+    "japanese": "となり",
+    "english": "next to/beside",
+    "lesson": "6ス"
+  },
+  {
+    "japanese": "どの",
+    "english": "which (among more than three) ～",
+    "lesson": 5
+  },
+  {
+    "japanese": "どのぐらい",
+    "english": "how long",
+    "lesson": 16
+  },
+  {
+    "japanese": "トマト",
+    "english": "tomato",
+    "lesson": 12
+  },
+  {
+    "japanese": "とまります",
+    "english": "to stop",
+    "lesson": 7
+  },
+  {
+    "japanese": "ともだち",
+    "english": "friend",
+    "lesson": 2
+  },
+  {
+    "japanese": "とやま",
+    "english": "Toyama ",
+    "lesson": 4
+  },
+  {
+    "japanese": "どようび／ど",
+    "english": "Saturday",
+    "lesson": 7
+  },
+  {
+    "japanese": "ドライバー",
+    "english": "driver",
+    "lesson": 13
+  },
+  {
+    "japanese": "ドライブ",
+    "english": "going for a drive/driving",
+    "lesson": 2
+  },
+  {
+    "japanese": "ドラマ",
+    "english": "drama",
+    "lesson": 10
+  },
+  {
+    "japanese": "とります",
+    "english": "to take (a photo)",
+    "lesson": 2
+  },
+  {
+    "japanese": "どれ",
+    "english": "which one (of three or more)",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "トレーニング（します）",
+    "english": "to train/training",
+    "lesson": 16
+  },
+  {
+    "japanese": "どんな",
+    "english": "what kind of ～",
+    "lesson": 2
+  },
+  {
+    "japanese": "なか",
+    "english": "in/inside",
+    "lesson": 10
+  },
+  {
+    "japanese": "ながい",
+    "english": "long",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "なかむら／なかむらさん",
+    "english": "Nakamura/Ms.Nakamura",
+    "lesson": 1
+  },
+  {
+    "japanese": "なし（ない）",
+    "english": "none",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "なつ",
+    "english": "summer",
+    "lesson": 3
+  },
+  {
+    "japanese": "なつやすみ",
+    "english": "summer holidays",
+    "lesson": "3ス"
+  },
+  {
+    "japanese": "なに／なん",
+    "english": "what",
+    "lesson": 2
+  },
+  {
+    "japanese": "なにか",
+    "english": "something",
+    "lesson": 16
+  },
+  {
+    "japanese": "なにも（～ない）",
+    "english": "nothing",
+    "lesson": 16
+  },
+  {
+    "japanese": "なべりょうり",
+    "english": "hot pot meal",
+    "lesson": 3
+  },
+  {
+    "japanese": "なまえ",
+    "english": "name",
+    "lesson": 9
+  },
+  {
+    "japanese": "ならいます",
+    "english": "to learn",
+    "lesson": 10
+  },
+  {
+    "japanese": "なります(～に／～く）　",
+    "english": "to be/to become",
+    "lesson": 2
+  },
+  {
+    "japanese": "にあいます",
+    "english": "to fit ",
+    "lesson": 17
+  },
+  {
+    "japanese": "にがて（な）",
+    "english": "not good at/be poor at",
+    "lesson": 3
+  },
+  {
+    "japanese": "にぎやか（な）",
+    "english": "busy/lively",
+    "lesson": 5
+  },
+  {
+    "japanese": "にしぐち",
+    "english": "west exit",
+    "lesson": 5
+  },
+  {
+    "japanese": "にじゅうよっか",
+    "english": "the twenty-fourth day of the month",
+    "lesson": 13
+  },
+  {
+    "japanese": "にち",
+    "english": "day",
+    "lesson": 13
+  },
+  {
+    "japanese": "にちようび／にち",
+    "english": "Sunday",
+    "lesson": 7
+  },
+  {
+    "japanese": "にほん／にっぽん",
+    "english": "Japan",
+    "lesson": 1
+  },
+  {
+    "japanese": "にほんご",
+    "english": "Japanese language",
+    "lesson": 1
+  },
+  {
+    "japanese": "にほんしゅ",
+    "english": "Japanese sake/rice wine",
+    "lesson": 11
+  },
+  {
+    "japanese": "にほんじん",
+    "english": "Japanese people",
+    "lesson": 1
+  },
+  {
+    "japanese": "にます",
+    "english": "to be similar",
+    "lesson": 9
+  },
+  {
+    "japanese": "にゅうがく（します）",
+    "english": "to enter a school",
+    "lesson": 17
+  },
+  {
+    "japanese": "にゅうがくしき",
+    "english": "(school) entrance ceremony",
+    "lesson": 3
+  },
+  {
+    "japanese": "ニューヨーク",
+    "english": "New York",
+    "lesson": 4
+  },
+  {
+    "japanese": "にん",
+    "english": "<counter for counting people>",
+    "lesson": 1
+  },
+  {
+    "japanese": "にんぎょう",
+    "english": "doll",
+    "lesson": 2
+  },
+  {
+    "japanese": "ネクタイ",
+    "english": "necktie",
+    "lesson": 17
+  },
+  {
+    "japanese": "ネックレス",
+    "english": "necklace",
+    "lesson": 17
+  },
+  {
+    "japanese": "ねます",
+    "english": "to go to bed",
+    "lesson": 15
+  },
+  {
+    "japanese": "ねん",
+    "english": "year",
+    "lesson": 10
+  },
+  {
+    "japanese": "ねん",
+    "english": "～ year",
+    "lesson": 9
+  },
+  {
+    "japanese": "のだ／のださん",
+    "english": "Noda/Mr.Noda",
+    "lesson": 2
+  },
+  {
+    "japanese": "のみます",
+    "english": "to drink",
+    "lesson": 15
+  },
+  {
+    "japanese": "のみもの",
+    "english": "drink",
+    "lesson": 11
+  },
+  {
+    "japanese": "のります",
+    "english": "to get on/to ride",
+    "lesson": 8
+  },
+  {
+    "japanese": "は",
+    "english": "a tooth/teeth",
+    "lesson": 15
+  },
+  {
+    "japanese": "パーティー",
+    "english": "party",
+    "lesson": 18
+  },
+  {
+    "japanese": "はい",
+    "english": "yes",
+    "lesson": 4
+  },
+  {
+    "japanese": "はいります",
+    "english": "to enter/to get into",
+    "lesson": 15
+  },
+  {
+    "japanese": "はきます",
+    "english": "to breathe out/to exhale",
+    "lesson": 15
+  },
+  {
+    "japanese": "はくぶつかん",
+    "english": "museum",
+    "lesson": 6
+  },
+  {
+    "japanese": "はし",
+    "english": "bridge",
+    "lesson": 6
+  },
+  {
+    "japanese": "はし",
+    "english": "chopsticks",
+    "lesson": 11
+  },
+  {
+    "japanese": "はじめまして",
+    "english": "Nice to meet you.",
+    "lesson": 2
+  },
+  {
+    "japanese": "ばしょ",
+    "english": "place/venue",
+    "lesson": 7
+  },
+  {
+    "japanese": "はしります",
+    "english": "to run",
+    "lesson": 16
+  },
+  {
+    "japanese": "バス",
+    "english": "bus",
+    "lesson": 5
+  },
+  {
+    "japanese": "パソコン",
+    "english": "(personal) computer",
+    "lesson": 14
+  },
+  {
+    "japanese": "はたらきます",
+    "english": "to work",
+    "lesson": 1
+  },
+  {
+    "japanese": "はつおん",
+    "english": "pronunciation",
+    "lesson": 9
+  },
+  {
+    "japanese": "はつか",
+    "english": "the twentieth day of the month",
+    "lesson": 13
+  },
+  {
+    "japanese": "バッハ",
+    "english": "Bach (Johann Sebastian)",
+    "lesson": 2
+  },
+  {
+    "japanese": "はな",
+    "english": "flower",
+    "lesson": 3
+  },
+  {
+    "japanese": "はな",
+    "english": "nose",
+    "lesson": 15
+  },
+  {
+    "japanese": "はなし",
+    "english": "talk/story (what someone is saying)",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "はなします",
+    "english": "to talk/to speak",
+    "lesson": 1
+  },
+  {
+    "japanese": "バナナ",
+    "english": "banana",
+    "lesson": 11
+  },
+  {
+    "japanese": "はなび",
+    "english": "fireworks",
+    "lesson": 3
+  },
+  {
+    "japanese": "はなみ",
+    "english": "cherry-blossom viewing",
+    "lesson": 3
+  },
+  {
+    "japanese": "はは",
+    "english": "mother/(my) mother",
+    "lesson": 1
+  },
+  {
+    "japanese": "ははは",
+    "english": "ha ha ha (laughter)",
+    "lesson": "7ス"
+  },
+  {
+    "japanese": "ハム",
+    "english": "ham",
+    "lesson": 12
+  },
+  {
+    "japanese": "はやい",
+    "english": "early",
+    "lesson": 5
+  },
+  {
+    "japanese": "はやく（はやい）",
+    "english": "soon/quickly",
+    "lesson": 15
+  },
+  {
+    "japanese": "はらじゅく",
+    "english": "Harajuku",
+    "lesson": 5
+  },
+  {
+    "japanese": "はる",
+    "english": "spring",
+    "lesson": 3
+  },
+  {
+    "japanese": "バルセロナ",
+    "english": "Barcelona",
+    "lesson": "2ス"
+  },
+  {
+    "japanese": "はれ",
+    "english": "fine (weather)",
+    "lesson": 4
+  },
+  {
+    "japanese": "はれます",
+    "english": "to be fine (weather)",
+    "lesson": 4
+  },
+  {
+    "japanese": "バレンタイン・デー",
+    "english": "St. Valentine's day",
+    "lesson": 17
+  },
+  {
+    "japanese": "ハロー",
+    "english": "hello",
+    "lesson": 2
+  },
+  {
+    "japanese": "はん",
+    "english": "halt past ～ (time)",
+    "lesson": 13
+  },
+  {
+    "japanese": "ばんごう",
+    "english": "number",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "ひ",
+    "english": "day",
+    "lesson": 17
+  },
+  {
+    "japanese": "ビール",
+    "english": "beer",
+    "lesson": 11
+  },
+  {
+    "japanese": "ひがしぐち",
+    "english": "east exit",
+    "lesson": 5
+  },
+  {
+    "japanese": "ピクニック",
+    "english": "picnic",
+    "lesson": 11
+  },
+  {
+    "japanese": "ピクルス",
+    "english": "pickles",
+    "lesson": 12
+  },
+  {
+    "japanese": "ひさしぶり",
+    "english": "long time no see",
+    "lesson": 4
+  },
+  {
+    "japanese": "びじゅつかん",
+    "english": "art museum",
+    "lesson": 8
+  },
+  {
+    "japanese": "ひしょ",
+    "english": "secretary",
+    "lesson": 14
+  },
+  {
+    "japanese": "ひだり",
+    "english": "left",
+    "lesson": 6
+  },
+  {
+    "japanese": "ひっこし（します）",
+    "english": "to move (house)",
+    "lesson": 18
+  },
+  {
+    "japanese": "ひつよう（な）",
+    "english": "necessary",
+    "lesson": 18
+  },
+  {
+    "japanese": "ひと",
+    "english": "person/people",
+    "lesson": 5
+  },
+  {
+    "japanese": "ひとつ",
+    "english": "one <for things>",
+    "lesson": 6
+  },
+  {
+    "japanese": "ひとつめ",
+    "english": "the first ～",
+    "lesson": 6
+  },
+  {
+    "japanese": "ひま（な）",
+    "english": "free/not occupied",
+    "lesson": 2
+  },
+  {
+    "japanese": "ひまわり",
+    "english": "sunflower",
+    "lesson": 3
+  },
+  {
+    "japanese": "びょういん",
+    "english": "hospital",
+    "lesson": 1
+  },
+  {
+    "japanese": "ひらがな",
+    "english": "hiragana <Japanese scripts>",
+    "lesson": 9
+  },
+  {
+    "japanese": "ひる",
+    "english": "daytime/noon",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "ビル",
+    "english": "building",
+    "lesson": 6
+  },
+  {
+    "japanese": "ひろい",
+    "english": "wide/spacious/big",
+    "lesson": 5
+  },
+  {
+    "japanese": "ピロシキ",
+    "english": "piroshki (Russian food)",
+    "lesson": 10
+  },
+  {
+    "japanese": "びん",
+    "english": "(airline) flight",
+    "lesson": 13
+  },
+  {
+    "japanese": "ファックス",
+    "english": "fax",
+    "lesson": 14
+  },
+  {
+    "japanese": "ファッション",
+    "english": "fashion",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "フィリピン",
+    "english": "Philippines",
+    "lesson": 10
+  },
+  {
+    "japanese": "プール",
+    "english": "pool",
+    "lesson": "16ス"
+  },
+  {
+    "japanese": "ふうん",
+    "english": "hmm/well",
+    "lesson": 1
+  },
+  {
+    "japanese": "ふきます",
+    "english": "to blow",
+    "lesson": 4
+  },
+  {
+    "japanese": "ふくおか",
+    "english": "Fukuoka",
+    "lesson": 4
+  },
+  {
+    "japanese": "ふじさん",
+    "english": "Mt. Fuji",
+    "lesson": 5
+  },
+  {
+    "japanese": "ふたつ",
+    "english": "two <for things>",
+    "lesson": 6
+  },
+  {
+    "japanese": "ふたつめ",
+    "english": "the second ～",
+    "lesson": 6
+  },
+  {
+    "japanese": "ふたり",
+    "english": "two people",
+    "lesson": "1ス"
+  },
+  {
+    "japanese": "ぶどう",
+    "english": "grape",
+    "lesson": 3
+  },
+  {
+    "japanese": "ぶどうがり",
+    "english": "grape picking",
+    "lesson": 3
+  },
+  {
+    "japanese": "ふね",
+    "english": "ship",
+    "lesson": 8
+  },
+  {
+    "japanese": "ふふふ",
+    "english": "he he he (laughter, used mainly by women)",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "ふゆ",
+    "english": "winter",
+    "lesson": 3
+  },
+  {
+    "japanese": "フライト",
+    "english": "flight",
+    "lesson": 13
+  },
+  {
+    "japanese": "ブラジル",
+    "english": "Brazil",
+    "lesson": 1
+  },
+  {
+    "japanese": "フランス",
+    "english": "France",
+    "lesson": 9
+  },
+  {
+    "japanese": "フランスご",
+    "english": "French language",
+    "lesson": 9
+  },
+  {
+    "japanese": "ふります",
+    "english": "to rain/to snow",
+    "lesson": 3
+  },
+  {
+    "japanese": "プリントアウト（します）",
+    "english": "to print out",
+    "lesson": 14
+  },
+  {
+    "japanese": "フルーツケーキ",
+    "english": "fruit cake",
+    "lesson": 2
+  },
+  {
+    "japanese": "プレゼント",
+    "english": "present",
+    "lesson": 17
+  },
+  {
+    "japanese": "ふん／ぷん",
+    "english": "minute",
+    "lesson": 7
+  },
+  {
+    "japanese": "ぶん",
+    "english": "sentence",
+    "lesson": 9
+  },
+  {
+    "japanese": "ぶんか",
+    "english": "culture",
+    "lesson": 9
+  },
+  {
+    "japanese": "ぶんぽう",
+    "english": "grammar",
+    "lesson": 9
+  },
+  {
+    "japanese": "へいきん",
+    "english": "average",
+    "lesson": 3
+  },
+  {
+    "japanese": "へえ",
+    "english": "aah…/Wow.",
+    "lesson": 1
+  },
+  {
+    "japanese": "ペキン",
+    "english": "Beijing",
+    "lesson": 4
+  },
+  {
+    "japanese": "へや",
+    "english": "room",
+    "lesson": 17
+  },
+  {
+    "japanese": "ぺらぺら（な）",
+    "english": "fluent",
+    "lesson": 14
+  },
+  {
+    "japanese": "ペン",
+    "english": "pen",
+    "lesson": 14
+  },
+  {
+    "japanese": "べんきょう（します）",
+    "english": "to study",
+    "lesson": 1
+  },
+  {
+    "japanese": "べんり（な）",
+    "english": "convenient",
+    "lesson": 5
+  },
+  {
+    "japanese": "ボーイフレンド",
+    "english": "boyfriend",
+    "lesson": 17
+  },
+  {
+    "japanese": "ほか",
+    "english": "other",
+    "lesson": 11
+  },
+  {
+    "japanese": "ほそながい",
+    "english": "long and thin",
+    "lesson": 6
+  },
+  {
+    "japanese": "ほっかいどう",
+    "english": "Hokkaidoo",
+    "lesson": "4ス"
+  },
+  {
+    "japanese": "ポテトチップス",
+    "english": "potato chips",
+    "lesson": 11
+  },
+  {
+    "japanese": "ホテル",
+    "english": "hotel",
+    "lesson": 1
+  },
+  {
+    "japanese": "ポルトガル",
+    "english": "Portugal",
+    "lesson": 1
+  },
+  {
+    "japanese": "ポルトガルご",
+    "english": "Portuguese language",
+    "lesson": 1
+  },
+  {
+    "japanese": "ほん",
+    "english": "book",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "ほん／ぼん／ぽん",
+    "english": "<counter for thin and long things>",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "ほんじつきゅうぎょう",
+    "english": "Closed Today",
+    "lesson": "9ス"
+  },
+  {
+    "japanese": "ほんしゃ",
+    "english": "head office",
+    "lesson": 13
+  },
+  {
+    "japanese": "ほんとう",
+    "english": "really",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "ほんとに",
+    "english": "really",
+    "lesson": "12ス"
+  },
+  {
+    "japanese": "ほんやく（します）",
+    "english": "to translate",
+    "lesson": 10
+  },
+  {
+    "japanese": "まあ",
+    "english": "Oh! (used mainly by women)",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "まあまあ（な）",
+    "english": "so so",
+    "lesson": 13
+  },
+  {
+    "japanese": "まいあさ",
+    "english": "every morning",
+    "lesson": 16
+  },
+  {
+    "japanese": "まいにち",
+    "english": "every day",
+    "lesson": 4
+  },
+  {
+    "japanese": "まえ",
+    "english": "front",
+    "lesson": 7
+  },
+  {
+    "japanese": "まお／まおさん",
+    "english": "Mao/Ms.Mao",
+    "lesson": 1
+  },
+  {
+    "japanese": "まがります",
+    "english": "to turn (right/left)",
+    "lesson": 6
+  },
+  {
+    "japanese": "まげます",
+    "english": "to bend",
+    "lesson": 15
+  },
+  {
+    "japanese": "まず",
+    "english": "at first",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "また",
+    "english": "again",
+    "lesson": 7
+  },
+  {
+    "japanese": "まだ",
+    "english": "not yet",
+    "lesson": 8
+  },
+  {
+    "japanese": "まち",
+    "english": "town",
+    "lesson": 5
+  },
+  {
+    "japanese": "まちあわせ（します）",
+    "english": "to meet/appointment",
+    "lesson": 7
+  },
+  {
+    "japanese": "まちがえます",
+    "english": "to make a mistake",
+    "lesson": 7
+  },
+  {
+    "japanese": "まちます",
+    "english": "to wait",
+    "lesson": 7
+  },
+  {
+    "japanese": "まっすぐ（な）",
+    "english": "straight ",
+    "lesson": 6
+  },
+  {
+    "japanese": "まつり",
+    "english": "festival",
+    "lesson": 3
+  },
+  {
+    "japanese": "まよいます",
+    "english": "to get lost/to lose one's way",
+    "lesson": 7
+  },
+  {
+    "japanese": "まり／まりさん",
+    "english": "Mari/Ms.Mari",
+    "lesson": 1
+  },
+  {
+    "japanese": "まるい",
+    "english": "round",
+    "lesson": 6
+  },
+  {
+    "japanese": "マレーシア",
+    "english": "Malaysia",
+    "lesson": 10
+  },
+  {
+    "japanese": "まわします",
+    "english": "to rotate (something)",
+    "lesson": 15
+  },
+  {
+    "japanese": "まんじゅう",
+    "english": "a steamed (bean-jam) bun",
+    "lesson": 12
+  },
+  {
+    "japanese": "みえます",
+    "english": "to be visible/can be seen",
+    "lesson": 6
+  },
+  {
+    "japanese": "みおくり",
+    "english": "a send-off/seeing (a person) off",
+    "lesson": 14
+  },
+  {
+    "japanese": "みぎ",
+    "english": "right",
+    "lesson": 6
+  },
+  {
+    "japanese": "みず",
+    "english": "water ",
+    "lesson": 8
+  },
+  {
+    "japanese": "みせ",
+    "english": "store",
+    "lesson": 5
+  },
+  {
+    "japanese": "みち",
+    "english": "road",
+    "lesson": 6
+  },
+  {
+    "japanese": "みなさん",
+    "english": "everyone",
+    "lesson": 14
+  },
+  {
+    "japanese": "ミニレッスン",
+    "english": "mini lesson",
+    "lesson": 10
+  },
+  {
+    "japanese": "みます",
+    "english": "to see/to look at",
+    "lesson": 2
+  },
+  {
+    "japanese": "みみ",
+    "english": "ear",
+    "lesson": 15
+  },
+  {
+    "japanese": "みんげいひん",
+    "english": "folkcraft",
+    "lesson": 10
+  },
+  {
+    "japanese": "みんな",
+    "english": "everyone",
+    "lesson": 18
+  },
+  {
+    "japanese": "むかえます",
+    "english": "to meet/greet a person at the airport, station etc.",
+    "lesson": 13
+  },
+  {
+    "japanese": "むこう",
+    "english": "the other side (person on the phone)",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "むしあつい",
+    "english": "hot and humid",
+    "lesson": 3
+  },
+  {
+    "japanese": "むずかしい",
+    "english": "difficult",
+    "lesson": 9
+  },
+  {
+    "japanese": "むすこ",
+    "english": "son/(my) son",
+    "lesson": 1
+  },
+  {
+    "japanese": "むすこさん",
+    "english": "(someone else's) son",
+    "lesson": 1
+  },
+  {
+    "japanese": "むすめ",
+    "english": "daughter/(my) daughter",
+    "lesson": 1
+  },
+  {
+    "japanese": "むすめさん",
+    "english": "(someone else's) daughter",
+    "lesson": 1
+  },
+  {
+    "japanese": "むね",
+    "english": "chest",
+    "lesson": 15
+  },
+  {
+    "japanese": "むり（します）",
+    "english": "to do too much/to strain oneself",
+    "lesson": 15
+  },
+  {
+    "japanese": "ムルタバ",
+    "english": "murtabak (Malaysian food)　",
+    "lesson": 10
+  },
+  {
+    "japanese": "め",
+    "english": "eye",
+    "lesson": 15
+  },
+  {
+    "japanese": "メール",
+    "english": "e-mail",
+    "lesson": 13
+  },
+  {
+    "japanese": "メキシコ",
+    "english": "Mexico",
+    "lesson": 10
+  },
+  {
+    "japanese": "めずらしい",
+    "english": "rare",
+    "lesson": 8
+  },
+  {
+    "japanese": "メモ",
+    "english": "memo",
+    "lesson": 11
+  },
+  {
+    "japanese": "もう",
+    "english": "already",
+    "lesson": 8
+  },
+  {
+    "japanese": "もう",
+    "english": "more",
+    "lesson": 9
+  },
+  {
+    "japanese": "モーターズ",
+    "english": "Motors (a fictitious company)",
+    "lesson": 13
+  },
+  {
+    "japanese": "もじ",
+    "english": "letter/character",
+    "lesson": 9
+  },
+  {
+    "japanese": "もしもし",
+    "english": "Hello (on the telephone)",
+    "lesson": 4
+  },
+  {
+    "japanese": "モスクワ",
+    "english": "Moscow",
+    "lesson": 4
+  },
+  {
+    "japanese": "もちます",
+    "english": "to have/to carry",
+    "lesson": 11
+  },
+  {
+    "japanese": "もちろん",
+    "english": "of course",
+    "lesson": "8ス"
+  },
+  {
+    "japanese": "もっていきます",
+    "english": "to bring/to take/to carry",
+    "lesson": 11
+  },
+  {
+    "japanese": "もの",
+    "english": "thing(s)/goods",
+    "lesson": 11
+  },
+  {
+    "japanese": "もみじ",
+    "english": "maple leaves",
+    "lesson": 3
+  },
+  {
+    "japanese": "もらいます",
+    "english": "to receive",
+    "lesson": 13
+  },
+  {
+    "japanese": "もんだい",
+    "english": "problem ",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "やぎ／やぎさん",
+    "english": "Yagi/Mr.Yagi",
+    "lesson": 11
+  },
+  {
+    "japanese": "やけい",
+    "english": "night view (scene)",
+    "lesson": 8
+  },
+  {
+    "japanese": "やさい",
+    "english": "vegetable",
+    "lesson": 16
+  },
+  {
+    "japanese": "やさしい",
+    "english": "nice/kind",
+    "lesson": "17ス"
+  },
+  {
+    "japanese": "やすい",
+    "english": "inexpensive/cheap",
+    "lesson": 5
+  },
+  {
+    "japanese": "やすみ",
+    "english": "closed/holiday ",
+    "lesson": "9ス"
+  },
+  {
+    "japanese": "やすみます",
+    "english": "to take a rest",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "やたい",
+    "english": "street vendor's stall/food wagon",
+    "lesson": 8
+  },
+  {
+    "japanese": "やまだ／やまださん",
+    "english": "Yamada/Ms.Yamada",
+    "lesson": 3
+  },
+  {
+    "japanese": "やります",
+    "english": "to do",
+    "lesson": "15ス"
+  },
+  {
+    "japanese": "ゆうこ／ゆうこさん",
+    "english": "Yuuko/Ms.Yuuko",
+    "lesson": "5ス"
+  },
+  {
+    "japanese": "ゆうびんきょく",
+    "english": "post office",
+    "lesson": 6
+  },
+  {
+    "japanese": "ゆうめい（な）",
+    "english": "famous",
+    "lesson": 5
+  },
+  {
+    "japanese": "ゆき",
+    "english": "snow",
+    "lesson": 4
+  },
+  {
+    "japanese": "ゆっくり",
+    "english": "slowly",
+    "lesson": 15
+  },
+  {
+    "japanese": "ようこそ",
+    "english": "Welcome.",
+    "lesson": 13
+  },
+  {
+    "japanese": "ヨガ",
+    "english": "yoga",
+    "lesson": 16
+  },
+  {
+    "japanese": "よかったら",
+    "english": "If you'd like",
+    "lesson": 12
+  },
+  {
+    "japanese": "よく",
+    "english": "often",
+    "lesson": 2
+  },
+  {
+    "japanese": "よく",
+    "english": "well",
+    "lesson": 4
+  },
+  {
+    "japanese": "よしだ／よしださん",
+    "english": "Yoshida/Mr.Yoshida",
+    "lesson": 7
+  },
+  {
+    "japanese": "よみます",
+    "english": "to read",
+    "lesson": 9
+  },
+  {
+    "japanese": "よよぎ",
+    "english": "Yoyogi",
+    "lesson": "10ス"
+  },
+  {
+    "japanese": "よる",
+    "english": "evening/night",
+    "lesson": 5
+  },
+  {
+    "japanese": "よろこびます",
+    "english": "to be pleased",
+    "lesson": 18
+  },
+  {
+    "japanese": "よろしく",
+    "english": "Pleased to meet you./regards",
+    "lesson": 14
+  },
+  {
+    "japanese": "ラーメン",
+    "english": "ramen noodles",
+    "lesson": 8
+  },
+  {
+    "japanese": "らいげつ",
+    "english": "next month",
+    "lesson": 14
+  },
+  {
+    "japanese": "らいしゅう",
+    "english": "next week",
+    "lesson": 11
+  },
+  {
+    "japanese": "ライトアップ",
+    "english": "illuminations",
+    "lesson": 8
+  },
+  {
+    "japanese": "リスト",
+    "english": "list",
+    "lesson": 9
+  },
+  {
+    "japanese": "りゅうがく（します）",
+    "english": "to study abroad",
+    "lesson": 10
+  },
+  {
+    "japanese": "りょうがえ（します）",
+    "english": "to exchange (money)",
+    "lesson": 8
+  },
+  {
+    "japanese": "りょうしん",
+    "english": "parents",
+    "lesson": 1
+  },
+  {
+    "japanese": "りょうり",
+    "english": "dish/cooking",
+    "lesson": 2
+  },
+  {
+    "japanese": "りょこう（します）",
+    "english": "to take a trip",
+    "lesson": 2
+  },
+  {
+    "japanese": "リラックス（します）",
+    "english": "to relax",
+    "lesson": "16ス"
+  },
+  {
+    "japanese": "りんご",
+    "english": "apple",
+    "lesson": 11
+  },
+  {
+    "japanese": "れきし",
+    "english": "history",
+    "lesson": 8
+  },
+  {
+    "japanese": "レストラン",
+    "english": "restaurant",
+    "lesson": 5
+  },
+  {
+    "japanese": "レモン",
+    "english": "lemon",
+    "lesson": 12
+  },
+  {
+    "japanese": "れんしゅう（します）",
+    "english": "to practice/exercise",
+    "lesson": 9
+  },
+  {
+    "japanese": "ローマ",
+    "english": "Rome",
+    "lesson": "13ス"
+  },
+  {
+    "japanese": "ロサンゼルス",
+    "english": "Los Angeles",
+    "lesson": 4
+  },
+  {
+    "japanese": "ロシア",
+    "english": "Russia",
+    "lesson": 10
+  },
+  {
+    "japanese": "ロビー",
+    "english": "lobby",
+    "lesson": 7
+  },
+  {
+    "japanese": "ロンドン",
+    "english": "London",
+    "lesson": 4
+  },
+  {
+    "japanese": "わあ",
+    "english": "Wao/Wow",
+    "lesson": 1
+  },
+  {
+    "japanese": "ワイン",
+    "english": "wine",
+    "lesson": 11
+  },
+  {
+    "japanese": "わかい",
+    "english": "young",
+    "lesson": 2
+  },
+  {
+    "japanese": "わかります",
+    "english": "to understand",
+    "lesson": 5
+  },
+  {
+    "japanese": "わさび",
+    "english": "wasabi",
+    "lesson": 12
+  },
+  {
+    "japanese": "わたし",
+    "english": "I/me",
+    "lesson": 1
+  },
+  {
+    "japanese": "わたしたち",
+    "english": "we/us",
+    "lesson": 1
+  },
+  {
+    "japanese": "わたります",
+    "english": "to cross",
+    "lesson": 6
+  }
+]
+  </script>
+  <script>
+    const words = JSON.parse(document.getElementById("word-data").textContent);
+
+    function searchWords() {
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const resultDiv = document.getElementById("results");
+      resultDiv.innerHTML = "";
+
+      if (query === "") return;
+
+      const results = words.filter(word =>
+        word.japanese.includes(query) ||
+        word.english.toLowerCase().includes(query) ||
+        String(word.lesson).includes(query)
+      );
+
+      if (results.length === 0) {
+        resultDiv.innerHTML = "<p>一致する単語が見つかりませんでした。</p>";
+        return;
+      }
+
+      results.forEach(word => {
+        const div = document.createElement("div");
+        div.className = "word";
+        div.innerHTML = `
+          <span><strong>日：</strong>${word.japanese}</span>
+          <span><strong>英：</strong>${word.english}</span>
+          <span><strong>課：</strong>${word.lesson}</span>
+        `;
+        resultDiv.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
