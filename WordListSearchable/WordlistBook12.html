@@ -1,0 +1,8406 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>語彙検索ページ（スマホ対応）</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1em;
+      background: #f9f9f9;
+      margin: 0;
+    }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 1em;
+    }
+    .search-bar, .filters {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, select {
+      padding: 0.6em;
+      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .result {
+      margin-top: 1.5em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .word {
+      padding: 0.8em;
+      margin: 0.5em 0;
+      background: #fff;
+      border-left: 4px solid #4CAF50;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px;
+    }
+    .word span {
+      display: block;
+      margin-bottom: 0.2em;
+    }
+    @media (min-width: 600px) {
+      .word span {
+        display: inline-block;
+        margin-right: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>語彙検索ページ（かつどう１・かつどう２）</h1>
+
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="語彙・英訳を検索" oninput="filterWords()">
+  </div>
+
+  <div class="filters">
+    <label for="lessonFilter">課：</label>
+    <select id="lessonFilter" onchange="filterWords()">
+      <option value="">すべて</option>
+<option value="1">1課</option><option value="2">2課</option><option value="3">3課</option><option value="4">4課</option><option value="5">5課</option><option value="6">6課</option><option value="7">7課</option><option value="8">8課</option><option value="9">9課</option><option value="10">10課</option><option value="11">11課</option><option value="12">12課</option><option value="13">13課</option><option value="14">14課</option><option value="15">15課</option><option value="16">16課</option><option value="17">17課</option><option value="18">18課</option>
+    </select>
+
+    <label for="bookFilter">Book：</label>
+    <select id="bookFilter" onchange="filterWords()">
+      <option value="">すべて</option>
+      <option value="かつどう１">かつどう１</option>
+      <option value="かつどう２">かつどう２</option>
+    </select>
+  </div>
+
+  <div class="result" id="results"></div>
+
+  <script type="application/json" id="word-data">
+[
+  {
+    "japanese": "あ／あっ",
+    "english": "ah",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ああ",
+    "english": "ah",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アイス",
+    "english": "iced (coffee/tea)",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あいます",
+    "english": "to meet",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あお",
+    "english": "blue",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あか",
+    "english": "red",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あかるい",
+    "english": "bright",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あきはばら",
+    "english": "Akihabara ",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アクション",
+    "english": "action",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あげます",
+    "english": "to give",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あさ",
+    "english": "morning",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あさくさ",
+    "english": "Asakusa",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あさごはん",
+    "english": "breakfast",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あした",
+    "english": "tomorrow",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あそびます",
+    "english": "to play",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あたらしい",
+    "english": "new",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あっち",
+    "english": "that side/over there",
+    "lesson": "14ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あと",
+    "english": "after",
+    "lesson": "9ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あに",
+    "english": "elder brother/(my) elder brother",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アニメ",
+    "english": "anime/animated cartoons",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あね",
+    "english": "elder sister/(my) elder sister",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あの",
+    "english": "that ～",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あのう",
+    "english": "ah…/Excuse me/well…",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アパート",
+    "english": "flat/apartment",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あびます",
+    "english": "to bathe in (water)/to pour (water) over oneself",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あまり (～ない)",
+    "english": "(not) very",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アラビアご",
+    "english": "Arabic language",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あります",
+    "english": "there is/are/to have/(party, event, festival) to be held",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アルバイト",
+    "english": "part-time job/part-timer",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あれ",
+    "english": "that <far from both the speaker and the listener>",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "アンケート",
+    "english": "questionnaire",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いい",
+    "english": "nice/good",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いいえ",
+    "english": "No./Don't mention it./No problem.",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いいます",
+    "english": "to say/to tell",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いえ",
+    "english": "house",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いきます",
+    "english": "to go",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いくつ",
+    "english": "how many ～ <for things>",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いくら",
+    "english": "how much",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いけばな",
+    "english": "flower arrangement",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いす",
+    "english": "chair",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いそがしい",
+    "english": "busy",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いち",
+    "english": "one",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いちど",
+    "english": "once",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いちにちめ",
+    "english": "the first day",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いちばん",
+    "english": "the best/the most/number one",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いつ",
+    "english": "when",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いっこだて",
+    "english": "detached house/single house",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いっしょに",
+    "english": "together",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いつつ／５つ",
+    "english": "five <for things>",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いつも",
+    "english": "always",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "イベント",
+    "english": "event",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いま",
+    "english": "now",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "います",
+    "english": "to be (existence)",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いもうと",
+    "english": "younger sister/(my) younger sister",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いやー",
+    "english": "not really/nah/well…",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "いろ",
+    "english": "colour",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ううん／うーん",
+    "english": "well…/hmm…",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うえ",
+    "english": "on/above",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うえの",
+    "english": "Ueno",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うしろ",
+    "english": "back/behind",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うた",
+    "english": "song",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うたいます",
+    "english": "to sing",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うち",
+    "english": "house/one's own house or home",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うどん",
+    "english": "udon noodles",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うれしい",
+    "english": "happy/glad/delighted",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うん",
+    "english": "yeah/yup/okay/hmm <used as a casual expression for \"はい\" or when checking something for oneself>",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "うんどう",
+    "english": "exercise",
+    "lesson": "9ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "え",
+    "english": "picture",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "え／えっ",
+    "english": "What?/Pardon me?/Excuse me?",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エアコン",
+    "english": "air conditioner",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えいが",
+    "english": "movie/film",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えいぎょうじかん",
+    "english": "business hours",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えいご",
+    "english": "English language",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ええ",
+    "english": "yes",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えー",
+    "english": "Well/Let's see",
+    "lesson": "6ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ええっと",
+    "english": "well…/umm…",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ええと／えーと",
+    "english": "well…/umm…",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えき",
+    "english": "station",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エジプト",
+    "english": "Egypt",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エス",
+    "english": "S-size",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エスエフ",
+    "english": "science fiction",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えはがき",
+    "english": "picture postcard",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エム",
+    "english": "M-size",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エル",
+    "english": "L-size",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "えん",
+    "english": "yen",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "エンジニア",
+    "english": "engineer",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おいしい",
+    "english": "delicious/tasty",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おおい",
+    "english": "lots of/crowded with ～",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おおきい",
+    "english": "big",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おおさか",
+    "english": "Osaka ",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "オーストラリア",
+    "english": "Australia",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おきなわ",
+    "english": "Okinawa",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おきます",
+    "english": "to get up",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おきます",
+    "english": "put",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おきゃくさん",
+    "english": "customer/Sir/Madam <used by people in the service industry when talking to a custome>",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おくに（くに）",
+    "english": "country/home country <polite>",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おくれます",
+    "english": "be late/be delayed",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おさけ（さけ）",
+    "english": "alcohol/sake",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おしごと（しごと）",
+    "english": "job <polite>",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おしゃれ（な）",
+    "english": "fashionable/stylish ",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おそい",
+    "english": "late",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おたんじょうび（たんじょうび）",
+    "english": "birthday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おちゃ（ちゃ）",
+    "english": "tea/Japanese tea",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おっと",
+    "english": "husband/(my) husband",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おてら（てら）",
+    "english": "temple",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おとうさん",
+    "english": "father/(someone else's) father",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おとうと",
+    "english": "younger brother/(my) younger brother",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おなまえ（なまえ）",
+    "english": "name <polite>",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おばあちゃん",
+    "english": "grandma/grandmother",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おふろ(ふろ）",
+    "english": "bathroom/bath",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おみやげ（みやげ）",
+    "english": "souvenir",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おもしろい",
+    "english": "funny/interesting",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おりがみ",
+    "english": "origami",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おります",
+    "english": "to get off",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "オレンジ",
+    "english": "orange",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "オレンジジュース",
+    "english": "orange juice",
+    "lesson": "6ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おわります",
+    "english": "to finish",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "おんがく",
+    "english": "music",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カード",
+    "english": "credit card",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "がいこくご",
+    "english": "foreign language",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かいしゃ",
+    "english": "company/firm",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かいしゃいん",
+    "english": "company employee",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かいます",
+    "english": "to buy",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かいもの",
+    "english": "shopping",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かいものします",
+    "english": "to do shopping",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カイロ",
+    "english": "Cairo ",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かえます",
+    "english": "can buy/to be able to buy",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かえります",
+    "english": "to go home",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かきます",
+    "english": "to write",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かきます",
+    "english": "to draw",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "がくせい",
+    "english": "student",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かさ",
+    "english": "umbrella",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かじ",
+    "english": "housework",
+    "lesson": "9ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かぞく",
+    "english": "family",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カタカナ",
+    "english": "katakana (Japanese scripts)",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かちます",
+    "english": "to win",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "がつ",
+    "english": "month",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かっこいい",
+    "english": "cool/good-looking",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "がっこう",
+    "english": "school",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カップ",
+    "english": "cup",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かぶき",
+    "english": "Kabuki",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かようび",
+    "english": "Tuesday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カラオケ",
+    "english": "karaoke",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カレー",
+    "english": "curry ",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "カレンダー",
+    "english": "calendar",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かわいい",
+    "english": "cute",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かんこく",
+    "english": "South Korea",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かんこくご",
+    "english": "Korean language",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かんこくじん",
+    "english": "Korean people",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "かんじ",
+    "english": "Kanji ",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きいろ",
+    "english": "yellow",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ききます",
+    "english": "to listen",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ギター",
+    "english": "guitar",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きっさてん",
+    "english": "coffee shop",
+    "lesson": "14ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きのう",
+    "english": "yesterday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きます",
+    "english": "to come",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きます",
+    "english": "to put on/to wear",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きもち",
+    "english": "feeling",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きもの",
+    "english": "kimono",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きゅう",
+    "english": "nine",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぎゅうにゅう",
+    "english": "milk",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きょう",
+    "english": "today",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きょうし",
+    "english": "teacher",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きょうしつ",
+    "english": "classroom",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きょうと",
+    "english": "Kyoto ",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きょねん",
+    "english": "last year",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きれい（な）",
+    "english": "tidy/clean/beautiful/pretty",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぎんこう",
+    "english": "bank",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぎんざ",
+    "english": "Ginza ",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "きんようび",
+    "english": "Friday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "く",
+    "english": "nine",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くうこう",
+    "english": "airport",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くうしゃ",
+    "english": "vacant taxi",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くだもの",
+    "english": "fruit",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くつ",
+    "english": "shoes",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くつした",
+    "english": "socks",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くに",
+    "english": "country",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くらい",
+    "english": "dark",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぐらい",
+    "english": "about/approximately",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "クラシック",
+    "english": "classical music",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くるま",
+    "english": "car",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "グレー",
+    "english": "grey",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "くろ",
+    "english": "black",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "げつようび",
+    "english": "Monday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ケルン",
+    "english": "Cologne",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "げんかん",
+    "english": "entrance",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こ",
+    "english": "child/kid",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こ",
+    "english": "<counter for spherical or cube-shaped things>",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ご",
+    "english": "five",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ご",
+    "english": "language",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こうえん",
+    "english": "park",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こうちゃ",
+    "english": "English tea",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こうむいん",
+    "english": "civil servant",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コート",
+    "english": "coat",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コーヒー",
+    "english": "coffee",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コーヒーショップ",
+    "english": "coffee shop",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コーラ",
+    "english": "cola",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ここ",
+    "english": "(this) here",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ごご",
+    "english": "p.m./afternoon",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ごぜん",
+    "english": "a.m./morning",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こちら",
+    "english": "this way/this place <polite equivalent of ここ>",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ことし",
+    "english": "this year",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こども",
+    "english": "child",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "この",
+    "english": "this ～",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ごはん",
+    "english": "meal",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コメディ",
+    "english": "comedy",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "これ",
+    "english": "this",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ごろ",
+    "english": "about",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コンサート",
+    "english": "concert",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "こんしゅう",
+    "english": "this week",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "コンピューター",
+    "english": "computer",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さい",
+    "english": " ～ years old",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "サイズ",
+    "english": "size",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さかな",
+    "english": "fish",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "サッカー",
+    "english": "soccer/football",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ざっし",
+    "english": "magazine",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さどう",
+    "english": "tea ceremony",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さん",
+    "english": "three",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さん",
+    "english": "Mr./Ms./Mrs./Miss",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ざんねん（な）",
+    "english": "too bad/disappointing",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "さんぽ",
+    "english": "a walk/a stroll",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じ",
+    "english": "o'clock",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジーンズ",
+    "english": "jeans",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジェイポップ",
+    "english": "Japanese pop music",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しごと",
+    "english": "job/work",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "した",
+    "english": "under/below",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しち",
+    "english": "seven",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じてんしゃ",
+    "english": "bicycle",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しぶや",
+    "english": "Shibuya",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "します",
+    "english": "to do",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じゃあ",
+    "english": "well/then",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジャケット",
+    "english": "jacket",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しゃしん",
+    "english": "photograph",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジャズ",
+    "english": "jazz",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "シャツ",
+    "english": "shirt",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジャパン",
+    "english": "Japan",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "シャワー",
+    "english": "shower",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "シャンハイ",
+    "english": "Shanghai",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じゅう",
+    "english": "ten",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ジュース",
+    "english": "juice",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じゅうどう",
+    "english": "judo",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じゅぎょう",
+    "english": "class/school lessons",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しゅくじつ",
+    "english": "public holiday",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しゅふ",
+    "english": "housewife/homemaker",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しゅみ",
+    "english": "hobby/interest",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しゅりけん",
+    "english": "ninja star",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しょうせつ",
+    "english": "novel",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ショー",
+    "english": "show",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しょくじ",
+    "english": "meal",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しろ",
+    "english": "white",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じん",
+    "english": "people from ～ (nationality)",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "じんじゃ",
+    "english": "shrine",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しんじゅく",
+    "english": "Shinjuku",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "しんぶん",
+    "english": "newspaper",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すいようび",
+    "english": "Wednesday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すうじ",
+    "english": "numbers",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "スカート",
+    "english": "skirt",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "スカイツリー",
+    "english": "Sky Tree (a landmark in Tokyo)",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すき（な）",
+    "english": "like/favorite",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すぐ",
+    "english": "soon/right away",
+    "lesson": "14ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すこし",
+    "english": "a little/a few",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すし",
+    "english": "sushi",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すてき（な）",
+    "english": "lovely",
+    "lesson": "16ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すばらしい",
+    "english": "amazing/wonderful",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "スペイン",
+    "english": "Spain",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "スポーツ",
+    "english": "sports",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すみます",
+    "english": "to live",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "すもう",
+    "english": "sumo",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せいかつ",
+    "english": "life",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せまい",
+    "english": "small/cramped",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せん／ぜん",
+    "english": "thousand",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せんしゅう",
+    "english": "last week",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せんせい",
+    "english": "teacher",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぜんぜん (～ない)",
+    "english": "(not) at all",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せんそうじ",
+    "english": "Senso-ji temple",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "せんたく",
+    "english": "washing clothes",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "そうじ",
+    "english": "cleaning",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ソウル",
+    "english": "Seoul",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "そして",
+    "english": "and",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "そと",
+    "english": "out/outside/outdoors",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "そば",
+    "english": "soba noodles",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ソファ",
+    "english": "sofa",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "それ",
+    "english": "that",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "それから",
+    "english": "and then",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "タイ",
+    "english": "Thailand",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たいこ",
+    "english": "taiko drumming",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "だいじょうぶ（な）",
+    "english": "okay/all right",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "だいすき（な）",
+    "english": "like very much",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "だいどころ",
+    "english": "kitchen",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たいへん（な）",
+    "english": "terrible/tough",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たかい",
+    "english": "high",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たかい",
+    "english": "expensive",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たくさん",
+    "english": "many/much",
+    "lesson": "14ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "タクシー",
+    "english": "taxi",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たな",
+    "english": "shelf",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たのしい",
+    "english": "fun/enjoyable",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たぶん",
+    "english": "perhaps/maybe",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たべます",
+    "english": "to eat",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たべもの",
+    "english": "food",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たまご",
+    "english": "egg",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "だめ（な）",
+    "english": "no good/not permitted/impossible",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "だれ",
+    "english": "who",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "タワー",
+    "english": "tower",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "たんじょうび",
+    "english": "birthday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ダンス",
+    "english": "dance",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちいさい",
+    "english": "small",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "チーズバーガー",
+    "english": "cheese burger",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちかく",
+    "english": "nearby",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちかてつ",
+    "english": "metro/subway/underground",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちち",
+    "english": "father/(my) father",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちゃいろ",
+    "english": "brown",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちゅうごく",
+    "english": "China",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちゅうごくご",
+    "english": "Chinese language",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ちょっと",
+    "english": "a moment/a little/a little (difficult)",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "つかいます",
+    "english": "to use",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "つかれます",
+    "english": "to get tired/tiring",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "つぎ",
+    "english": "next",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "つきます",
+    "english": "to arrive",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "つま",
+    "english": "wife/(my) wife",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ティーシャツ",
+    "english": "T-shirt",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ディーブイディー",
+    "english": "DVD",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ていきゅうび",
+    "english": "shop holiday/fixed holiday",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "テーブル",
+    "english": "table",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "できます",
+    "english": "can do/to be able to do",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "テニス",
+    "english": "tennis",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "デパート",
+    "english": "department store",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "でも",
+    "english": "but",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "テレビ",
+    "english": "television",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "でんしゃ",
+    "english": "train",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "てんぷら",
+    "english": "tempura",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ドイツ",
+    "english": "Germany",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ドイツご",
+    "english": "German language",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "トイレ",
+    "english": "toilet",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どう",
+    "english": "how",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とうきょう",
+    "english": "Tokyo",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とうきょうタワー",
+    "english": "Tokyo Tower",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どうぞ",
+    "english": "Please./Here you are.",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どうも",
+    "english": "very much ",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どうやって",
+    "english": "how",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とおい",
+    "english": "far",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とおり",
+    "english": "street",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ときどき",
+    "english": "sometimes",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どくしょ",
+    "english": "reading",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とけい",
+    "english": "clock",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どこ",
+    "english": "where",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ところ",
+    "english": "place",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どちら",
+    "english": "which (out of two)",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "となり",
+    "english": "next to/beside",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とまります",
+    "english": "to stay at (a hotel)",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ともだち",
+    "english": "friend",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どようび",
+    "english": "Saturday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "とります",
+    "english": "to take (a photo)",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どれ",
+    "english": "which one (of three or more)",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "どんな",
+    "english": "What kind of ～",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なか",
+    "english": "in/inside",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ながい",
+    "english": "long",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なな",
+    "english": "seven",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なに／なん",
+    "english": "what",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なのか",
+    "english": "the seventh day of the month",
+    "lesson": "12ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なまえ",
+    "english": "name",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "なんじ",
+    "english": "what time",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "に",
+    "english": "two",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にあいます",
+    "english": "to suit/to look good　",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にぎやか（な）",
+    "english": "busy/lively",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にく",
+    "english": "meat",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にじゅうよっか",
+    "english": "the twenty-fourth day of the month",
+    "lesson": "12ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にち",
+    "english": "day",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にちようび",
+    "english": "Sunday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にっき",
+    "english": "diary",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にほん",
+    "english": "Japan",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にほんご",
+    "english": "Japanese language",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にほんてき（な）",
+    "english": "Japanese ",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にもつ",
+    "english": "baggage/luggage",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にわ",
+    "english": "garden",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にん",
+    "english": "<counter for counting people>",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にんぎょう",
+    "english": "doll",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "にんじゃ",
+    "english": "ninja",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ねます",
+    "english": "to go to bed",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ねむい",
+    "english": "sleepy",
+    "lesson": "9ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ねん",
+    "english": "year",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ねんじゅうむきゅう",
+    "english": "Open throughout the year <used at a store and restaurant>",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "のみます",
+    "english": "to drink",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "のみもの",
+    "english": "drink",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "のります",
+    "english": "to get on/to ride",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "のりもの",
+    "english": "vehicle/mode of transport",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はあ",
+    "english": "well…/umm…/yeah…",
+    "lesson": "5ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "バースデー",
+    "english": "birthday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "パーティー",
+    "english": "party",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はい",
+    "english": "yes",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はいく",
+    "english": "haiku",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "バイク",
+    "english": "motorbike/motorcycle",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はいります",
+    "english": "to get into/to enter",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はくぶつかん",
+    "english": "museum",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はこ",
+    "english": "box",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はし",
+    "english": "chopsticks",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はしおき",
+    "english": "chopsticks holder",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はじめます",
+    "english": "to start/to begin",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "バス",
+    "english": "bus",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はち",
+    "english": "eight",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "バッグ",
+    "english": "bag",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はなび",
+    "english": "fireworks",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はなびたいかい",
+    "english": "fireworks display",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はは",
+    "english": "mother/(my) mother",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はは／ははは",
+    "english": "ha ha ha (laughter)",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はやい",
+    "english": "fast/quick",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はやい",
+    "english": "early",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はらじゅく",
+    "english": "Harajuku",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "パリ",
+    "english": "Paris",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "はん",
+    "english": "half past ～ (time)",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "パン",
+    "english": "bread",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ハンカチ",
+    "english": "handkerchief",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ばんごはん",
+    "english": "evening meal",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "パンツ",
+    "english": "pants/trousers",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ハンバーガー",
+    "english": "hamburger",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひ",
+    "english": "day",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ピアノ",
+    "english": "piano",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ビーチ",
+    "english": "beach",
+    "lesson": "18ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ビートルズ",
+    "english": "The Beatles",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ビール",
+    "english": "beer",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひこうき",
+    "english": "plane",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ピザ",
+    "english": "piｚza",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "びじゅつかん",
+    "english": "art museum",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひだり",
+    "english": "left",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひと",
+    "english": "person/man",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひとつ",
+    "english": "one <for things>",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひとり",
+    "english": "one person",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひゃく／びゃく／ぴゃく",
+    "english": "hundred",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "びょういん",
+    "english": "hospital",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひらがな",
+    "english": "hiragana (Japanese scripts)",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひる",
+    "english": "daytime/noon",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ビル",
+    "english": "building",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひるごはん",
+    "english": "lunch ",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひろい",
+    "english": "large/spacious/big",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ひろしま",
+    "english": "Hiroshima ",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ピンク",
+    "english": "pink",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ファッション",
+    "english": "fashion",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ファンタジー",
+    "english": "fantasy fiction",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "フィリピン",
+    "english": "Philippines",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふう",
+    "english": "whew",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふうん／ふーん",
+    "english": "hmm/well",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "フェスティバル",
+    "english": "festival/celebration",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふたつ",
+    "english": "two <for things>",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふたり",
+    "english": "two people",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふつか",
+    "english": "(for) two days/the second day of the month",
+    "lesson": "12ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふつかめ",
+    "english": "the second day",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふね",
+    "english": "ship",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "フライドポテト",
+    "english": "French fries/fried potatoes",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "フランス",
+    "english": "France",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふるい",
+    "english": "old",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "プレゼントします",
+    "english": "to give a present",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ブログ",
+    "english": "blog",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ふん／ぷん",
+    "english": "minute",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぶんがく",
+    "english": "literature",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ペア",
+    "english": "pair",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "へいじつ",
+    "english": "weekday",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "へえ",
+    "english": "aah…/Wow.",
+    "lesson": "4ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ページ",
+    "english": "page",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ベッド",
+    "english": "bed",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "へや",
+    "english": "room",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "べんきょうします",
+    "english": "to study",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "べんり（な）",
+    "english": "convenient",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほか",
+    "english": "other",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ぼく",
+    "english": "I <used by males to refer to oneself>",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほしい",
+    "english": "to want ",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ポストカード",
+    "english": "postcard",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほっかいどう",
+    "english": "Hokkaido ",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ホット",
+    "english": "hot (coffee/tea)",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ホットドッグ",
+    "english": "hot dog",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ポップス",
+    "english": "pop music",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ホテル",
+    "english": "hotel",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ホラー",
+    "english": "horror",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほん",
+    "english": "book",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほん/ぼん/ぽん",
+    "english": "<counter for thin and long things>",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ほんとう",
+    "english": "really",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まあまあ（な）",
+    "english": "so so",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まい",
+    "english": "<counter for flat things>",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まいとし",
+    "english": "every year",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まいにち",
+    "english": "every day",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まえ",
+    "english": "front",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "また",
+    "english": "again",
+    "lesson": 17,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まだ",
+    "english": "not yet",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まち",
+    "english": "town",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まっすぐ（な）",
+    "english": "straight ",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まつり",
+    "english": "festival",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "まん",
+    "english": "ten thousand",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "マンガ",
+    "english": "manga/comic books/comic strips",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "マンション",
+    "english": "apartment house",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みぎ",
+    "english": "right",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みず",
+    "english": "water ",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ミステリー",
+    "english": "mystery",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みせ",
+    "english": "store/shop/restaurant",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みせます",
+    "english": "to show",
+    "lesson": "11ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みそしる",
+    "english": "miso soup",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みっかめ",
+    "english": "the third day",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みっつ",
+    "english": "three <for things>",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みどり",
+    "english": "green",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みます",
+    "english": "to see/to look at/to watch",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みみ",
+    "english": "ear",
+    "lesson": "15ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "みみかき",
+    "english": "earpick",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "むずかしい",
+    "english": "difficult",
+    "lesson": "3ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "むっつ",
+    "english": "six <for things>",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "むりょう",
+    "english": "free of charge",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "めいし",
+    "english": "business card",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "メニュー",
+    "english": "menu",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "もう",
+    "english": "more",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "もくようび",
+    "english": "Thursday",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "もちろん",
+    "english": "of course",
+    "lesson": 12,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "もっと",
+    "english": "more/-er",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "モノレール",
+    "english": "monorail",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "やきゅう",
+    "english": "baseball",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "やさい",
+    "english": "vegetable",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "やすい",
+    "english": "inexpensive/cheap",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "やすみ",
+    "english": "holiday",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "やすみます",
+    "english": "to be absent/to take a day off",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ゆうめい（な）",
+    "english": "famous",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ゆき",
+    "english": "snow",
+    "lesson": "18ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ゆっくり",
+    "english": "slowly",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ゆっくりします",
+    "english": "to relax",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よく",
+    "english": "often",
+    "lesson": 5,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よく",
+    "english": "well",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よこ",
+    "english": "beside",
+    "lesson": 8,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よっかめ",
+    "english": "the fourth day",
+    "lesson": 18,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よっつ",
+    "english": "four <for things>",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よみます",
+    "english": "to read",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よる",
+    "english": "evening/night",
+    "lesson": 9,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "よん",
+    "english": "four",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ラーメン",
+    "english": "ramen noodles",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "らいげつ",
+    "english": "next month",
+    "lesson": "12ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "らいしゅう",
+    "english": "next week",
+    "lesson": 10,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "らいねん",
+    "english": "next year",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "らく（な）",
+    "english": "easy",
+    "lesson": 13,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "リスト",
+    "english": "list",
+    "lesson": 15,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "りょうり",
+    "english": "dish/cooking",
+    "lesson": 6,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "レストラン",
+    "english": "restaurant",
+    "lesson": 7,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "レッズ",
+    "english": "The Reds (a soccer team)",
+    "lesson": "17ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "れんあい",
+    "english": "romance/love",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ローマじ",
+    "english": "Roman Alphabet",
+    "lesson": 1,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ろく",
+    "english": "six",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ロシア",
+    "english": "Russia",
+    "lesson": 2,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ロック",
+    "english": "rock music",
+    "lesson": 11,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "わあ",
+    "english": "Wao",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "わかい",
+    "english": "young",
+    "lesson": 4,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "わかります",
+    "english": "to understand",
+    "lesson": "14ス",
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "わたし",
+    "english": "I/me",
+    "lesson": 3,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "わたしたち",
+    "english": "we/us",
+    "lesson": 14,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "ワンピース",
+    "english": "one-piece dress",
+    "lesson": 16,
+    "book": "かつどう１"
+  },
+  {
+    "japanese": "あ／あっ",
+    "english": "ah",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ああ",
+    "english": "ah",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あいます",
+    "english": "to meet",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あおい",
+    "english": "blue",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あか",
+    "english": "red",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あかい",
+    "english": "red",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あかちゃん",
+    "english": "baby",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あき",
+    "english": "autumn",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あきはばら",
+    "english": "Akihabara",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "アクセサリー",
+    "english": "jewelry/accessory",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あけます",
+    "english": "to open",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あげます",
+    "english": "to raise　",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あげます",
+    "english": "to give",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あさ",
+    "english": "morning",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あさごはん",
+    "english": "breakfast",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あし",
+    "english": "foot/leg",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あじ",
+    "english": "taste/flavor",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あじさい",
+    "english": "hydrangea",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あした",
+    "english": "tomorrow",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あそこ",
+    "english": "over there",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あそびます",
+    "english": "to play",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あたたかい",
+    "english": "warm/hot",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あたま",
+    "english": "head",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あたらしい",
+    "english": "new",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あたり",
+    "english": "around/in the neighborhood",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あつい",
+    "english": "hot",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あつめます",
+    "english": "to collect",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あと",
+    "english": "after",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あなた",
+    "english": "you",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あに",
+    "english": "elder brother/(my) elder brother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あね",
+    "english": "elder sister/(my) elder sister",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あの",
+    "english": "that ～",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あのう",
+    "english": "ah…/Excuse me/well…",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あぶない",
+    "english": "dangerous",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あべ／あべさん",
+    "english": "Abe/Ms. Abe",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あまい",
+    "english": "sweet",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あまり（～ない）",
+    "english": "(not) very",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あみもの",
+    "english": "knitting",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あめ",
+    "english": "rain",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "アメリカ",
+    "english": "U.S.A./America",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "アラビアご",
+    "english": "Arabic language",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ありがとう",
+    "english": "Thank you.",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あります",
+    "english": "there is, are/to have/(party, event, festival) to be held",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あるきます",
+    "english": "to walk",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "あれ",
+    "english": "that <far from both the speaker and the listener>",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "アンケート",
+    "english": "questionnaire",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "アンチョビ",
+    "english": "anchovy",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いい",
+    "english": "nice/good",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いいえ／いえ",
+    "english": "No.",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いいます",
+    "english": "to say/to tell",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いえ",
+    "english": "house",
+    "lesson": "16ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いかが",
+    "english": "how <polite equivalent of どう>",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いき",
+    "english": "breath",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いきます",
+    "english": "to go",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "イギリス",
+    "english": "U.K.",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いご",
+    "english": "the game of Go ",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いざかや",
+    "english": "Japanese style pub",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いしかわ／いしかわさん",
+    "english": "Ishikawa/Mr. Ishikawa",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いそがしい",
+    "english": "busy",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いたい",
+    "english": "painful/sore",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いただきます",
+    "english": "to take/to have <polite equivalent of moraimasu>/the expression said before starting to eat",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "イタリア",
+    "english": "Italy",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "イタリアご",
+    "english": "Italian language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いちど",
+    "english": "once",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いちばん",
+    "english": "the best/the most/number one",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いちろう／いちろうさん",
+    "english": "Ichiｒoo/Mr. Ichiroo",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いつ",
+    "english": "when",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いつか",
+    "english": "someday",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いつごろ",
+    "english": "about when",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いっしょに",
+    "english": "together",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いっぱい",
+    "english": "a cup/glass of (drink)",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いっぱい（おなかが～）",
+    "english": "full",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いつまでも",
+    "english": "forever",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いねかり",
+    "english": "rice reaping",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いま",
+    "english": "now",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "います",
+    "english": "to be (existence)",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いままでに",
+    "english": "so far/up until now",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いみ",
+    "english": "meaning",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いもうと",
+    "english": "younger sister/(my) younger sister",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いもうとさん",
+    "english": "(someone else's) younger sister",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いやあ",
+    "english": "well…",
+    "lesson": "9ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いりぐち",
+    "english": "entrance",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いれます",
+    "english": "to put in",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いろ",
+    "english": "colour",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "いろいろ（な）",
+    "english": "various",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "インド",
+    "english": "India",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "う",
+    "english": "Ow!",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ううん／うーん",
+    "english": "well…/hmm…",
+    "lesson": "6ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うえ",
+    "english": "on/above",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うえの",
+    "english": "Ueno",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うえのこうえん",
+    "english": "Ueno Park",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うおいちば",
+    "english": "a fish market",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ウォーキング",
+    "english": "walking",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うき",
+    "english": "rainy season",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うぐいす",
+    "english": "bush warbler/Japanese nightingale",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うけつけ",
+    "english": "front desk/reception",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うた",
+    "english": "song",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うち",
+    "english": "house/one's own house (home)",
+    "lesson": "1ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うで",
+    "english": "arm",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うまれます",
+    "english": "be born",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うめぼし",
+    "english": "pickled plum",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "うれしい",
+    "english": "happy/glad/delighted",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "え",
+    "english": "picture",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "え／えっ",
+    "english": "oh…/What?",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "エアロビクス",
+    "english": "aerobics",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えいが",
+    "english": "movie/film",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えいご",
+    "english": "English language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ええ",
+    "english": "yes",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ええと／えっと／ええっと",
+    "english": "well…/umm…",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えき",
+    "english": "station",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えび",
+    "english": "shrimp",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えびせんべい",
+    "english": "shrimp rice cracker",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "えんげき",
+    "english": "drama",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おいしい",
+    "english": "delicious/tasty",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おいわい（いわい）",
+    "english": "celebration/gift",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おおい",
+    "english": "many/lots of",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おおきい",
+    "english": "big",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おおきく（おおきい）",
+    "english": "deeply (breathe)/widely",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "オーケー",
+    "english": "OK",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おおさか",
+    "english": "Osaka",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おかあさん",
+    "english": "mother/(someone else's) mother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おかげさまで",
+    "english": "Thanks to (you)./Fortunately.",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おかし（かし）",
+    "english": "sweets/confectionery",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おかね（かね）",
+    "english": "money",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おがわ／おがわさん",
+    "english": "Ogawa/Mr. Ogawa",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おくさん",
+    "english": "wife/(someone else's) wife",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おくれます",
+    "english": "be late/be delayed",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おさけ（さけ）",
+    "english": "alcohol/sake <polite>",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おじ",
+    "english": "uncle/(my) uncle",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おじいさん",
+    "english": "grandfather/(someone else's) grandfather",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おしえます",
+    "english": "to tell ",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おじさん",
+    "english": "uncle/(someone else's) uncle",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おしゃれ（な）",
+    "english": "fashionable ",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おすし（すし）",
+    "english": "sushi",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おすすめ",
+    "english": "recommendation",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おせわ（せわ）",
+    "english": "care/help",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おそい",
+    "english": "late/slow",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おちゃ（ちゃ）",
+    "english": "tea/Japanese tea",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おつかれさま",
+    "english": "Good work./Nice job./You must be tired.",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おっと",
+    "english": "husband/(my) husband",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おとうさん",
+    "english": "father/(someone else's) father",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おとうと",
+    "english": "younger brother/(my) younger brother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おとうとさん",
+    "english": "(someone else's) younger brother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おどり",
+    "english": "dance",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おなか",
+    "english": "belly/stomach",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おなじ",
+    "english": "same",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おにいさん",
+    "english": "elder brother/(someone else's) elder brother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おにぎり",
+    "english": "onigiri (rice ball)",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おねえさん",
+    "english": "elder sister/(someone else's) elder sister",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おねがいします",
+    "english": "Please. ",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おば",
+    "english": "aunt/(my) aunt",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おばあさん",
+    "english": "grandmother/(someone else's) grandmother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おばさん",
+    "english": "aunt/(someone else's) aunt",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おはよう",
+    "english": "Good morｎing.",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "オフィス",
+    "english": "office",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おふろ（ふろ）",
+    "english": "bathroom/bath",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "オペラ",
+    "english": "opera",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おべんとう（べんとう）",
+    "english": "lunch box/bento",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おぼえます",
+    "english": "to memorize/to learn",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おみやげ（みやげ）",
+    "english": "souvenir",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おめでとう",
+    "english": "Congratulations!",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おもいます",
+    "english": "to think",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おもしろい",
+    "english": "interesting",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おもちゃ",
+    "english": "toy",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おゆ（ゆ）",
+    "english": "hot water",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "およぎます",
+    "english": "to swim",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おわり",
+    "english": "end/finish",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "おんがく",
+    "english": "music",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "か（かようび）",
+    "english": "Tuesday",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ガーデニング",
+    "english": "gardening",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "カード",
+    "english": "card",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かい",
+    "english": "～ times (frequency)",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かいぎ",
+    "english": "meeting",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "がいこく",
+    "english": "foreign country",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "がいこくご",
+    "english": "foreign language",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かいしゃ",
+    "english": "company/firm",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かいてき（な）",
+    "english": "comfortable ",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かいます",
+    "english": "to buy",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "カイロ",
+    "english": "Cairo ",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かお",
+    "english": "face",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かぎ",
+    "english": "key",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かきます",
+    "english": "to write",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かきます（えを）",
+    "english": "to draw (a picture)",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "がくせい",
+    "english": "student",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かざります",
+    "english": "to decorate/to display",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かします",
+    "english": "to lend",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かぜ",
+    "english": "wind",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かぞく",
+    "english": "family",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かた",
+    "english": "shoulder",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "カタカナ",
+    "english": "katakana (Japanese scripts)",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "がつ",
+    "english": "month",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かっこいい",
+    "english": "cool/good-looking",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かてい",
+    "english": "home/family/household",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かど",
+    "english": "corner",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かばん",
+    "english": "bag",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かぶき",
+    "english": "Kabuki",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "からあげ",
+    "english": "deep-fried chicken",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "からい",
+    "english": "hot/spicy",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "カラオケ",
+    "english": "karaoke",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "からだ",
+    "english": "body",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かります",
+    "english": "to borrow",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かれ",
+    "english": "he (boyfriend)",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "カレー",
+    "english": "curry ",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かわい／かわいさん",
+    "english": "Kawai/Ms. Kawai ",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かわいい",
+    "english": "cute",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かわりに",
+    "english": "for you/in your place/instead of you",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんき",
+    "english": "dry season",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんこく",
+    "english": "South Korea",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんこくご",
+    "english": "Korean language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんこくじん",
+    "english": "Korean people",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんじ",
+    "english": "kanji",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "かんたん（な）",
+    "english": "easy",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "がんばります",
+    "english": "to do one's best/I will do my best.",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "き",
+    "english": "feeling/mood",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きおん",
+    "english": "(air) temperature",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ききます",
+    "english": "to listen",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きせつ",
+    "english": "season",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きって",
+    "english": "stamp",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きっと",
+    "english": "surely",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きっぷ",
+    "english": "ticket",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きに いります",
+    "english": "to like ～",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きのう",
+    "english": "yesterday",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きます",
+    "english": "to come",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きます",
+    "english": "to put on/to wear",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "キムチ",
+    "english": "kimuchi (Korean pickles) ",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きもち（が） いい",
+    "english": "pleasant/to feel good",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きやま／きやまさん",
+    "english": "Kiyama/Mr. Kiyama",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きゅうに（きゅうな）",
+    "english": "suddenly",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぎゅうにゅう",
+    "english": "milk",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きゅうり",
+    "english": "cucumber",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きょう",
+    "english": "today",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きょうし",
+    "english": "teacher",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きょうだい",
+    "english": "brothers and sisters",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きょうみ",
+    "english": "interest",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きょうみが あります（～に）",
+    "english": "to be interested in ～",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "きれい（な）",
+    "english": "beautiful",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "キロ",
+    "english": "～ kilometer/～ kilogram",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぎんこう",
+    "english": "bank",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぎんざ",
+    "english": "Ginza",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "キンパ",
+    "english": "kimbap (Korean food)",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くうこう",
+    "english": "airport",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くすり",
+    "english": "medicine",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くだもの",
+    "english": "fruit",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くち",
+    "english": "mouth",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くに",
+    "english": "country",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くび",
+    "english": "neck",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くもり",
+    "english": "cloudy",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くもります",
+    "english": "to get cloudy",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "クラシック",
+    "english": "classical music",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "クラス",
+    "english": "class",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "クリスマス",
+    "english": "Chirstmas",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "グループ",
+    "english": "group",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "くるま",
+    "english": "car",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "クロッポ",
+    "english": "keropok (Malaysian shrimp cracker)",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ケーキ",
+    "english": "cake",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゲームセンター",
+    "english": "game arcade/amusement arcade",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "げつ（げつようび）",
+    "english": "Monday",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "けっこう（な）",
+    "english": "fine",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "けっこん（します）",
+    "english": "to get married",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "げんき（な）",
+    "english": "fine",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "けんこう",
+    "english": "health",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "けんこうてき（な）",
+    "english": "healthy",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ご",
+    "english": "～ language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コイン",
+    "english": "coin",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごう",
+    "english": "<a counter for numbering>",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうえん",
+    "english": "park",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうきょ",
+    "english": "the Imperial Palace",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうこう",
+    "english": "high school",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうさてん",
+    "english": "crossing/intersection",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうじょう",
+    "english": "factory",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こうやって",
+    "english": "like this",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コース",
+    "english": "course",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コート",
+    "english": "coat",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コーナー",
+    "english": "corner/section",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コーヒーカップ",
+    "english": "coffee cup",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コーヒーショップ",
+    "english": "coffee shop",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こおろぎ",
+    "english": "cricket",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こくさいでんわ（します）",
+    "english": "(to make) an international call",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こけし",
+    "english": "kokeshi doll (Japanese cylindrical wooden doll)　",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごけっこん（けっこん）",
+    "english": "marriage <polite>",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ここ",
+    "english": "this/here",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごご",
+    "english": "p.m./afternoon",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こし",
+    "english": "lower back/waist/hips",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごしゅじん",
+    "english": "(someone else's) husband",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こたえ",
+    "english": "answer",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こたえます",
+    "english": "to answer",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こたつ",
+    "english": "kotatsu (low, covered table with a heat source underneath)",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こちら",
+    "english": "this person <polite>",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こちらこそ",
+    "english": "Same to you.",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こっち",
+    "english": "this side",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コップ",
+    "english": "glass/cup",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こと",
+    "english": "thing/matter",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こども",
+    "english": "child",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こどもたち",
+    "english": "children",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "この",
+    "english": "this ～",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごはん",
+    "english": "meal",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コピー（します）",
+    "english": "to copy",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コピーき",
+    "english": "copy machine",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごみぶくろ",
+    "english": "trash/garbage bag",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "これ",
+    "english": "this",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "これからも",
+    "english": "as before",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ごろ",
+    "english": "about",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こわれます",
+    "english": "to get broken",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こんど",
+    "english": "next time",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こんにちは",
+    "english": "Hello.",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "コンピューター",
+    "english": "computer",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "こんぶ",
+    "english": "kombu seaweed",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さいきん",
+    "english": "recently",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サイクリング",
+    "english": "cycling",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さいご",
+    "english": "last",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サイト",
+    "english": "website",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さいとう／さいとうさん",
+    "english": "Saitoo/Ms. Saitoo",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さかな",
+    "english": "fish",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さくら",
+    "english": "cherry blossom/cherry tree",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サッカー(します）",
+    "english": "to play soccer/football",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ざっし",
+    "english": "magazine",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さっぽろ",
+    "english": "Sapporo ",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さとう／さとうさん",
+    "english": "Satoo/Ms. Satoo",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さま",
+    "english": "Mr./Ms./Mrs./Miss <polite equivalent of ～さん>",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さむい",
+    "english": "cold",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さら",
+    "english": "dish/plate",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サラダ",
+    "english": "salad",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さん",
+    "english": "Mr./Ms./Mrs./Miss",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サンドイッチ",
+    "english": "sandwich",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "サンパウロ",
+    "english": "Sao Paulo ",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "さんぽ（します）",
+    "english": "to take a walk/stroll",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じ",
+    "english": "～ o'clock",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しあい",
+    "english": "game (sports)",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しあわせ（な）",
+    "english": "happy",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "シート",
+    "english": "picnic blanket (waterproof tarpaulin sheet )",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じかん",
+    "english": "～ hour(s)",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じかん",
+    "english": "time",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じこしょうかい",
+    "english": "self-introduction",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しごと",
+    "english": "job/work",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じさ",
+    "english": "time difference",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ししゃ",
+    "english": "branch office",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ししゅう",
+    "english": "embroidery",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じしょ",
+    "english": "dictionary",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しずか（な）",
+    "english": "quiet",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しつもん",
+    "english": "question",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "シドニー",
+    "english": "Sydney",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じぶん",
+    "english": "oneself",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "します",
+    "english": "to do",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "します（～に）",
+    "english": "to have ～/to decide to",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ジム",
+    "english": "gym",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じむ",
+    "english": "office work",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じゃあ／じゃ",
+    "english": "well/then",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ジャカルタ",
+    "english": "Jakarta",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゃけ／さけ",
+    "english": "salmon",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゃしん",
+    "english": "photograph",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゃちょう",
+    "english": "president of a company",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "シャツ",
+    "english": "shirt",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "シャワー",
+    "english": "shower",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅう",
+    "english": "week",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅうしょく（します）",
+    "english": "to get a job",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ジュース",
+    "english": "juice",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じゅうたい",
+    "english": "traffic jam",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅうまつ",
+    "english": "weekend",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じゅうよっか",
+    "english": "the fourteenth day of the month",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅっさん（します）",
+    "english": "to give birth",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅっちょう（します）",
+    "english": "to make a business trip",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅっぱつ（します）",
+    "english": "to depart/departure",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅふ",
+    "english": "housewife/homemaker",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しゅみ",
+    "english": "hobby/interest",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょうかい（します）",
+    "english": "to introduce someone",
+    "lesson": "1ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょうがっこう",
+    "english": "elementary school",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょうぎ",
+    "english": "shoogi (Japanese chess)",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じょうず（な）",
+    "english": "be good at",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じょうば",
+    "english": "horse riding",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょうらい",
+    "english": "future",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ジョギング（します）",
+    "english": "to jog",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょくじ（します）",
+    "english": "(to have) a meal",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しょっぱい",
+    "english": "salty",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じょやのかね",
+    "english": "the tolling of temple bells at midnight on New Year's Eve",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しります",
+    "english": "to know",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しろ",
+    "english": "white",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しろい",
+    "english": "white",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "じん",
+    "english": "people from ～ (nationality)",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しんいち／しんいちさん",
+    "english": "Shin'ichi/Mr.Shin'ichi",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しんごう",
+    "english": "traffic light ",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しんこきゅう",
+    "english": "deep breathing",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しんじゅく",
+    "english": "Shinjuku ",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "しんせき",
+    "english": "relative",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すい（すいようび）",
+    "english": "Wednesday",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいえい",
+    "english": "swimming",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいかわり",
+    "english": "watermelon splitting (game played in summer)",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいじょうバス",
+    "english": "water bus",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいぞくかん",
+    "english": "aquarium",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいます",
+    "english": "to breathe in/to inhale",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すいます",
+    "english": "to smoke　",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スープ",
+    "english": "soup",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スカイツリー",
+    "english": "Tokyo Sky Tree (a landmark in Tokyo)",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すき（な）",
+    "english": "like/favorite",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スキー",
+    "english": "ski",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すきます",
+    "english": "not full",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すぐ",
+    "english": "close by/right away",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スケジュール",
+    "english": "schedule",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すごい",
+    "english": "terrible/great",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すこし",
+    "english": "a little/a few",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すずき／すずきさん",
+    "english": "Suzuki/Ms.Suzuki",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すずしい",
+    "english": "cool (climate)",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スタッフ",
+    "english": "staff",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ずっと",
+    "english": "all the time",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すっぱい",
+    "english": "sour",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ステージ",
+    "english": "stage",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すてき（な）",
+    "english": "lovely",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ストレス",
+    "english": "stress",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スペイン",
+    "english": "Spain",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スペインご",
+    "english": "Spanish language",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "スポーツ",
+    "english": "sports",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すみます",
+    "english": "to live",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "すみません",
+    "english": "Excuse me./I'm sorry.",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せいかつ",
+    "english": "life",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "セーター",
+    "english": "sweater",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せかい",
+    "english": "world",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せかいいち",
+    "english": "the number one in the world",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せなか",
+    "english": "back",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぜひ",
+    "english": "by all means",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せみ",
+    "english": "cicada",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "せんしゅう",
+    "english": "last week",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぜんぜん（～ない）",
+    "english": "(not) at all",
+    "lesson": "9ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "センチ",
+    "english": "centimeter",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そう",
+    "english": "so",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ソウル",
+    "english": "Seoul",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ソーセージ",
+    "english": "sausage",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そして",
+    "english": "and",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そつぎょう（します）",
+    "english": "to graduate (from school)",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そっち",
+    "english": "that way/over there",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そと",
+    "english": "out/outside/outdoors",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "その",
+    "english": "that ～",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そふ",
+    "english": "grandfather/(my) grandfather",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "そぼ",
+    "english": "grandmother/(my) grandmother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "それ",
+    "english": "that",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "それから",
+    "english": "and then",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "それじゃあ／それでは",
+    "english": "See you, then.",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "タイ",
+    "english": "Thailand",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だい～",
+    "english": "number ～/No. ～",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だいがく",
+    "english": "university",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たいしかん",
+    "english": "embassy",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だいじょうぶ（な）",
+    "english": "okay/all right",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "タイじん",
+    "english": "Thai people",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だいすき（な）",
+    "english": "like very much",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たいせつ（な）",
+    "english": "important",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たいせつに します",
+    "english": "to take care/to treasure",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たいそう（します）",
+    "english": "to do physical　exercises",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だいたい",
+    "english": "generally/roughly ",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たいへん（な）",
+    "english": "terrible/tough/hard",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たうえ",
+    "english": "rice-planting",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "タウン",
+    "english": "town",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たかい",
+    "english": "expensive",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たかい",
+    "english": "high",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たかく（たかい）",
+    "english": "high",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たくさん",
+    "english": "many/much",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たこあげ",
+    "english": "kite-flying",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "タコス",
+    "english": "tacos (Mexican food)",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たてもの",
+    "english": "building",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たとえば",
+    "english": "for example ",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たなか／たなかさん",
+    "english": "Tanaka/Mr.Tanaka",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たのしい",
+    "english": "fun/enjoyable",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たのしみ",
+    "english": "pleasure/looking forward to something",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たばこ",
+    "english": "tobacco",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たぶん",
+    "english": "perhaps/maybe",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たべます",
+    "english": "to eat",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たべもの",
+    "english": "food",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たまご",
+    "english": "egg",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たまごやき",
+    "english": "(Japanese-style) omelet/rolled egg",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "だめ（な）",
+    "english": "no good/not permitted/impossible",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "タワー",
+    "english": "tower",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たんご",
+    "english": "word",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たんじょうび",
+    "english": "birthday",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ダンス",
+    "english": "dance",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "たんぼ",
+    "english": "rice field",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちいさい",
+    "english": "small",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チーズ",
+    "english": "cheese",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チーム",
+    "english": "team",
+    "lesson": "2ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チェス",
+    "english": "chess",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チェック（します）",
+    "english": "to check",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちかい",
+    "english": "near",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちがいます",
+    "english": "to be different",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちかく",
+    "english": "nearby",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チキンカレー",
+    "english": "chicken curry",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちず",
+    "english": "map",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちち",
+    "english": "father/(my) father",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チヂミ",
+    "english": "buchimgae/chijimi (Korean food)",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちゅう",
+    "english": "in progress",
+    "lesson": "14ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちゅうがっこう",
+    "english": "junior high school",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちゅうごく",
+    "english": "China",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちゅうごくご",
+    "english": "Chinese language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちょう～",
+    "english": "super ～/ultra ～",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "チョコレート",
+    "english": "chocolate",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ちょっと",
+    "english": "a little/a few/a moment",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つうやく",
+    "english": "interpreter",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つかいます",
+    "english": "to use",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つかれます",
+    "english": "to get tired",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つき",
+    "english": "month",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つぎ",
+    "english": "next",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つきじ",
+    "english": "Tsukiji",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つきます",
+    "english": "to arrive",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つきみ",
+    "english": "viewing the moon",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つくります",
+    "english": "to make/to cook",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つけもの",
+    "english": "pickles",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つたえます",
+    "english": "to pass on a message",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ツナ",
+    "english": "tuna",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つま",
+    "english": "wife/(my) wife",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つもります",
+    "english": "to pile up/to be covered with",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つゆ",
+    "english": "rainy season",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "つよい",
+    "english": "strong",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "て",
+    "english": "hand",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でかけます",
+    "english": "to go out",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "できます",
+    "english": "can do/to be able to do",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "てつだいます",
+    "english": "to help",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "デパート",
+    "english": "department store",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でます（おゆが）",
+    "english": "to come out",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でむかえ",
+    "english": "to pick up someone/to meet a person at the airport, station etc.",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でも",
+    "english": "but",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "てんき",
+    "english": "weather",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんき",
+    "english": "light/electricity",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんきてん",
+    "english": "electronics store",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんしじしょ",
+    "english": "electronic dictionary",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんしゃ",
+    "english": "train",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "てんぷら",
+    "english": "tempura",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんわ",
+    "english": "telephone",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "でんわばんごう",
+    "english": "telephone number",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ど",
+    "english": "～ degrees (for temperature)",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドイツ",
+    "english": "Germany",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドイツご",
+    "english": "German language",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドイツじん",
+    "english": "German people",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どう",
+    "english": "how",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とうきょう",
+    "english": "Tokyo",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうして",
+    "english": "why",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうぞ",
+    "english": "Please./Here you are.",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とうちゃく（します）",
+    "english": "to arrive/arrival",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうぶつ",
+    "english": "animal",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうぶつえん",
+    "english": "zoo",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうも",
+    "english": "very much",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どうやって",
+    "english": "how",
+    "lesson": "6ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とおい",
+    "english": "far",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とおか",
+    "english": "the tenth day of the month",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とおり",
+    "english": "street",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とき",
+    "english": "time",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ときどき",
+    "english": "sometimes",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とくい（な）",
+    "english": "to be good at ",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どくしょ",
+    "english": "reading",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とくに",
+    "english": "especially",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とけい",
+    "english": "clock",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どこ",
+    "english": "where",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どっち",
+    "english": "which (out of two, and casual style of speech)",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とても",
+    "english": "very",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "となり",
+    "english": "next to/beside",
+    "lesson": "6ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どの",
+    "english": "which (among more than three) ～",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どのぐらい",
+    "english": "how long",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "トマト",
+    "english": "tomato",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とまります",
+    "english": "to stop",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ともだち",
+    "english": "friend",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とやま",
+    "english": "Toyama ",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どようび／ど",
+    "english": "Saturday",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドライバー",
+    "english": "driver",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドライブ",
+    "english": "going for a drive/driving",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ドラマ",
+    "english": "drama",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "とります",
+    "english": "to take (a photo)",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どれ",
+    "english": "which one (of three or more)",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "トレーニング（します）",
+    "english": "to train/training",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "どんな",
+    "english": "what kind of ～",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なか",
+    "english": "in/inside",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ながい",
+    "english": "long",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なかむら／なかむらさん",
+    "english": "Nakamura/Ms.Nakamura",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なし（ない）",
+    "english": "none",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なつ",
+    "english": "summer",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なつやすみ",
+    "english": "summer holidays",
+    "lesson": "3ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なに／なん",
+    "english": "what",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なにか",
+    "english": "something",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なにも（～ない）",
+    "english": "nothing",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なべりょうり",
+    "english": "hot pot meal",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なまえ",
+    "english": "name",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ならいます",
+    "english": "to learn",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "なります(～に／～く）　",
+    "english": "to be/to become",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にあいます",
+    "english": "to fit ",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にがて（な）",
+    "english": "not good at/be poor at",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にぎやか（な）",
+    "english": "busy/lively",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にしぐち",
+    "english": "west exit",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にじゅうよっか",
+    "english": "the twenty-fourth day of the month",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にち",
+    "english": "day",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にちようび／にち",
+    "english": "Sunday",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にほん／にっぽん",
+    "english": "Japan",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にほんご",
+    "english": "Japanese language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にほんしゅ",
+    "english": "Japanese sake/rice wine",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にほんじん",
+    "english": "Japanese people",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にます",
+    "english": "to be similar",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にゅうがく（します）",
+    "english": "to enter a school",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にゅうがくしき",
+    "english": "(school) entrance ceremony",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ニューヨーク",
+    "english": "New York",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にん",
+    "english": "<counter for counting people>",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "にんぎょう",
+    "english": "doll",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ネクタイ",
+    "english": "necktie",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ネックレス",
+    "english": "necklace",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ねます",
+    "english": "to go to bed",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ねん",
+    "english": "year",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ねん",
+    "english": "～ year",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "のだ／のださん",
+    "english": "Noda/Mr.Noda",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "のみます",
+    "english": "to drink",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "のみもの",
+    "english": "drink",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "のります",
+    "english": "to get on/to ride",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "は",
+    "english": "a tooth/teeth",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "パーティー",
+    "english": "party",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はい",
+    "english": "yes",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はいります",
+    "english": "to enter/to get into",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はきます",
+    "english": "to breathe out/to exhale",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はくぶつかん",
+    "english": "museum",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はし",
+    "english": "bridge",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はし",
+    "english": "chopsticks",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はじめまして",
+    "english": "Nice to meet you.",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ばしょ",
+    "english": "place/venue",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はしります",
+    "english": "to run",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "バス",
+    "english": "bus",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "パソコン",
+    "english": "(personal) computer",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はたらきます",
+    "english": "to work",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はつおん",
+    "english": "pronunciation",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はつか",
+    "english": "the twentieth day of the month",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "バッハ",
+    "english": "Bach (Johann Sebastian)",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はな",
+    "english": "flower",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はな",
+    "english": "nose",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はなし",
+    "english": "talk/story (what someone is saying)",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はなします",
+    "english": "to talk/to speak",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "バナナ",
+    "english": "banana",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はなび",
+    "english": "fireworks",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はなみ",
+    "english": "cherry-blossom viewing",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はは",
+    "english": "mother/(my) mother",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ははは",
+    "english": "ha ha ha (laughter)",
+    "lesson": "7ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ハム",
+    "english": "ham",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はやい",
+    "english": "early",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はやく（はやい）",
+    "english": "soon/quickly",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はらじゅく",
+    "english": "Harajuku",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はる",
+    "english": "spring",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "バルセロナ",
+    "english": "Barcelona",
+    "lesson": "2ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はれ",
+    "english": "fine (weather)",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はれます",
+    "english": "to be fine (weather)",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "バレンタイン・デー",
+    "english": "St. Valentine's day",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ハロー",
+    "english": "hello",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "はん",
+    "english": "halt past ～ (time)",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ばんごう",
+    "english": "number",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひ",
+    "english": "day",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ビール",
+    "english": "beer",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひがしぐち",
+    "english": "east exit",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ピクニック",
+    "english": "picnic",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ピクルス",
+    "english": "pickles",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひさしぶり",
+    "english": "long time no see",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "びじゅつかん",
+    "english": "art museum",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひしょ",
+    "english": "secretary",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひだり",
+    "english": "left",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひっこし（します）",
+    "english": "to move (house)",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひつよう（な）",
+    "english": "necessary",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひと",
+    "english": "person/people",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひとつ",
+    "english": "one <for things>",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひとつめ",
+    "english": "the first ～",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひま（な）",
+    "english": "free/not occupied",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひまわり",
+    "english": "sunflower",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "びょういん",
+    "english": "hospital",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひらがな",
+    "english": "hiragana <Japanese scripts>",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひる",
+    "english": "daytime/noon",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ビル",
+    "english": "building",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ひろい",
+    "english": "wide/spacious/big",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ピロシキ",
+    "english": "piroshki (Russian food)",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "びん",
+    "english": "(airline) flight",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ファックス",
+    "english": "fax",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ファッション",
+    "english": "fashion",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "フィリピン",
+    "english": "Philippines",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "プール",
+    "english": "pool",
+    "lesson": "16ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふうん",
+    "english": "hmm/well",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふきます",
+    "english": "to blow",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふくおか",
+    "english": "Fukuoka",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふじさん",
+    "english": "Mt. Fuji",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふたつ",
+    "english": "two <for things>",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふたつめ",
+    "english": "the second ～",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふたり",
+    "english": "two people",
+    "lesson": "1ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぶどう",
+    "english": "grape",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぶどうがり",
+    "english": "grape picking",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふね",
+    "english": "ship",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふふふ",
+    "english": "he he he (laughter, used mainly by women)",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふゆ",
+    "english": "winter",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "フライト",
+    "english": "flight",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ブラジル",
+    "english": "Brazil",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "フランス",
+    "english": "France",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "フランスご",
+    "english": "French language",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふります",
+    "english": "to rain/to snow",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "プリントアウト（します）",
+    "english": "to print out",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "フルーツケーキ",
+    "english": "fruit cake",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "プレゼント",
+    "english": "present",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ふん／ぷん",
+    "english": "minute",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぶん",
+    "english": "sentence",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぶんか",
+    "english": "culture",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぶんぽう",
+    "english": "grammar",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "へいきん",
+    "english": "average",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "へえ",
+    "english": "aah…/Wow.",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ペキン",
+    "english": "Beijing",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "へや",
+    "english": "room",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ぺらぺら（な）",
+    "english": "fluent",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ペン",
+    "english": "pen",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "べんきょう（します）",
+    "english": "to study",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "べんり（な）",
+    "english": "convenient",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ボーイフレンド",
+    "english": "boyfriend",
+    "lesson": 17,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほか",
+    "english": "other",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほそながい",
+    "english": "long and thin",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほっかいどう",
+    "english": "Hokkaidoo",
+    "lesson": "4ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ポテトチップス",
+    "english": "potato chips",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ホテル",
+    "english": "hotel",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ポルトガル",
+    "english": "Portugal",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ポルトガルご",
+    "english": "Portuguese language",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほん",
+    "english": "book",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほん／ぼん／ぽん",
+    "english": "<counter for thin and long things>",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほんじつきゅうぎょう",
+    "english": "Closed Today",
+    "lesson": "9ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほんしゃ",
+    "english": "head office",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほんとう",
+    "english": "really",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほんとに",
+    "english": "really",
+    "lesson": "12ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ほんやく（します）",
+    "english": "to translate",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まあ",
+    "english": "Oh! (used mainly by women)",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まあまあ（な）",
+    "english": "so so",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まいあさ",
+    "english": "every morning",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まいにち",
+    "english": "every day",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まえ",
+    "english": "front",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まお／まおさん",
+    "english": "Mao/Ms.Mao",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まがります",
+    "english": "to turn (right/left)",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まげます",
+    "english": "to bend",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まず",
+    "english": "at first",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "また",
+    "english": "again",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まだ",
+    "english": "not yet",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まち",
+    "english": "town",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まちあわせ（します）",
+    "english": "to meet/appointment",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まちがえます",
+    "english": "to make a mistake",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まちます",
+    "english": "to wait",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まっすぐ（な）",
+    "english": "straight ",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まつり",
+    "english": "festival",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まよいます",
+    "english": "to get lost/to lose one's way",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まり／まりさん",
+    "english": "Mari/Ms.Mari",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まるい",
+    "english": "round",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "マレーシア",
+    "english": "Malaysia",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まわします",
+    "english": "to rotate (something)",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "まんじゅう",
+    "english": "a steamed (bean-jam) bun",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みえます",
+    "english": "to be visible/can be seen",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みおくり",
+    "english": "a send-off/seeing (a person) off",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みぎ",
+    "english": "right",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みず",
+    "english": "water ",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みせ",
+    "english": "store",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みち",
+    "english": "road",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みなさん",
+    "english": "everyone",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ミニレッスン",
+    "english": "mini lesson",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みます",
+    "english": "to see/to look at",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みみ",
+    "english": "ear",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みんげいひん",
+    "english": "folkcraft",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "みんな",
+    "english": "everyone",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むかえます",
+    "english": "to meet/greet a person at the airport, station etc.",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むこう",
+    "english": "the other side (person on the phone)",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むしあつい",
+    "english": "hot and humid",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むずかしい",
+    "english": "difficult",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むすこ",
+    "english": "son/(my) son",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むすこさん",
+    "english": "(someone else's) son",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むすめ",
+    "english": "daughter/(my) daughter",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むすめさん",
+    "english": "(someone else's) daughter",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むね",
+    "english": "chest",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "むり（します）",
+    "english": "to do too much/to strain oneself",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ムルタバ",
+    "english": "murtabak (Malaysian food)　",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "め",
+    "english": "eye",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "メール",
+    "english": "e-mail",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "メキシコ",
+    "english": "Mexico",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "めずらしい",
+    "english": "rare",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "メモ",
+    "english": "memo",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もう",
+    "english": "already",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もう",
+    "english": "more",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "モーターズ",
+    "english": "Motors (a fictitious company)",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もじ",
+    "english": "letter/character",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もしもし",
+    "english": "Hello (on the telephone)",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "モスクワ",
+    "english": "Moscow",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もちます",
+    "english": "to have/to carry",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もちろん",
+    "english": "of course",
+    "lesson": "8ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もっていきます",
+    "english": "to bring/to take/to carry",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もの",
+    "english": "thing(s)/goods",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もみじ",
+    "english": "maple leaves",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もらいます",
+    "english": "to receive",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "もんだい",
+    "english": "problem ",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やぎ／やぎさん",
+    "english": "Yagi/Mr.Yagi",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やけい",
+    "english": "night view (scene)",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やさい",
+    "english": "vegetable",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やさしい",
+    "english": "nice/kind",
+    "lesson": "17ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やすい",
+    "english": "inexpensive/cheap",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やすみ",
+    "english": "closed/holiday ",
+    "lesson": "9ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やすみます",
+    "english": "to take a rest",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やたい",
+    "english": "street vendor's stall/food wagon",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やまだ／やまださん",
+    "english": "Yamada/Ms.Yamada",
+    "lesson": 3,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "やります",
+    "english": "to do",
+    "lesson": "15ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゆうこ／ゆうこさん",
+    "english": "Yuuko/Ms.Yuuko",
+    "lesson": "5ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゆうびんきょく",
+    "english": "post office",
+    "lesson": 6,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゆうめい（な）",
+    "english": "famous",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゆき",
+    "english": "snow",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ゆっくり",
+    "english": "slowly",
+    "lesson": 15,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ようこそ",
+    "english": "Welcome.",
+    "lesson": 13,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ヨガ",
+    "english": "yoga",
+    "lesson": 16,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よかったら",
+    "english": "If you'd like",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よく",
+    "english": "often",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よく",
+    "english": "well",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よしだ／よしださん",
+    "english": "Yoshida/Mr.Yoshida",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よみます",
+    "english": "to read",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よよぎ",
+    "english": "Yoyogi",
+    "lesson": "10ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よる",
+    "english": "evening/night",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よろこびます",
+    "english": "to be pleased",
+    "lesson": 18,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "よろしく",
+    "english": "Pleased to meet you./regards",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ラーメン",
+    "english": "ramen noodles",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "らいげつ",
+    "english": "next month",
+    "lesson": 14,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "らいしゅう",
+    "english": "next week",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ライトアップ",
+    "english": "illuminations",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "リスト",
+    "english": "list",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りゅうがく（します）",
+    "english": "to study abroad",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りょうがえ（します）",
+    "english": "to exchange (money)",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りょうしん",
+    "english": "parents",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りょうり",
+    "english": "dish/cooking",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りょこう（します）",
+    "english": "to take a trip",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "リラックス（します）",
+    "english": "to relax",
+    "lesson": "16ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "りんご",
+    "english": "apple",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "れきし",
+    "english": "history",
+    "lesson": 8,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "レストラン",
+    "english": "restaurant",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "レモン",
+    "english": "lemon",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "れんしゅう（します）",
+    "english": "to practice/exercise",
+    "lesson": 9,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ローマ",
+    "english": "Rome",
+    "lesson": "13ス",
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ロサンゼルス",
+    "english": "Los Angeles",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ロシア",
+    "english": "Russia",
+    "lesson": 10,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ロビー",
+    "english": "lobby",
+    "lesson": 7,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ロンドン",
+    "english": "London",
+    "lesson": 4,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わあ",
+    "english": "Wao/Wow",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "ワイン",
+    "english": "wine",
+    "lesson": 11,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わかい",
+    "english": "young",
+    "lesson": 2,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わかります",
+    "english": "to understand",
+    "lesson": 5,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わさび",
+    "english": "wasabi",
+    "lesson": 12,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わたし",
+    "english": "I/me",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わたしたち",
+    "english": "we/us",
+    "lesson": 1,
+    "book": "かつどう２"
+  },
+  {
+    "japanese": "わたります",
+    "english": "to cross",
+    "lesson": 6,
+    "book": "かつどう２"
+  }
+]
+  </script>
+  <script>
+    const words = JSON.parse(document.getElementById("word-data").textContent);
+
+    function filterWords() {
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const selectedLesson = document.getElementById("lessonFilter").value;
+      const selectedBook = document.getElementById("bookFilter").value;
+
+      let filtered = words.filter(word => {
+        const matchQuery =
+          word.japanese.includes(query) ||
+          word.english.toLowerCase().includes(query);
+
+        const matchLesson = selectedLesson === "" || String(word.lesson) === selectedLesson;
+        const matchBook = selectedBook === "" || word.book === selectedBook;
+
+        return matchQuery && matchLesson && matchBook;
+      });
+
+      displayResults(filtered);
+    }
+
+    function displayResults(data) {
+      const resultDiv = document.getElementById("results");
+      resultDiv.innerHTML = "";
+      if (data.length === 0) {
+        resultDiv.innerHTML = "<p>一致する単語が見つかりませんでした。</p>";
+        return;
+      }
+      data.forEach(word => {
+        const div = document.createElement("div");
+        div.className = "word";
+        div.innerHTML = `
+          <span><strong>日：</strong>${word.japanese}</span>
+          <span><strong>英：</strong>${word.english}</span>
+          <span><strong>課：</strong>${word.lesson}</span>
+          <span><strong>Book：</strong>${word.book}</span>
+        `;
+        resultDiv.appendChild(div);
+      });
+    }
+
+    // 初期表示
+    filterWords();
+  </script>
+</body>
+</html>
