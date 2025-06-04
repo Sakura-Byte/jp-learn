@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ひらがなタイピングゲーム</title>
+    <style>
+        body {
+            background-color: #ffebcd;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #4b0082;
+            text-shadow: 2px 2px 4px #aaa;
+        }
+        #gameArea {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom right, #87ceeb, #ff69b4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .hiragana {
+            position: absolute;
+            font-size: 60px;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+        #hintContainer {
+            display: inline-block;
+            text-align: left;
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #hintLabel {
+            font-size: 24px;
+            color: #4b0082;
+        }
+        #hint {
+            font-size: 30px;
+            color: #4b0082;
+        }
+        #inputArea {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        #inputField {
+            font-size: 24px;
+            padding: 10px;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        #startButton {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #4b0082;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        #startButton:hover {
+            background-color: #6a0dad;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #4b0082;
+        }
+        #scoreMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px #000;
+            display: none;
+        }
+        #highestScore {
+            font-size: 20px;
+            color: #4b0082;
+            margin-top: 20px;
+        }
+
+        /* メディアクエリ */
+        @media (max-width: 768px) {
+            #gameArea {
+                height: 40vh;
+            }
+            .hiragana {
+                font-size: 50px;
+            }
+            #hintLabel, #hint {
+                font-size: 20px;
+            }
+            #inputField {
+                font-size: 20px;
+                padding: 8px;
+            }
+            #startButton {
+                font-size: 20px;
+                padding: 8px 16px;
+            }
+            #scoreMessage {
+                font-size: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #gameArea {
+                height: 30vh;
+            }
+            .hiragana {
+                font-size: 40px;
+            }
+            #hintLabel, #hint {
+                font-size: 18px;
+            }
+            #inputField {
+                font-size: 18px;
+                padding: 6px;
+            }
+            #startButton {
+                font-size: 18px;
+                padding: 6px 12px;
+            }
+            #scoreMessage {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>ひらがなタイピングゲーム</h1>
+    <div id="gameArea">
+        <div id="hiraganaChar" class="hiragana"></div>
+    </div>
+    <div id="inputArea">
+        <input type="text" id="inputField" autofocus>
+        <div id="hintContainer">
+            <div id="hintLabel">HINT</div>
+            <div id="hint"></div>
+        </div>
+    </div>
+    <div id="message">英字入力モードにしてください。</div>
+    <div id="scoreMessage"></div>
+    <div id="highestScore">Highest Score: 0</div>
+    <button id="startButton">START</button>
+
+    <!-- 背景音楽と効果音 -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-summer.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="correctSound">
+        <source src="https://www.bensound.com/bensound-music/bensound-lick.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const hiraganaToRomaji = {
+            "あ": "a",   "い": "i",   "う": "u",   "え": "e",   "お": "o",
+            "か": "ka",  "き": "ki",  "く": "ku",  "け": "ke",  "こ": "ko",
+            "さ": "sa",  "し": "shi", "す": "su",  "せ": "se",  "そ": "so",
+            "た": "ta",  "ち": "chi", "つ": "tsu","て": "te",  "と": "to",
+            "な": "na",  "に": "ni",  "ぬ": "nu",  "ね": "ne",  "の": "no",
+            "は": "ha",  "ひ": "hi",  "ふ": "fu",  "へ": "he",  "ほ": "ho",
+            "ま": "ma",  "み": "mi",  "む": "mu",  "め": "me",  "も": "mo",
+            "や": "ya",  "ゆ": "yu",  "よ": "yo",
+            "ら": "ra",  "り": "ri",  "る": "ru",  "れ": "re",  "ろ": "ro",
+            "わ": "wa",  "を": "wo",  "ん": "nn"
+        };
+
+        let currentChar = "";
+        let score = 0;
+        let highestScore = localStorage.getItem('highestScore') || 0;
+        let gameInterval;
+        let countdownInterval;
+        let timeLeft = 30;
+        let fallSpeed = 500; // 初期落下速度（ミリ秒）
+
+        const hiraganaElement = document.getElementById("hiraganaChar");
+        const hintElement = document.getElementById("hint");
+        const inputField = document.getElementById("inputField");
+        const startButton = document.getElementById("startButton");
+        const scoreMessage = document.getElementById("scoreMessage");
+        const message = document.getElementById("message");
+        const highestScoreElement = document.getElementById("highestScore");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const correctSound = document.getElementById("correctSound");
+
+        highestScoreElement.textContent = `Highest Score: ${highestScore}`;
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            fallSpeed = 500; // 速度リセット
+            scoreMessage.style.display = "none";
+            inputField.value = "";
+            inputField.focus();
+            generateHiragana();
+            gameInterval = setInterval(fallHiragana, fallSpeed);
+            countdownInterval = setInterval(countdown, 1000);
+            backgroundMusic.play(); // 音楽再生
+        }
+
+        function generateHiragana() {
+            const hiraganaChars = Object.keys(hiraganaToRomaji);
+            currentChar = hiraganaChars[Math.floor(Math.random() * hiraganaChars.length)];
+            hiraganaElement.textContent = currentChar;
+            hintElement.textContent = hiraganaToRomaji[currentChar];
+            hiraganaElement.style.top = "0px";
+            hiraganaElement.style.left = Math.random() * (window.innerWidth - 60) + "px";
+        }
+
+        function fallHiragana() {
+            let top = parseInt(hiraganaElement.style.top) || 0;
+            top += 5;
+            hiraganaElement.style.top = top + "px";
+            if (top > window.innerHeight) {
+                generateHiragana();
+            }
+        }
+
+        function countdown() {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                clearInterval(gameInterval);
+                clearInterval(countdownInterval);
+                scoreMessage.textContent = `Your score is ${score}!`;
+                scoreMessage.style.display = "block";
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+                if (score > highestScore) {
+                    highestScore = score;
+                    localStorage.setItem('highestScore', highestScore);
+                    highestScoreElement.textContent = `Highest Score: ${highestScore}`;
+                }
+            } else {
+                // 徐々に落下速度を速くする
+                fallSpeed = Math.max(100, fallSpeed - 10);
+                clearInterval(gameInterval);
+                gameInterval = setInterval(fallHiragana, fallSpeed);
+            }
+        }
+
+        inputField.addEventListener("input", () => {
+            if (inputField.value.toLowerCase() === hiraganaToRomaji[currentChar]) {
+                score++;
+                inputField.value = "";
+                generateHiragana();
+                correctSound.play(); // 正解音再生
+            }
+        });
+
+        startButton.addEventListener("click", startGame);
+    </script>
+</body>
+</html>
